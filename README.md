@@ -3,8 +3,8 @@
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/mikeyduece/bread_shop.svg?columns=all)](https://waffle.io/mikeyduece/bread_shop)
 
 
-##### Versions
-  * Ruby 2.5.0  
-  * Rails 5.1.5
+##### Versions  
+  <sup>* Ruby 2.5.0</sup>    
+  <sup>* Rails 5.1.5</sup>  
   
   
