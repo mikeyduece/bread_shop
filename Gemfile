@@ -30,6 +30,7 @@ gem 'redis', '~> 4.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'database_cleaner'
 gem 'faraday'
 gem 'figaro'
 gem 'jwt'
