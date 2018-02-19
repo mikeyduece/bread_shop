@@ -1,0 +1,17 @@
+language: ruby
+rvm:
+  - 2.5.0
+sudo: enabled
+before_script:
+- bundle exec rake db:create
+- RAILS_ENV=test bundle exec rake db:migrate
+- bundle exec rake db:test:prepare
+script:
+  - bundle exec rspec
+deploy:
+  provider: heroku
+  api_key:
+    secure: kZ0Bx3YvnIrr2WRnuv8ApOv6C0koUd0NNyhdaAffxV7UJ3WIi2d6mjcJi+pQspxQF3+k3UEQReWsS2xT738+mr9u0PR6scf3FIBzt8NanIKhoKScEA/sBwLi8pgWmWfkgmno+DX996eo5Scs57djMKSmHMRZ9jP8igYJLT3DhA4sAZ1BM+qtmV94R4PkzpsRgdcsGzfvlCleN2QdRBuR48UG0DeRENSSKj+yh1sY5PJ78xbLr48BZqz0EEopdEJt8iT4XghkM2BGfvNdh0y0BCbMfNsh2vEO5bVNX0LFFbTwKd6vWaMuvIdanuImeTWNu6k1H7Nf17rvPdObZOEk22r5Udg+keXyqYud+olYPIZwcxIw8rxt/lN50HIbRDspcFLWrPMNpcM+TtvFjBr0Df1fXmi4Qolrwr07bv+FZNaBDSqrU7aTZ96AzzyE1fF250ZE5sZuhHcrWbV4hxV5UWuE28djD6AWY6FKed0RuZDYTGgRrCOLJ5NbGiwaWQEeNDuR6TSJGX4q4/DTEwcnVTioCtM01cgJuoT04lq6th3kU5DCtPBY2EN4sr2iTqqVmJXjINpxNvUEbg75zltHeFZEmqtDCTQmce8h3J5BaA2682B+UBgjrvbDsg/EPa42c0+frZWiYHcXR75F77xkeYi7ej5bNrY6lFEK6kFGwP0=
+  app: breadshop
+  on:
+    repo: mikeyduece/bread_shop
