@@ -10,6 +10,9 @@ class Recipe < ApplicationRecord
       .where(recipe_id: self.id)
       .where('ingredients.name like ?', '%Flour%')
       .sum(:amount)
+  end
 
+  def total_percentage
+    recipe_ingredients.reduce(0) {|sum, x| sum += x.bp}
   end
 end
