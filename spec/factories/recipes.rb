@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :recipe do
-    name "MyString"
-    user nil
+    sequence :name do |n|
+      "#{n}MyString"
+    end
+    user
   end
 end
