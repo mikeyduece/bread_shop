@@ -5,7 +5,7 @@ RSpec.describe User, type: :model do
   it {should validate_uniqueness_of :uid}
   context 'Class Methods' do
     it '.from_auth' do
-      user = User.from_auth(stub_omniauth)
+      user = User.from_auth(stub_omniauth[:user_info])
 
       expect(user).to be_a(User)
       expect(user.name).to eq('Rick Astley')

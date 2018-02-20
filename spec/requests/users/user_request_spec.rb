@@ -8,13 +8,13 @@ describe 'User API' do
   context 'Authorization' do
     it 'should return token' do
       stub_omniauth
-      get login_path
+      get api_v1_auth_amazon_path, params: stub_omniauth
 
       expect(response).to be_success
 
-      user_json = JSON.parse(repsonse.body, symbolize_names: true)
+      user_json = JSON.parse(response.body, symbolize_names: true)
 
-      expect(user_json[:token]).to match(/[0-9a-f]{32,}/)
+      expect(user_json[:token]).to match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/)
     end
   end
 end
