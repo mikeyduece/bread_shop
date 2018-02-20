@@ -13,7 +13,7 @@ RSpec.describe Recipe, type: :model do
       ing = create(:recipe_ingredient)
       recipe.recipe_ingredients = [rec_ing_1, rec_ing_2, ing]
 
-      flour = recipe.flour_amts(recipe.id)
+      flour = recipe.flour_amts
       expect(flour).to eq(400)
     end
   end

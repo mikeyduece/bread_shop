@@ -4,11 +4,12 @@ class Recipe < ApplicationRecord
   has_many :ingredients, through: :recipe_ingredients
   validates :name, uniqueness: true
 
-  def flour_amts(id)
-    RecipeIngredient.select('ingredients.name')
+  def flour_amts
+    recipe_ingredients.select('ingredients.name')
       .joins(:ingredient)
-      .where(recipe_id: id)
+      .where(recipe_id: self.id)
       .where('ingredients.name like ?', '%Flour%')
       .sum(:amount)
+
   end
 end
