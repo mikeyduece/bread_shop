@@ -13,6 +13,6 @@ class Recipe < ApplicationRecord
   end
 
   def total_percentage
-    recipe_ingredients.reduce(0) {|sum, x| sum += x.bp}
+    recipe_ingredients.reduce(0) {|sum, x| sum += x.bp}.round(2)
   end
 end
