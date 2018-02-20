@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :user do
     name "MyString"
-    uid "MyString"
     sequence :uid do
       |n| "#{n}uid"
     end
