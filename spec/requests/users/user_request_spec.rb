@@ -21,7 +21,8 @@ describe 'User API' do
 
   context 'User Recipes' do
     it 'returns list of recipes for a user with params' do
-      get api_v1_users_recipes_path, params: {token: @token}
+      # get api_v1_users_recipes_path, params: {token: @token}
+      get "/api/v1/users/#{@user.name}/recipes", params: {token: @token}
 
       expect(response).to be_success
 
@@ -32,10 +33,14 @@ describe 'User API' do
     end
 
     it 'does not return anything without token in params' do
-      get api_v1_users_recipes_path
+      # get api_v1_users_recipes_path
+      get "/api/v1/users/#{@user.name}/recipes"
 
       expect(response).to_not be_success
       expect(response).to have_http_status(401)
+    end
+
+    it 'returns recipe with ingredients and total percentage' do
     end
   end
 end
