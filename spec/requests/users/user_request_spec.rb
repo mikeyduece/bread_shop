@@ -35,7 +35,7 @@ describe 'User API' do
       get api_v1_users_recipes_path
 
       expect(response).to_not be_success
-
+      expect(response).to have_http_status(401)
     end
   end
 end
