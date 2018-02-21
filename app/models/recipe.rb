@@ -15,4 +15,13 @@ class Recipe < ApplicationRecord
   def total_percentage
     recipe_ingredients.reduce(0) {|sum, x| sum += x.bp}.round(2)
   end
+
+  def ingredient_list
+    list = {}
+    ingredients.each do |ing|
+      ingredient = recipe_ingredients.find(ing.id)
+      list[ing.name] = {amount: ingredient.amount, bp: ingredient.bp}
+    end
+    list
+  end
 end
