@@ -4,6 +4,7 @@ describe 'User API' do
   before(:all) do
     @user = create(:user)
     @user.recipes = create_list(:recipe, 4)
+    @user.recipes.each {|x| x.recipe_ingredients = create_list(:recipe_ingredient, 6)}
     @token = TokiToki.encode(@user.attributes)
   end
   context 'Authorization' do
@@ -19,9 +20,8 @@ describe 'User API' do
     end
   end
 
-  context 'User Recipes' do
+  context 'user recipes' do
     it 'returns list of recipes for a user with params' do
-      # get api_v1_users_recipes_path, params: {token: @token}
       get "/api/v1/users/#{@user.name}/recipes", params: {token: @token}
 
       expect(response).to be_success
@@ -33,7 +33,6 @@ describe 'User API' do
     end
 
     it 'does not return anything without token in params' do
-      # get api_v1_users_recipes_path
       get "/api/v1/users/#{@user.name}/recipes"
 
       expect(response).to_not be_success
@@ -41,6 +40,17 @@ describe 'User API' do
     end
 
     it 'returns recipe with ingredients and total percentage' do
+      recipe = @user.recipes[0]
+      flour  = create(:ingredient, name: 'Flour')
+      recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
+      get "/api/v1/users/#{@user.name}/recipes/#{recipe.name}", params: {token: @token}
+
+      expect(response).to be_success
+
+      json_recipe = JSON.parse(response.body, symbolize_names: true)
+
+      expect(json_recipe[:status]).to eq(200)
+      expect(json_recipe[:"#{recipe.name}"][:ingredients].length).to eq(7)
     end
   end
 end

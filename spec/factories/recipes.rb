@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :recipe do
     sequence :name do |n|
-      "#{n}MyString"
+      "#{n}Recipe"
     end
     user
   end

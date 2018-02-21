@@ -11,6 +11,6 @@ class RecipeIngredient < ApplicationRecord
 
   def get_bp
     flour_amt = recipe.flour_amts
-    (amount / flour_amt) * 100
+    ((amount / flour_amt) * 100).round(2)
   end
 end
