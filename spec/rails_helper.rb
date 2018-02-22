@@ -63,25 +63,19 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
-DatabaseCleaner.strategy = :truncation
+DatabaseCleaner.strategy = :transaction
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
 
   config.before(:all) do
     DatabaseCleaner.clean
   end
 
-  config.before(:each) do
-    DatabaseCleaner.clean
-  end
-
   config.after(:each) do
     DatabaseCleaner.clean
+    DatabaseCleaner.clean_with(:truncation)
   end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
