@@ -15,4 +15,15 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
                                    }
                  }
   end
+
+  def create
+    recipe = Recipe.new(user_id: current_user.id, name: params[:recipe][:name])
+    ingredients = Ingredient.create_list(params[:recipe][:ingredients].keys)
+    # ingredients = Ingredient.new()
+    # if recipe.save!
+    #   current_user.recipes << recipe
+    #   render json: {status: 201 }
+    # end
+    require 'pry'; binding.pry
+  end
 end

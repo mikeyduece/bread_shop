@@ -52,5 +52,25 @@ describe 'User API' do
       expect(json_recipe[:status]).to eq(200)
       expect(json_recipe[:"#{recipe.name}"][:ingredients].length).to eq(7)
     end
+
+    it 'user can create recipe' do
+      recipe = create(:recipe)
+      recipe.recipe_ingredients = create_list(:recipe_ingredient, 5)
+      flour = create(:ingredient, name: 'Flour')
+      recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
+      list = {
+              name: recipe.name,
+              ingredients: recipe.ingredient_list,
+              total_percentage: recipe.total_percentage
+             }
+
+      post "/api/v1/users/#{@user.name}/recipes", params: {token: @token, recipe: list}
+
+      expect(response).to be_success
+
+      expect(Recipe.last.name).to eq(recipe.name)
+      expect(Recipe.last.total_percentage).to eq(recipe.total_percentage)
+      expect(RecipeIngredient.all).to include(recipe.recipe_ingredients[0])
+    end
   end
 end
