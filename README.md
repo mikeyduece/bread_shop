@@ -8,8 +8,10 @@
 <sup>Ruby 2.5.0</sup>  
   <sup>Rails 5.1.5</sup>
   
-### Available Endpoints
-`GET /:user_name/recipes` - Returns list of recipes that a user has created.
+### Available Endpoints  
+All requests require token from client app to be sent in the params. If no token is present, the request will be denied.   
+
+`GET /:user_name/recipes?token=token` - Returns list of recipes that a user has created.
 ```ruby
   {
     recipes: [
@@ -23,7 +25,7 @@
   }
 ```
 
-`POST /:user_name/recipes` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
+`POST /:user_name/recipes?token=token` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
 
 Example payload sent to endpoint
 ```ruby
@@ -40,7 +42,7 @@ Example payload sent to endpoint
 
 The response from the the `POST` request contains the submitted information along with baker's percentage(`bp`) and `total_percentage`. As seen below with the `GET` for a single recipe.
 
-`GET /:user_name/recipes/:recipe_name` - Returns specific recipe.  
+`GET /:user_name/recipes/:recipe_name?token=token` - Returns specific recipe.  
 Example JSON response
 
 ```ruby
