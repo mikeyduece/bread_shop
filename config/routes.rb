@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       namespace :users do
         get ':user_name/recipes', to: 'recipes#index'
         get ':user_name/recipes/:recipe_name', to: 'recipes#show'
+        post ':user_name/recipes', to: 'recipes#create'
       end
       get 'auth_amazon', to: 'authentication#amazon'
     end

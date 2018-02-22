@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'User API' do
-  before(:all) do
+  before(:each) do
     @user = create(:user)
     @user.recipes = create_list(:recipe, 4)
     @user.recipes.each {|x| x.recipe_ingredients = create_list(:recipe_ingredient, 6)}
@@ -50,7 +50,28 @@ describe 'User API' do
       json_recipe = JSON.parse(response.body, symbolize_names: true)
 
       expect(json_recipe[:status]).to eq(200)
-      expect(json_recipe[:"#{recipe.name}"][:ingredients].length).to eq(7)
+      expect(json_recipe[:recipe][:name]).to eq(recipe.name)
+      expect(json_recipe[:recipe][:ingredients].length).to eq(7)
+    end
+
+    it 'user can create recipe' do
+      list = {
+              name: 'Baguette',
+              ingredients: {'Flour' => {amount: 1.00},
+                            'Water' => {amount: 0.62},
+                            'Yeast' => {amount: 0.02},
+                            'Salt'  => {amount: 0.02}},
+             }
+
+      post "/api/v1/users/#{@user.name}/recipes", params: {token: @token, recipe: list}
+
+      expect(response).to be_success
+
+      new_recipe = JSON.parse(response.body, symbolize_names: true)
+
+      expect(Recipe.exists?(name: 'Baguette')).to be(true)
+      expect(Ingredient.any? {|x| list[:ingredients].keys}).to be(true)
+      expect(RecipeIngredient.any? {|x| list[:ingredients].values}).to be(true)
     end
   end
 end
