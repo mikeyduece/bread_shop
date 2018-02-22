@@ -7,6 +7,24 @@
 
 <sup>Ruby 2.5.0</sup>  
   <sup>Rails 5.1.5</sup>
+  
+### Available Endpoints
+`GET /:user_name/recipes` - Returns list of recipes that a user has created.
+```ruby
+  {
+    recipe: {
+      name: recipe_name,
+      ingredients: {
+        ingredient_name: {amount: float, bp: float},
+        ...
+      },
+      total_percentage: float
+    },
+    ...
+  }
+```
+
+`GET /:user_name/recipes/:recipe_name` - Returns specific recipe.
 
   
   
