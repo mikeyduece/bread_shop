@@ -12,19 +12,51 @@
 `GET /:user_name/recipes` - Returns list of recipes that a user has created.
 ```ruby
   {
-    recipe: {
+    recipes: [
+    {
+      id: integer,
       name: recipe_name,
-      ingredients: {
-        ingredient_name: {amount: float, bp: float},
-        ...
-      },
-      total_percentage: float
+      user_id: integer
     },
     ...
+    ]
   }
 ```
 
-`GET /:user_name/recipes/:recipe_name` - Returns specific recipe.
+`POST /:user_name/recipes` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
 
+Example payload sent to endpoint
+```ruby
+  {
+    name: 'Baguette',
+    ingredients: {
+      'Flour' => {amount: 1.00},
+      'Water' => {amount: 0.62},
+      'Salt' => {amount: 0.02},
+      'Yeast' => {amount: 0.02}
+    }
+  }
+```
+
+The response from the the `POST` request contains the submitted information along with baker's percentage(`bp`) and `total_percentage`. As seen below with the `GET` for a single recipe.
+
+`GET /:user_name/recipes/:recipe_name` - Returns specific recipe.  
+Example JSON response
+
+```ruby
+  {
+    status: 200,
+    recipe: {
+      name: 'Baguette',
+      ingredients: {
+        'Flour' => {amount: 1.00, bp: 100.0},
+        'Water' => {amount: 0.62, bp: 65.0},
+        'Salt' => {amount: 0.02, bp: 2.0},
+        'Yeast' => {amount: 0.02, bp: 2.0}
+      },
+      total_percentage: 169.0
+    } 
+  }
+```
   
   
