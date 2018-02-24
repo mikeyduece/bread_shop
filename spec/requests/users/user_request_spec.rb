@@ -73,5 +73,21 @@ describe 'User API' do
       expect(Ingredient.any? {|x| list[:ingredients].keys}).to be(true)
       expect(RecipeIngredient.any? {|x| list[:ingredients].values}).to be(true)
     end
+
+    it 'user can delete recipe' do
+      recipe = @user.recipes[0]
+      flour  = create(:ingredient, name: 'Flour')
+      recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
+
+      delete "/api/v1/users/#{@user.name}/recipes/#{recipe.name}", params: {token: @token}
+
+      expect(response).to be_success
+
+      deleted = JSON.parse(response.body, symbolize_names: true)
+
+      expect(deleted[:status]).to eq(204)
+      expect(deleted[:message]).to eq("Successfully deleted #{recipe.name}")
+      expect(Recipe.all).not_to include(recipe.id)
+    end
   end
 end
