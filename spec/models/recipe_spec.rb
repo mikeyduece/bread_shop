@@ -6,8 +6,8 @@ RSpec.describe Recipe, type: :model do
     it '#flour_amts' do
       user = create(:user)
       recipe = create(:recipe)
-      flour_1 = create(:ingredient, name: 'AP Flour')
-      flour_2 = create(:ingredient, name: 'Bread Flour')
+      flour_1 = create(:ingredient, name: 'ap flour')
+      flour_2 = create(:ingredient, name: 'bread flour')
       rec_ing_1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_1.id, amount: 100)
       rec_ing_2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_2.id, amount: 300)
       ing = create(:recipe_ingredient)
@@ -21,8 +21,8 @@ RSpec.describe Recipe, type: :model do
       user = create(:user)
       recipe = create(:recipe)
       ing_list = create_list(:ingredient, 6)
-      flour_1 = create(:ingredient, name: 'AP Flour')
-      flour_2 = create(:ingredient, name: 'Bread Flour')
+      flour_1 = create(:ingredient, name: 'AP flour')
+      flour_2 = create(:ingredient, name: 'Bread flour')
       rec_ing_1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_1.id, amount: 100)
       rec_ing_2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_2.id, amount: 300)
       rec_ing_3 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[0].id, amount: 50)
@@ -41,8 +41,8 @@ RSpec.describe Recipe, type: :model do
       user = create(:user)
       recipe = create(:recipe)
       ing_list = create_list(:ingredient, 6)
-      flour_1 = create(:ingredient, name: 'AP Flour')
-      flour_2 = create(:ingredient, name: 'Bread Flour')
+      flour_1 = create(:ingredient, name: 'AP flour')
+      flour_2 = create(:ingredient, name: 'Bread flour')
       rec_ing_1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_1.id, amount: 200)
       rec_ing_2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_2.id, amount: 300)
       rec_ing_3 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[0].id, amount: 100.63)
@@ -55,6 +55,30 @@ RSpec.describe Recipe, type: :model do
       total = recipe.total_percentage
 
       expect(total).to eq(141.13)
+    end
+
+    it '#sweetener_percentage' do
+      user = create(:user)
+      recipe = Recipe.create!(name: 'dinner rolls', user_id: user.id)
+      water = Ingredient.create!(name: 'water')
+      yeast = Ingredient.create!(name: 'cake yeast')
+      milk = Ingredient.create!(name: 'milk')
+      butter = Ingredient.create!(name: 'butter')
+      sugar = Ingredient.create!(name: 'sugar')
+      flour = Ingredient.create!(name: 'flour')
+      salt = Ingredient.create!(name: 'salt')
+      water_rec_ing = RecipeIngredient.create!(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.7)
+      yeast_rec_ing = RecipeIngredient.create!(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.04)
+      milk_rec_ing = RecipeIngredient.create!(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.35)
+      butter_rec_ing = RecipeIngredient.create!(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.12)
+      sugar_rec_ing = RecipeIngredient.create!(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.06)
+      flour_rec_ing = RecipeIngredient.create!(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.75)
+      salt_rec_ing = RecipeIngredient.create!(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.035)
+
+      sweets = recipe.sweetener_percentage
+
+      require 'pry'; binding.pry
+      expect(sweets).to eq(3.43)
     end
   end
 end
