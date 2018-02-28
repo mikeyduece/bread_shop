@@ -5,10 +5,11 @@ class Recipe < ApplicationRecord
   validates :name, uniqueness: true
 
   def flour_amts
-    recipe_ingredients.select('ingredients.name')
-      .joins(:ingredient)
-      .where(recipe_id: self.id)
-      .where('ingredients.name LIKE ?', '%flour%')
+    flours = %w(semolina durum spelt)
+    recipe_ingredients.joins(:ingredient)
+      .where('ingredients.name LIKE ? OR
+              ingredients.name IN (?) OR
+              ingredients.name like ?', '%flour%', flours, '%meal%')
       .sum(:amount)
   end
 

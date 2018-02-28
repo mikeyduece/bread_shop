@@ -36,7 +36,7 @@ RSpec.describe Recipe, type: :model do
       recipe.recipe_ingredients = [rec_ing_1, rec_ing_2, ing, rec_ing_4, rec_ing_3, rec_ing_5, rec_ing_6]
 
       flour = recipe.flour_amts
-      require 'pry'; binding.pry
+
       expect(flour).to eq(16.0)
 
     end
