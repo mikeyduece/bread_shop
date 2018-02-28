@@ -17,6 +17,30 @@ RSpec.describe Recipe, type: :model do
       expect(flour).to eq(400)
     end
 
+    it 'can calculate more than one type of flour' do
+      user = create(:user)
+      recipe = create(:recipe)
+      flour_1 = create(:ingredient, name: 'ap flour')
+      flour_2 = create(:ingredient, name: 'cornmeal')
+      flour_3 = create(:ingredient, name: 'flax meal')
+      flour_4 = create(:ingredient, name: 'semolina')
+      flour_5 = create(:ingredient, name: 'durum')
+      flour_6 = create(:ingredient, name: 'spelt')
+      rec_ing_1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_1.id, amount: 1.00)
+      rec_ing_2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_2.id, amount: 3.00)
+      rec_ing_3 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_3.id, amount: 3.00)
+      rec_ing_4 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_4.id, amount: 3.00)
+      rec_ing_5 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_5.id, amount: 3.00)
+      rec_ing_6 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_6.id, amount: 3.00)
+      ing = create(:recipe_ingredient)
+      recipe.recipe_ingredients = [rec_ing_1, rec_ing_2, ing, rec_ing_4, rec_ing_3, rec_ing_5, rec_ing_6]
+
+      flour = recipe.flour_amts
+      require 'pry'; binding.pry
+      expect(flour).to eq(16.0)
+
+    end
+
     it '#total_percentage' do
       user = create(:user)
       recipe = create(:recipe)
@@ -77,8 +101,26 @@ RSpec.describe Recipe, type: :model do
 
       sweets = recipe.sweetener_percentage
 
-      require 'pry'; binding.pry
       expect(sweets).to eq(3.43)
+    end
+
+    it 'can calculate percentage with more than one sweetener' do
+      user = create(:user)
+      recipe = Recipe.create!(name: 'flatbread', user_id: user.id)
+      bf = Ingredient.create(name: 'bread flour')
+      ww = Ingredient.create(name: 'whole wheat flour')
+      sugar = Ingredient.create(name: 'sugar')
+      bs = Ingredient.create(name: 'brown sugar')
+      honey = Ingredient.create(name: 'honey')
+      bf_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bf.id, amount: 0.50)
+      ww_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ww.id, amount: 0.50)
+      sugar_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.25)
+      bs_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bs.id, amount: 0.10)
+      honey_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: honey.id, amount: 0.05)
+
+      sweets = recipe.sweetener_percentage
+
+      expect(sweets).to eq(30.0)
     end
   end
 end

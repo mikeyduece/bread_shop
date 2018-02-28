@@ -8,7 +8,7 @@ class Recipe < ApplicationRecord
     recipe_ingredients.select('ingredients.name')
       .joins(:ingredient)
       .where(recipe_id: self.id)
-      .where('ingredients.name like ?', '%flour%')
+      .where('ingredients.name LIKE ?', '%flour%')
       .sum(:amount)
   end
 
@@ -17,8 +17,8 @@ class Recipe < ApplicationRecord
   end
 
   def sweetener_percentage
-    x = sweetener_amounts
-require 'pry'; binding.pry
+    sweets = sweetener_amounts
+    ((sweets / flour_amts) * 100).round(2)
   end
 
   def ingredient_list
@@ -35,9 +35,10 @@ require 'pry'; binding.pry
 
   def sweetener_amounts
     sweeteners = ['sugar', 'honey', 'syrup']
-    x=recipe_ingredients.select('ingredients.name')
+    recipe_ingredients.select('ingredients.name')
       .joins(:ingredient)
       .where(recipe_id: self.id)
-      .where('ingredients.name like all (array[?])', sweeteners.map {|c| '%c%'})
+      .where('ingredients.name IN (?)', sweeteners)
+      .sum(:amount)
   end
 end
