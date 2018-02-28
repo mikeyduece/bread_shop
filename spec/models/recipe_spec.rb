@@ -120,7 +120,28 @@ RSpec.describe Recipe, type: :model do
 
       sweets = recipe.sweetener_percentage
 
-      expect(sweets).to eq(30.0)
+      expect(sweets).to eq(40.0)
+    end
+
+    it 'can pick out sweeteners with syrup in name' do
+      user = create(:user)
+      recipe = Recipe.create!(name: 'flatbread', user_id: user.id)
+      bf = Ingredient.create(name: 'bread flour')
+      cornsyrup = Ingredient.create(name: 'corn syrup')
+      sugar = Ingredient.create(name: 'sugar')
+      bs = Ingredient.create(name: 'brown sugar')
+      honey = Ingredient.create(name: 'honey')
+      agave = Ingredient.create(name: 'agave syrup')
+      bf_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bf.id, amount: 2.0)
+      cs_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: cornsyrup.id, amount: 0.50)
+      sugar_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.25)
+      bs_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bs.id, amount: 0.10)
+      honey_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: honey.id, amount: 0.05)
+      agave = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: agave.id, amount: 0.05)
+
+      sweets = recipe.sweetener_percentage
+
+      expect(sweets).to eq(47.5)
     end
   end
 end

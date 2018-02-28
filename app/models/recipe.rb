@@ -9,7 +9,7 @@ class Recipe < ApplicationRecord
     recipe_ingredients.joins(:ingredient)
       .where('ingredients.name LIKE ? OR
               ingredients.name IN (?) OR
-              ingredients.name like ?', '%flour%', flours, '%meal%')
+              ingredients.name LIKE ?', '%flour%', flours, '%meal%')
       .sum(:amount)
   end
 
@@ -35,11 +35,12 @@ class Recipe < ApplicationRecord
   private
 
   def sweetener_amounts
-    sweeteners = ['sugar', 'honey', 'syrup']
-    recipe_ingredients.select('ingredients.name')
-      .joins(:ingredient)
-      .where(recipe_id: self.id)
-      .where('ingredients.name IN (?)', sweeteners)
+    sweeteners = %w(sugar honey)
+    recipe_ingredients.joins(:ingredient)
+      .where('ingredients.name LIKE ? OR
+              ingredients.name LIKE ? OR
+              ingredients.name LIKE ?',
+              '%honey%', '%syrup%', '%sugar%')
       .sum(:amount)
   end
 end
