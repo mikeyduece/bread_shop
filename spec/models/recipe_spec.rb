@@ -38,7 +38,6 @@ RSpec.describe Recipe, type: :model do
       flour = recipe.flour_amts
 
       expect(flour).to eq(16.0)
-
     end
 
     it '#total_percentage' do
@@ -142,6 +141,56 @@ RSpec.describe Recipe, type: :model do
       sweets = recipe.sweetener_percentage
 
       expect(sweets).to eq(47.5)
+    end
+
+    it '#fat_percentage' do
+      user = create(:user)
+      recipe = Recipe.create!(name: 'flatbread', user_id: user.id)
+      bf = Ingredient.create(name: 'bread flour')
+      butter = Ingredient.create(name: 'butter')
+      sugar = Ingredient.create(name: 'sugar')
+      bf_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bf.id, amount: 1.0)
+      butter_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.25)
+      sugar_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.05)
+
+
+      fat = recipe.fat_percentage
+
+      expect(fat).to eq(25.0)
+    end
+
+    it '#fat_percentage can calculate with more than one fat' do
+      user = create(:user)
+      recipe = Recipe.create!(name: 'flatbread', user_id: user.id)
+      bf = Ingredient.create(name: 'bread flour')
+      butter = Ingredient.create(name: 'butter')
+      sc = Ingredient.create(name: 'sour cream')
+      bf_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bf.id, amount: 1.0)
+      butter_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.25)
+      sc_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sc.id, amount: 0.05)
+
+
+      fat = recipe.fat_percentage
+
+      expect(fat).to eq(30.0)
+      expect(fat).not_to eq(130.0)
+    end
+
+    it '#fat_percentage can find oils as well' do
+      user = create(:user)
+      recipe = Recipe.create!(name: 'flatbread', user_id: user.id)
+      bf = Ingredient.create(name: 'bread flour')
+      canola = Ingredient.create(name: 'canola oil')
+      evoo = Ingredient.create(name: 'olive oil')
+      bf_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bf.id, amount: 1.0)
+      canola_oil_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: canola.id, amount: 0.25)
+      evoo_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: evoo.id, amount: 0.05)
+
+
+      fat = recipe.fat_percentage
+
+      expect(fat).to eq(30.0)
+      expect(fat).not_to eq(130.0)
     end
   end
 end
