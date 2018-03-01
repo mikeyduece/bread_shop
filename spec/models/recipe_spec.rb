@@ -192,5 +192,20 @@ RSpec.describe Recipe, type: :model do
       expect(fat).to eq(30.0)
       expect(fat).not_to eq(130.0)
     end
+
+    it '#water_percentage' do
+      user = create(:user)
+      recipe = Recipe.create!(name: 'flatbread', user_id: user.id)
+      bf = Ingredient.create(name: 'bread flour')
+      water = Ingredient.create(name: 'water')
+      evoo = Ingredient.create(name: 'olive oil')
+      bf_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bf.id, amount: 1.0)
+      water_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.65)
+      evoo_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: evoo.id, amount: 0.05)
+
+      hydro = recipe.water_percentage
+
+      expect(hydro).to eq(65.0)
+    end
   end
 end
