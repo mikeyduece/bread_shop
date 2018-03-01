@@ -22,6 +22,11 @@ class Recipe < ApplicationRecord
     ((sweets / flour_amts) * 100).round(2)
   end
 
+  def fat_percentage
+    fats = fat_amounts
+    ((fats / flour_amts) * 100).round(2)
+  end
+
   def ingredient_list
     list = {}
     ingredients.each do |ing|
@@ -41,6 +46,18 @@ class Recipe < ApplicationRecord
               ingredients.name LIKE ? OR
               ingredients.name LIKE ?',
               '%honey%', '%syrup%', '%sugar%')
+      .sum(:amount)
+  end
+
+  def fat_amounts
+    recipe_ingredients.joins(:ingredient)
+      .where('ingredients.name LIKE ? OR
+              ingredients.name LIKE ? OR
+              ingredients.name LIKE ? OR
+              ingredients.name LIKE ? OR
+              ingredients.name LIKE ? OR
+              ingredients.name LIKE ?',
+              '%cream%', '%oil%', '%milk%', '%butter%', '%cheese%', '%yogurt%')
       .sum(:amount)
   end
 end
