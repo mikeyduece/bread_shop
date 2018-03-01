@@ -27,13 +27,17 @@ class Recipe < ApplicationRecord
     ((fats / flour_amts) * 100).round(2)
   end
 
+  def water_percentage
+    water = water_amt
+    ((water / flour_amts) * 100).round(2)
+  end
+
   def ingredient_list
     list = {}
     ingredients.each do |ing|
       ingredient = recipe_ingredients.find(ing.id)
       list[ing.name] = {amount: ingredient.amount, bp: ingredient.bp}
     end
-
     list
   end
 
@@ -58,6 +62,12 @@ class Recipe < ApplicationRecord
               ingredients.name LIKE ? OR
               ingredients.name LIKE ?',
               '%cream%', '%oil%', '%milk%', '%butter%', '%cheese%', '%yogurt%')
+      .sum(:amount)
+  end
+
+  def water_amt
+    recipe_ingredients.joins(:ingredient)
+      .where("ingredients.name='water'")
       .sum(:amount)
   end
 end
