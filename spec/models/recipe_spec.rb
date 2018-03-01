@@ -173,6 +173,24 @@ RSpec.describe Recipe, type: :model do
       fat = recipe.fat_percentage
 
       expect(fat).to eq(30.0)
+      expect(fat).not_to eq(130.0)
+    end
+
+    it '#fat_percentage can find oils as well' do
+      user = create(:user)
+      recipe = Recipe.create!(name: 'flatbread', user_id: user.id)
+      bf = Ingredient.create(name: 'bread flour')
+      canola = Ingredient.create(name: 'canola oil')
+      evoo = Ingredient.create(name: 'olive oil')
+      bf_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bf.id, amount: 1.0)
+      canola_oil_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: canola.id, amount: 0.25)
+      evoo_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: evoo.id, amount: 0.05)
+
+
+      fat = recipe.fat_percentage
+
+      expect(fat).to eq(30.0)
+      expect(fat).not_to eq(130.0)
     end
   end
 end
