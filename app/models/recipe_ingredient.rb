@@ -3,8 +3,8 @@ class RecipeIngredient < ApplicationRecord
   belongs_to :ingredient
   validates :amount, presence: true
 
-  def bp
-    get_bp
+  def bakers_percentage
+    get_bakers_percentage
   end
 
   def self.create_with_list(rec_id, list)
@@ -22,7 +22,7 @@ class RecipeIngredient < ApplicationRecord
 
   private
 
-  def get_bp
+  def get_bakers_percentage
     flour_amt = recipe.flour_amts
     ((amount / flour_amt) * 100).round(2)
   end
