@@ -52,22 +52,19 @@ class Recipe < ApplicationRecord
   def sweetener_amounts
     sweeteners = %w(sugar honey)
     recipe_ingredients.joins(:ingredient)
-      .where('ingredients.name LIKE ? OR
-              ingredients.name LIKE ? OR
-              ingredients.name LIKE ?',
-              '%honey%', '%syrup%', '%sugar%')
+      .where(ingredients: {category: 'sweetener'})
       .sum(:amount)
   end
 
   def fat_amounts
     recipe_ingredients.joins(:ingredient)
-      .where(ingredients: { category: 'fat' })
+      .where(ingredients: { category: 'fat'})
       .sum(:amount)
   end
 
   def water_amt
     recipe_ingredients.joins(:ingredient)
-      .where("ingredients.name='water'")
+      .where(ingredients: {category: 'water'})
       .sum(:amount)
   end
 end
