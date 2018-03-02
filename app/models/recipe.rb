@@ -33,11 +33,11 @@ class Recipe < ApplicationRecord
   end
 
   def ingredient_list
-    #recipe_ingredients.include(:ingredient).each do...
     list = {}
-    ingredients.each do |ingredient|
-      recipe_ingredient = recipe_ingredients.find_by(ingredient_id: ingredient.id)
-      list[ingredient.name] = {amount: recipe_ingredient.amount, bakers_percentage: recipe_ingredient.bakers_percentage}
+    recipe_ingredients.includes(:ingredient).each do |recipe_ingredient|
+      ingredient = ingredients.find(recipe_ingredient.ingredient_id)
+      list[ingredient.name] = {amount: recipe_ingredient.amount,
+                               bakers_percentage: recipe_ingredient.bakers_percentage}
     end
     list
   end
