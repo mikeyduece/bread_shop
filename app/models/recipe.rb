@@ -55,13 +55,7 @@ class Recipe < ApplicationRecord
 
   def fat_amounts
     recipe_ingredients.joins(:ingredient)
-      .where('ingredients.name LIKE ? OR
-              ingredients.name LIKE ? OR
-              ingredients.name LIKE ? OR
-              ingredients.name LIKE ? OR
-              ingredients.name LIKE ? OR
-              ingredients.name LIKE ?',
-              '%cream%', '%oil%', '%milk%', '%butter%', '%cheese%', '%yogurt%')
+      .where(ingredients: { category: 'fat' })
       .sum(:amount)
   end
 
