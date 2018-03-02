@@ -14,7 +14,7 @@ class Recipe < ApplicationRecord
   end
 
   def total_percentage
-    recipe_ingredients.reduce(0) {|sum, x| sum += x.bp}.round(2)
+    recipe_ingredients.reduce(0) {|sum, x| sum += x.bakers_percentage}.round(2)
   end
 
   def sweetener_percentage
@@ -34,9 +34,10 @@ class Recipe < ApplicationRecord
 
   def ingredient_list
     list = {}
-    ingredients.each do |ing|
-      ingredient = recipe_ingredients.find(ing.id)
-      list[ing.name] = {amount: ingredient.amount, bp: ingredient.bp}
+    recipe_ingredients.includes(:ingredient).each do |recipe_ingredient|
+      ingredient = ingredients.find(recipe_ingredient.ingredient_id)
+      list[ingredient.name] = {amount: recipe_ingredient.amount,
+                               bakers_percentage: recipe_ingredient.bakers_percentage}
     end
     list
   end
@@ -55,13 +56,7 @@ class Recipe < ApplicationRecord
 
   def fat_amounts
     recipe_ingredients.joins(:ingredient)
-      .where('ingredients.name LIKE ? OR
-              ingredients.name LIKE ? OR
-              ingredients.name LIKE ? OR
-              ingredients.name LIKE ? OR
-              ingredients.name LIKE ? OR
-              ingredients.name LIKE ?',
-              '%cream%', '%oil%', '%milk%', '%butter%', '%cheese%', '%yogurt%')
+      .where(ingredients: { category: 'fat' })
       .sum(:amount)
   end
 
