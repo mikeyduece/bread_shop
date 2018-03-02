@@ -77,7 +77,7 @@ RSpec.describe Recipe, type: :model do
 
       total = recipe.total_percentage
 
-      expect(total).to eq(141.13)
+      expect(total).to eq(352.82)
     end
 
     it '#sweetener_percentage' do
