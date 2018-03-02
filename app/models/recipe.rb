@@ -19,17 +19,17 @@ class Recipe < ApplicationRecord
 
   def sweetener_percentage
     sweets = sweetener_amounts
-    ((sweets / flour_amts) * 100).round(2)
+    calculate_percentage(sweets)
   end
 
   def fat_percentage
     fats = fat_amounts
-    ((fats / flour_amts) * 100).round(2)
+    calculate_percentage(fats)
   end
 
   def water_percentage
     water = water_amt
-    ((water / flour_amts) * 100).round(2)
+    calculate_percentage(water)
   end
 
   def ingredient_list
@@ -39,10 +39,15 @@ class Recipe < ApplicationRecord
       list[ingredient.name] = {amount: recipe_ingredient.amount,
                                bakers_percentage: recipe_ingredient.bakers_percentage}
     end
+
     list
   end
 
   private
+
+  def calculate_percentage(category)
+    ((category / flour_amts) * 100).round(2)
+  end
 
   def sweetener_amounts
     sweeteners = %w(sugar honey)
