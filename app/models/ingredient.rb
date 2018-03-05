@@ -10,14 +10,11 @@ class Ingredient < ApplicationRecord
   end
 
   def assign_category
-    if sweeteners.include?(self[:name])
-      self[:category] = 'sweetener'
-    elsif fats.include?(self[:name])
-      self[:category] = "fat"
-    elsif water.include?(self[:name])
-      self[:category] = 'water'
-    elsif flours.include?(self[:name])
-      self[:category] = 'flour'
+    case
+      when sweeteners.include?(self[:name]) then self[:category] = "sweetener"
+      when fats.include?(self[:name]) then self[:category] = "fat"
+      when flours.include?(self[:name]) then self[:category] = "flour"
+      when water.include?(self[:name]) then self[:category] = "water"
     end
   end
 
