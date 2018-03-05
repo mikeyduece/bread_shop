@@ -9,16 +9,16 @@ class Ingredient < ApplicationRecord
     list.map { |name| Ingredient.find_or_create_by(name: name) }
   end
 
+  private
+
   def assign_category
     case
-      when sweeteners.include?(self[:name]) then self[:category] = "sweetener"
-      when fats.include?(self[:name]) then self[:category] = "fat"
-      when flours.include?(self[:name]) then self[:category] = "flour"
-      when water.include?(self[:name]) then self[:category] = "water"
+    when sweeteners.include?(self[:name]) then self[:category] = "sweetener"
+    when fats.include?(self[:name]) then self[:category] = "fat"
+    when flours.include?(self[:name]) then self[:category] = "flour"
+    when water.include?(self[:name]) then self[:category] = "water"
     end
   end
-
-  private
 
   def sweeteners
     ['sugar', 'brown sugar', 'corn syrup', 'agave', 'molasses',
