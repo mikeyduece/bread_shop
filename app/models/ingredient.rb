@@ -25,8 +25,7 @@ class Ingredient < ApplicationRecord
   end
 
   def fats
-    ['butter', 'milk', 'cream', 'sour cream', 'canola oil',
-     'olive oil', 'margerine']
+    %w(butter milk cream sour\ cream canola\ oil olive\ oil margerine)
   end
 
   def water
