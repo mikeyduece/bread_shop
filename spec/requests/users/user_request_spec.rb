@@ -22,7 +22,7 @@ describe 'User API' do
 
   context 'user recipes' do
     it 'returns list of recipes for a user with params' do
-      get "/api/v1/users/#{@user.name}/recipes", params: {token: @token}
+      get "/api/v1/users/#{@user.email}/recipes", params: {token: @token}
 
       expect(response).to be_success
 
@@ -33,7 +33,7 @@ describe 'User API' do
     end
 
     it 'does not return anything without token in params' do
-      get "/api/v1/users/#{@user.name}/recipes"
+      get "/api/v1/users/#{@user.email}/recipes"
 
       expect(response).to_not be_success
       expect(response).to have_http_status(401)
@@ -43,7 +43,7 @@ describe 'User API' do
       recipe = @user.recipes[0]
       flour  = create(:ingredient, name: 'Flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
-      get "/api/v1/users/#{@user.name}/recipes/#{recipe.name}", params: {token: @token}
+      get "/api/v1/users/#{@user.email}/recipes/#{recipe.name}", params: {token: @token}
 
       expect(response).to be_success
 
@@ -63,7 +63,7 @@ describe 'User API' do
                             'Salt'  => {amount: 0.02}},
              }
 
-      post "/api/v1/users/#{@user.name}/recipes", params: {token: @token, recipe: list}
+      post "/api/v1/users/#{@user.email}/recipes", params: {token: @token, recipe: list}
 
       expect(response).to be_success
 
@@ -79,7 +79,7 @@ describe 'User API' do
       flour  = create(:ingredient, name: 'Flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
 
-      delete "/api/v1/users/#{@user.name}/recipes/#{recipe.name}", params: {token: @token}
+      delete "/api/v1/users/#{@user.email}/recipes/#{recipe.name}", params: {token: @token}
 
       expect(response).to be_success
 

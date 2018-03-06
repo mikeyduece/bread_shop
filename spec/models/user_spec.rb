@@ -13,11 +13,4 @@ RSpec.describe User, type: :model do
       expect(user.uid).to eq('1234567890')
     end
   end
-
-  context 'Instance Methods' do
-    it '#to_param' do
-      user = create(:user)
-      expect(user.to_param).to eq('mystring')
-    end
-  end
 end
