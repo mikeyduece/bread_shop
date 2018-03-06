@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :users do
-        get ':user_name/recipes', to: 'recipes#index'
-        get ':user_name/recipes/:recipe_name', to: 'recipes#show'
-        post ':user_name/recipes', to: 'recipes#create'
-        delete ':user_name/recipes/:recipe_name', to: 'recipes#destroy'
+        get ':email/recipes', to: 'recipes#index', constraints: {email: /.+@.+\..*/}
+        get ':email/recipes/:recipe_name', to: 'recipes#show', constraints: {email: /.+@.+\..*/}
+        post ':email/recipes', to: 'recipes#create', constraints: {email: /.+@.+\..*/}
+        delete ':email/recipes/:recipe_name', to: 'recipes#destroy', constraints: {email: /.+@.+\..*/}
       end
       get 'auth_amazon', to: 'authentication#amazon'
     end

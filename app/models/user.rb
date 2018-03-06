@@ -15,7 +15,4 @@ class User < ApplicationRecord
     user
   end
 
-  def to_param
-    name.parameterize
-  end
 end
