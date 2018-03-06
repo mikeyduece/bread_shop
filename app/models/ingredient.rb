@@ -29,12 +29,15 @@ class Ingredient < ApplicationRecord
   end
 
   def water
-    ['water']
+    %w(water)
   end
 
   def flours
-    ['flour', 'bread flour', 'high gluten flour', 'ap flour',
-     'all purpose flour', 'spelt', 'wheat flour', 'whole wheat flour',
-     'cake flour', 'pastry flour', 'semolina', 'durum', 'corn meal', 'flax meal']
+    %w(flour bread\ flour high\ gluten\ flour ap\ flour all\ purpose\ flour
+       spelt wheat\ flour whole\ wheat\ flour cake\ flour pastry\ flour semolina
+       durum corn\ meal flax\ meal)
+    # ['flour', 'bread flour', 'high gluten flour', 'ap flour',
+    #  'all purpose flour', 'spelt', 'wheat flour', 'whole wheat flour',
+    #  'cake flour', 'pastry flour', 'semolina', 'durum', 'corn meal', 'flax meal']
   end
 end
