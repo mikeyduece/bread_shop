@@ -47,7 +47,6 @@ class Recipe < ApplicationRecord
   end
 
   def sweetener_amounts
-    sweeteners = %w(sugar honey)
     recipe_ingredients.joins(:ingredient)
       .where(ingredients: {category: 'sweetener'})
       .sum(:amount)
