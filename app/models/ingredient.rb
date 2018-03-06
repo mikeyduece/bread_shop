@@ -14,9 +14,9 @@ class Ingredient < ApplicationRecord
   def assign_category
     case
     when sweeteners.include?(self[:name]) then self[:category] = "sweetener"
-    when fats.include?(self[:name]) then self[:category] = "fat"
-    when flours.include?(self[:name]) then self[:category] = "flour"
-    when water.include?(self[:name]) then self[:category] = "water"
+    when fats.include?(self[:name])       then self[:category] = "fat"
+    when flours.include?(self[:name])     then self[:category] = "flour"
+    when water.include?(self[:name])      then self[:category] = "water"
     end
   end
 
