@@ -51,10 +51,10 @@ Example JSON response
     recipe: {
       name: 'Baguette',
       ingredients: {
-        'Flour' => {amount: 1.00, bp: 100.0},
-        'Water' => {amount: 0.65, bp: 65.0},
-        'Salt' => {amount: 0.02, bp: 2.0},
-        'Yeast' => {amount: 0.02, bp: 2.0}
+        'Flour' => {amount: 1.00, bakers_percentage: 100.0},
+        'Water' => {amount: 0.65, bakers_percentage: 65.0},
+        'Salt' => {amount: 0.02, bakers_percentage: 2.0},
+        'Yeast' => {amount: 0.02, bakers_percentage: 2.0}
       },
       total_percentage: 169.0
     }
