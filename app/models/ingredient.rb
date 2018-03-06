@@ -21,8 +21,7 @@ class Ingredient < ApplicationRecord
   end
 
   def sweeteners
-    ['sugar', 'brown sugar', 'corn syrup', 'agave', 'molasses',
-     'honey', 'maple syrup']
+    %w(sugar brown\ sugar corn\ syrup agave molasses honey maple\ syrup)
   end
 
   def fats
