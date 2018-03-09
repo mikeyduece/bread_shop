@@ -299,5 +299,32 @@ RSpec.describe Recipe, type: :model do
       expect(recipe.family).not_to eq('Soft')
       expect(recipe.family).not_to eq('Sweet')
     end
+
+    it '#assign_family as Sweet' do
+      user = create(:user)
+      recipe = Recipe.create(name: 'Cinnamon Rolls', user_id: user.id)
+      bread_flour  = Ingredient.create(name: 'bread flour', category: 'flour')
+      cake_flour  = Ingredient.create(name: 'cake flour', category: 'flour')
+      eggs  = Ingredient.create(name: 'eggs')
+      milk  = Ingredient.create(name: 'milk')
+      butter  = Ingredient.create(name: 'butter', category: 'fat')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
+      rec_bread_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bread_flour.id, amount: 0.65)
+      rec_cake_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: cake_flour.id, amount: 0.80)
+      rec_eggs = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: eggs.id, amount: 0.22)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.03)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.12)
+      rec_milk = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.63)
+      rec_butter = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.30)
+      rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.30)
+
+      expect(recipe.family).to eq('Sweet')
+      expect(recipe.family).not_to eq('Lean')
+      expect(recipe.family).not_to eq('Soft')
+      expect(recipe.family).not_to eq('Slack')
+      expect(recipe.family).not_to eq('Rich')
+    end
   end
 end

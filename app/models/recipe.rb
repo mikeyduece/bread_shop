@@ -50,9 +50,9 @@ class Recipe < ApplicationRecord
     case
     when lean  then self[:family] = 'Lean'
     when soft  then self[:family] = 'Soft'
-    when rich  then self[:family] = 'Rich'
     when slack then self[:family] = 'Slack'
     when sweet then self[:family] = 'Sweet'
+    when rich  then self[:family] = 'Rich'
     end
   end
 
