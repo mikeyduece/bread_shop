@@ -208,19 +208,40 @@ RSpec.describe Recipe, type: :model do
       expect(hydro).to eq(65.0)
     end
 
-    it '#assign_family' do
-      user = create(:user)
-      recipe = Recipe.create(name: 'Baguetter', user_id: user.id)
+    it '#assign_family as Lean' do
+      user   = create(:user)
+      recipe = Recipe.create(name: 'Baguette', user_id: user.id)
       flour  = Ingredient.create(name: 'flour', category: 'flour')
       water  = Ingredient.create(name: 'water', category: 'water')
       salt   = Ingredient.create(name: 'salt')
       yeast  = Ingredient.create(name: 'yeast')
       rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
       rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
-      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
+      rec_salt  = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
       rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
 
-      expect(recipe.assign_family).to eq('Lean')
+      expect(recipe.family).to eq('Lean')
+    end
+
+    it '#assign_family as Soft' do
+      user = create(:user)
+      recipe = Recipe.create(name: 'Ballons', user_id: user.id)
+      flour  = Ingredient.create(name: 'flour', category: 'flour')
+      water  = Ingredient.create(name: 'water', category: 'water')
+      milk  = Ingredient.create(name: 'milk', category: 'fat')
+      butter  = Ingredient.create(name: 'butter', category: 'fat')
+      sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.75)
+      rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.70)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.035)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.04)
+      rec_milk = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.35)
+      rec_butter = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.12)
+      rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.088)
+
+      expect(recipe.family).to eq('Soft')
     end
   end
 end

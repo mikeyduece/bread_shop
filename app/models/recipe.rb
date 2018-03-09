@@ -4,7 +4,7 @@ class Recipe < ApplicationRecord
   has_many :ingredients, through: :recipe_ingredients
   validates :name, uniqueness: true
 
-  def assign_family
+  def family
     calculate_family
   end
 
@@ -61,9 +61,21 @@ class Recipe < ApplicationRecord
   end
 
   def soft
-    if sweet_and_fat_amts.all? {|amt| moderate.include?(amt)}
+    return true if sweet_and_fat_amts.all? {|amt| moderate.include?(amt)}
+  end
+
+  def rich
+    if moderate.include?(sweetener_percentage) && high.include?(fat_percentage)
       return true
     end
+  end
+
+  def slack
+    return true if high.include?(water_percentage)
+  end
+
+  def sweet
+    return true if sweet_and_fat_amts.all? {|amt| high.include?(amt)}
   end
 
   def low
