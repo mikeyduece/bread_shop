@@ -274,5 +274,30 @@ RSpec.describe Recipe, type: :model do
       expect(recipe.family).not_to eq('Slack')
       expect(recipe.family).not_to eq('Sweet')
     end
+
+    it '#assign_family as Slack' do
+      user = create(:user)
+      recipe = Recipe.create(name: 'Focaccia', user_id: user.id)
+      flour_1  = Ingredient.create(name: 'flour I', category: 'flour')
+      flour_2  = Ingredient.create(name: 'flour II', category: 'flour')
+      water  = Ingredient.create(name: 'water', category: 'water')
+      evoo  = Ingredient.create(name: 'olive oil', category: 'fat')
+      sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      rec_flour_1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_1.id, amount: 0.67)
+      rec_flour_2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_2.id, amount: 1.00)
+      rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 1.12)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.04)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.05)
+      rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.10)
+      rec_evoo = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: evoo.id, amount: 0.09)
+
+      expect(recipe.family).to eq('Slack')
+      expect(recipe.family).not_to eq('Lean')
+      expect(recipe.family).not_to eq('Rich')
+      expect(recipe.family).not_to eq('Soft')
+      expect(recipe.family).not_to eq('Sweet')
+    end
   end
 end

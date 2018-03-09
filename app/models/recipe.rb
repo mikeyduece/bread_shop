@@ -61,7 +61,9 @@ class Recipe < ApplicationRecord
   end
 
   def soft
-    return true if sweet_and_fat_amts.all? {|amt| moderate.include?(amt)}
+    if (water_percentage + fat_percentage) < 70.0 && moderate.include?(sweetener_percentage) && moderate.include?(fat_percentage)
+      return true
+    end
   end
 
   def rich
@@ -72,7 +74,7 @@ class Recipe < ApplicationRecord
   end
 
   def slack
-    return true if high.include?(water_percentage)
+    return true if water_percentage + fat_percentage > 70.0
   end
 
   def sweet
