@@ -221,6 +221,10 @@ RSpec.describe Recipe, type: :model do
       rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
 
       expect(recipe.family).to eq('Lean')
+      expect(recipe.family).not_to eq('Soft')
+      expect(recipe.family).not_to eq('Rich')
+      expect(recipe.family).not_to eq('Slack')
+      expect(recipe.family).not_to eq('Sweet')
     end
 
     it '#assign_family as Soft' do
@@ -228,7 +232,7 @@ RSpec.describe Recipe, type: :model do
       recipe = Recipe.create(name: 'Ballons', user_id: user.id)
       flour  = Ingredient.create(name: 'flour', category: 'flour')
       water  = Ingredient.create(name: 'water', category: 'water')
-      milk  = Ingredient.create(name: 'milk', category: 'fat')
+      milk  = Ingredient.create(name: 'milk')
       butter  = Ingredient.create(name: 'butter', category: 'fat')
       sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
       salt   = Ingredient.create(name: 'salt')
@@ -242,6 +246,10 @@ RSpec.describe Recipe, type: :model do
       rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.088)
 
       expect(recipe.family).to eq('Soft')
+      expect(recipe.family).not_to eq('Lean')
+      expect(recipe.family).not_to eq('Rich')
+      expect(recipe.family).not_to eq('Slack')
+      expect(recipe.family).not_to eq('Sweet')
     end
   end
 end
