@@ -7,6 +7,7 @@ describe 'User API' do
     @user.recipes.each {|x| x.recipe_ingredients = create_list(:recipe_ingredient, 6)}
     @token = TokiToki.encode(@user.attributes)
   end
+
   context 'Authorization' do
     it 'should return token' do
       get api_v1_auth_amazon_path, params: stub_omniauth
@@ -56,12 +57,12 @@ describe 'User API' do
 
     it 'user can create recipe' do
       list = {
-              name: 'Baguette',
-              ingredients: {'Flour' => {amount: 1.00},
-                            'Water' => {amount: 0.62},
-                            'Yeast' => {amount: 0.02},
-                            'Salt'  => {amount: 0.02}},
-             }
+        name: 'Baguette',
+        ingredients: {'Flour' => {amount: 1.00},
+                      'Water' => {amount: 0.62},
+                      'Yeast' => {amount: 0.02},
+                      'Salt'  => {amount: 0.02}},
+      }
 
       post "/api/v1/users/#{@user.email}/recipes", params: {token: @token, recipe: list}
 
@@ -88,6 +89,29 @@ describe 'User API' do
       expect(deleted[:status]).to eq(204)
       expect(deleted[:message]).to eq("Successfully deleted #{recipe.name}")
       expect(Recipe.all).not_to include(recipe.id)
+    end
+
+    it 'returns the family of the recipe' do
+      user = create(:user)
+      user.recipes << Recipe.create(name: 'Baguette', user_id: user.id)
+      recipe = Recipe.find_by(name: 'Baguette')
+      flour  = Ingredient.create(name: 'flour', category: 'flour')
+      water  = Ingredient.create(name: 'water', category: 'water')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
+      rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
+      rec_salt  = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
+      token = TokiToki.encode(user.attributes)
+
+      get "/api/v1/users/#{user.email}/recipes/#{user.recipes[0].name}", params: {token: token}
+
+      expect(response).to be_success
+
+      return_recipe = JSON.parse(response.body, symbolize_names: true)
+
+      expect(return_recipe[:recipe][:family]).to eq('Lean')
     end
   end
 end
