@@ -207,5 +207,20 @@ RSpec.describe Recipe, type: :model do
 
       expect(hydro).to eq(65.0)
     end
+
+    it '#assign_family' do
+      user = create(:user)
+      recipe = Recipe.create(name: 'Baguetter', user_id: user.id)
+      flour  = Ingredient.create(name: 'flour', category: 'flour')
+      water  = Ingredient.create(name: 'water', category: 'water')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
+      rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
+
+      expect(recipe.assign_family).to eq('Lean')
+    end
   end
 end
