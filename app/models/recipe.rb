@@ -57,11 +57,29 @@ class Recipe < ApplicationRecord
   end
 
   def lean
-    return true if sweetener_percentage < 5.0 && fat_percentage < 5.0
+    return true if sweet_and_fat_amts.all? {|amt| low.include?(amt)}
   end
 
   def soft
+    if sweet_and_fat_amts.all? {|amt| moderate.include?(amt)}
+      return true
+    end
+  end
 
+  def low
+    (0.0..4.99)
+  end
+
+  def moderate
+    (5.0..10.0)
+  end
+
+  def high
+    (11.0..25.0)
+  end
+
+  def sweet_and_fat_amts
+    [sweetener_percentage, fat_percentage]
   end
 
   def calculate_percentage(category)
