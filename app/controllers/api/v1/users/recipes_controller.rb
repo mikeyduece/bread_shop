@@ -7,12 +7,13 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def show
-    recipe = current_user.recipes.find_by_name(params[:recipe_name])
+    recipe = current_user.recipes.find_by(name: params[:recipe_name])
     render json: {status: 200,
                   recipe: {
                         name: recipe.name,
                         ingredients: recipe.ingredient_list,
-                        total_percentage: recipe.total_percentage
+                        total_percentage: recipe.total_percentage,
+                        family: recipe.family
                            }
                   }
   end

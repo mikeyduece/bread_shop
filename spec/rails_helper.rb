@@ -71,6 +71,7 @@ RSpec.configure do |config|
 
   config.before(:all) do
     DatabaseCleaner.clean
+    DatabaseCleaner.clean_with(:truncation)
   end
 
   config.after(:each) do
