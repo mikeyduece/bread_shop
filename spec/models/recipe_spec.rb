@@ -251,5 +251,28 @@ RSpec.describe Recipe, type: :model do
       expect(recipe.family).not_to eq('Slack')
       expect(recipe.family).not_to eq('Sweet')
     end
+
+    it '#assign_family as Rich' do
+      user = create(:user)
+      recipe = Recipe.create(name: 'Butter Bread', user_id: user.id)
+      flour  = Ingredient.create(name: 'flour', category: 'flour')
+      eggs  = Ingredient.create(name: 'eggs')
+      milk  = Ingredient.create(name: 'milk')
+      butter  = Ingredient.create(name: 'butter', category: 'fat')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.31)
+      rec_eggs = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: eggs.id, amount: 0.10)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.025)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.06)
+      rec_milk = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.81)
+      rec_butter = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.28)
+
+      expect(recipe.family).to eq('Rich')
+      expect(recipe.family).not_to eq('Lean')
+      expect(recipe.family).not_to eq('Soft')
+      expect(recipe.family).not_to eq('Slack')
+      expect(recipe.family).not_to eq('Sweet')
+    end
   end
 end

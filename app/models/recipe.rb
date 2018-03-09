@@ -65,7 +65,8 @@ class Recipe < ApplicationRecord
   end
 
   def rich
-    if moderate.include?(sweetener_percentage) && high.include?(fat_percentage)
+    if (moderate.include?(sweetener_percentage) && high.include?(fat_percentage)) ||
+        high.include?(fat_percentage)
       return true
     end
   end
