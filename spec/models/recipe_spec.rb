@@ -207,5 +207,124 @@ RSpec.describe Recipe, type: :model do
 
       expect(hydro).to eq(65.0)
     end
+
+    it '#assign_family as Lean' do
+      user   = create(:user)
+      recipe = Recipe.create(name: 'Baguette', user_id: user.id)
+      flour  = Ingredient.create(name: 'flour', category: 'flour')
+      water  = Ingredient.create(name: 'water', category: 'water')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
+      rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
+      rec_salt  = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
+
+      expect(recipe.family).to eq('Lean')
+      expect(recipe.family).not_to eq('Soft')
+      expect(recipe.family).not_to eq('Rich')
+      expect(recipe.family).not_to eq('Slack')
+      expect(recipe.family).not_to eq('Sweet')
+    end
+
+    it '#assign_family as Soft' do
+      user = create(:user)
+      recipe = Recipe.create(name: 'Ballons', user_id: user.id)
+      flour  = Ingredient.create(name: 'flour', category: 'flour')
+      water  = Ingredient.create(name: 'water', category: 'water')
+      milk  = Ingredient.create(name: 'milk')
+      butter  = Ingredient.create(name: 'butter', category: 'fat')
+      sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.75)
+      rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.70)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.035)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.04)
+      rec_milk = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.35)
+      rec_butter = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.12)
+      rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.088)
+
+      expect(recipe.family).to eq('Soft')
+      expect(recipe.family).not_to eq('Lean')
+      expect(recipe.family).not_to eq('Rich')
+      expect(recipe.family).not_to eq('Slack')
+      expect(recipe.family).not_to eq('Sweet')
+    end
+
+    it '#assign_family as Rich' do
+      user = create(:user)
+      recipe = Recipe.create(name: 'Butter Bread', user_id: user.id)
+      flour  = Ingredient.create(name: 'flour', category: 'flour')
+      eggs  = Ingredient.create(name: 'eggs')
+      milk  = Ingredient.create(name: 'milk')
+      butter  = Ingredient.create(name: 'butter', category: 'fat')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.31)
+      rec_eggs = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: eggs.id, amount: 0.10)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.025)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.06)
+      rec_milk = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.81)
+      rec_butter = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.28)
+
+      expect(recipe.family).to eq('Rich')
+      expect(recipe.family).not_to eq('Lean')
+      expect(recipe.family).not_to eq('Soft')
+      expect(recipe.family).not_to eq('Slack')
+      expect(recipe.family).not_to eq('Sweet')
+    end
+
+    it '#assign_family as Slack' do
+      user = create(:user)
+      recipe = Recipe.create(name: 'Focaccia', user_id: user.id)
+      flour_1  = Ingredient.create(name: 'flour I', category: 'flour')
+      flour_2  = Ingredient.create(name: 'flour II', category: 'flour')
+      water  = Ingredient.create(name: 'water', category: 'water')
+      evoo  = Ingredient.create(name: 'olive oil', category: 'fat')
+      sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      rec_flour_1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_1.id, amount: 0.67)
+      rec_flour_2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_2.id, amount: 1.00)
+      rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 1.12)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.04)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.05)
+      rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.10)
+      rec_evoo = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: evoo.id, amount: 0.09)
+
+      expect(recipe.family).to eq('Slack')
+      expect(recipe.family).not_to eq('Lean')
+      expect(recipe.family).not_to eq('Rich')
+      expect(recipe.family).not_to eq('Soft')
+      expect(recipe.family).not_to eq('Sweet')
+    end
+
+    it '#assign_family as Sweet' do
+      user = create(:user)
+      recipe = Recipe.create(name: 'Cinnamon Rolls', user_id: user.id)
+      bread_flour  = Ingredient.create(name: 'bread flour', category: 'flour')
+      cake_flour  = Ingredient.create(name: 'cake flour', category: 'flour')
+      eggs  = Ingredient.create(name: 'eggs')
+      milk  = Ingredient.create(name: 'milk')
+      butter  = Ingredient.create(name: 'butter', category: 'fat')
+      salt   = Ingredient.create(name: 'salt')
+      yeast  = Ingredient.create(name: 'yeast')
+      sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
+      rec_bread_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bread_flour.id, amount: 0.65)
+      rec_cake_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: cake_flour.id, amount: 0.80)
+      rec_eggs = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: eggs.id, amount: 0.22)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.03)
+      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.12)
+      rec_milk = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.63)
+      rec_butter = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.30)
+      rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.30)
+
+      expect(recipe.family).to eq('Sweet')
+      expect(recipe.family).not_to eq('Lean')
+      expect(recipe.family).not_to eq('Soft')
+      expect(recipe.family).not_to eq('Slack')
+      expect(recipe.family).not_to eq('Rich')
+    end
   end
 end

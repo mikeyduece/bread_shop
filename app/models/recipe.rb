@@ -4,6 +4,10 @@ class Recipe < ApplicationRecord
   has_many :ingredients, through: :recipe_ingredients
   validates :name, uniqueness: true
 
+  def family
+    calculate_family
+  end
+
   def flour_amts
     recipe_ingredients.joins(:ingredient)
       .where(ingredients: {category: 'flour'})
@@ -41,6 +45,57 @@ class Recipe < ApplicationRecord
   end
 
   private
+
+  def calculate_family
+    case
+    when lean  then self[:family] = 'Lean'
+    when soft  then self[:family] = 'Soft'
+    when slack then self[:family] = 'Slack'
+    when sweet then self[:family] = 'Sweet'
+    when rich  then self[:family] = 'Rich'
+    end
+  end
+
+  def lean
+    return true if sweet_and_fat_amts.all? {|amt| low.include?(amt)}
+  end
+
+  def soft
+    if (water_percentage + fat_percentage) < 70.0 && moderate.include?(sweetener_percentage) && moderate.include?(fat_percentage)
+      return true
+    end
+  end
+
+  def rich
+    if (moderate.include?(sweetener_percentage) && high.include?(fat_percentage)) ||
+        high.include?(fat_percentage)
+      return true
+    end
+  end
+
+  def slack
+    return true if water_percentage + fat_percentage > 70.0
+  end
+
+  def sweet
+    return true if sweet_and_fat_amts.all? {|amt| high.include?(amt)}
+  end
+
+  def low
+    (0.0..4.99)
+  end
+
+  def moderate
+    (5.0..10.0)
+  end
+
+  def high
+    (11.0..25.0)
+  end
+
+  def sweet_and_fat_amts
+    [sweetener_percentage, fat_percentage]
+  end
 
   def calculate_percentage(category)
     ((category / flour_amts) * 100).round(2)
