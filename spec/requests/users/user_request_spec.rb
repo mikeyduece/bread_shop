@@ -116,15 +116,17 @@ describe 'User API' do
 
     it 'returns list of all recipes grouped by family' do
       user = create(:user)
-      user.recipes = create_list(:recipe, 10)
+      user.recipes << create_list(:recipe, 10, user_id: user.id)
 
       get "/api/v1/families", params: {token: @token}
 
-      expect(response).to be_sucess
+      expect(response).to be_success
 
       families = JSON.parse(response.body, symbolize_names: true)
 
-      require 'pry'; binding.pry
+      family_names = %w(Lean Soft Rich Sweet Slack).map(&:to_sym)
+      expect(families).to be_a(Hash)
+      expect(families.keys).to include(*family_names)
     end
   end
 end

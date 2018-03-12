@@ -1,7 +1,8 @@
 class Api::V1::FamiliesController < Api::V1::ApplicationController
 
   def index
-    Recipe.family_group
+    families = Recipe.family_group
+    render json: families
   end
 
   def show

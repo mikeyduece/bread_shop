@@ -4,6 +4,10 @@ class Recipe < ApplicationRecord
   has_many :ingredients, through: :recipe_ingredients
   validates :name, uniqueness: true
 
+  def self.family_group
+    all.group_by(&:family)
+  end
+
   def assign_family
     calculate_family
   end
