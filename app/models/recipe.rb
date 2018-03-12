@@ -4,7 +4,7 @@ class Recipe < ApplicationRecord
   has_many :ingredients, through: :recipe_ingredients
   validates :name, uniqueness: true
 
-  def family
+  def assign_family
     calculate_family
   end
 

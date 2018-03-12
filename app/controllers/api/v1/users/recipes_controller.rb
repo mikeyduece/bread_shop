@@ -8,6 +8,9 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def show
     recipe = current_user.recipes.find_by(name: params[:recipe_name])
+    if recipe.family.nil?
+      recipe.update(family: recipe.assign_family)
+    end
     render json: {status: 200,
                   recipe: {
                         name: recipe.name,
@@ -22,7 +25,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     recipe = Recipe.create(user_id: current_user.id, name: params[:recipe][:name])
     ingredients = Ingredient.create_list(params[:recipe][:ingredients].keys)
     rec_ings    = RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
-
+    recipe.update(family: recipe.assign_family)
     render json: {status: 201, recipe: {name: recipe.name,
                                         ingredients: rec_ings,
                                         total_percentage: recipe.total_percentage

@@ -57,10 +57,10 @@ describe 'User API' do
 
     it 'user can create recipe' do
       list = {
-        name: 'Baguette',
-        ingredients: {'Flour' => {amount: 1.00},
-                      'Water' => {amount: 0.62},
-                      'Yeast' => {amount: 0.02},
+        name: 'baguette',
+        ingredients: {'flour' => {amount: 1.00},
+                      'water' => {amount: 0.62},
+                      'yeast' => {amount: 0.02},
                       'Salt'  => {amount: 0.02}},
       }
 
@@ -70,7 +70,7 @@ describe 'User API' do
 
       new_recipe = JSON.parse(response.body, symbolize_names: true)
 
-      expect(Recipe.exists?(name: 'Baguette')).to be(true)
+      expect(Recipe.exists?(name: 'baguette')).to be(true)
       expect(Ingredient.any? {|x| list[:ingredients].keys}).to be(true)
       expect(RecipeIngredient.any? {|x| list[:ingredients].values}).to be(true)
     end
@@ -93,8 +93,8 @@ describe 'User API' do
 
     it 'returns the family of the recipe' do
       user = create(:user)
-      user.recipes << Recipe.create(name: 'Baguette', user_id: user.id)
-      recipe = Recipe.find_by(name: 'Baguette')
+      user.recipes << Recipe.create(name: 'baguette', user_id: user.id)
+      recipe = Recipe.find_by(name: 'baguette')
       flour  = Ingredient.create(name: 'flour', category: 'flour')
       water  = Ingredient.create(name: 'water', category: 'water')
       salt   = Ingredient.create(name: 'salt')
