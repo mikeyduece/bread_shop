@@ -113,5 +113,18 @@ describe 'User API' do
 
       expect(return_recipe[:recipe][:family]).to eq('Lean')
     end
+
+    it 'returns list of all recipes grouped by family' do
+      user = create(:user)
+      user.recipes = create_list(:recipe, 10)
+
+      get "/api/v1/families", params: {token: @token}
+
+      expect(response).to be_sucess
+
+      families = JSON.parse(response.body, symbolize_names: true)
+
+      require 'pry'; binding.pry
+    end
   end
 end
