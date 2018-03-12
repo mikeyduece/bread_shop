@@ -219,6 +219,7 @@ RSpec.describe Recipe, type: :model do
       rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
       rec_salt  = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
       rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
+      recipe.assign_family
 
       expect(recipe.family).to eq('Lean')
       expect(recipe.family).not_to eq('Soft')
