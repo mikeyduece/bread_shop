@@ -245,6 +245,7 @@ RSpec.describe Recipe, type: :model do
       rec_milk = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.35)
       rec_butter = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.12)
       rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.088)
+      recipe.assign_family
 
       expect(recipe.family).to eq('Soft')
       expect(recipe.family).not_to eq('Lean')
@@ -268,6 +269,7 @@ RSpec.describe Recipe, type: :model do
       rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.06)
       rec_milk = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.81)
       rec_butter = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.28)
+      recipe.assign_family
 
       expect(recipe.family).to eq('Rich')
       expect(recipe.family).not_to eq('Lean')
@@ -293,6 +295,7 @@ RSpec.describe Recipe, type: :model do
       rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.05)
       rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.10)
       rec_evoo = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: evoo.id, amount: 0.09)
+      recipe.assign_family
 
       expect(recipe.family).to eq('Slack')
       expect(recipe.family).not_to eq('Lean')
@@ -320,6 +323,7 @@ RSpec.describe Recipe, type: :model do
       rec_milk = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: milk.id, amount: 0.63)
       rec_butter = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.30)
       rec_sugar = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.30)
+      recipe.assign_family
 
       expect(recipe.family).to eq('Sweet')
       expect(recipe.family).not_to eq('Lean')
