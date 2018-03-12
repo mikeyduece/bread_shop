@@ -10,7 +10,7 @@ class RecipeIngredient < ApplicationRecord
   def self.create_with_list(rec_id, list)
     saved = {}
     list.each do |name, value|
-      ing = Ingredient.find_by_name(name)
+      ing = Ingredient.find_by(name: name)
       x = RecipeIngredient.create(recipe_id: rec_id,
                                   ingredient_id: ing.id,
                                   amount: value[:amount].to_f)

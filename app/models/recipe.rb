@@ -4,7 +4,11 @@ class Recipe < ApplicationRecord
   has_many :ingredients, through: :recipe_ingredients
   validates :name, uniqueness: true
 
-  def family
+  def self.family_group
+    all.group_by(&:family)
+  end
+
+  def assign_family
     calculate_family
   end
 
@@ -50,9 +54,9 @@ class Recipe < ApplicationRecord
     case
     when lean  then self[:family] = 'Lean'
     when soft  then self[:family] = 'Soft'
-    when slack then self[:family] = 'Slack'
     when sweet then self[:family] = 'Sweet'
     when rich  then self[:family] = 'Rich'
+    when slack then self[:family] = 'Slack'
     end
   end
 

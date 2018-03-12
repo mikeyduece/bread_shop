@@ -57,10 +57,10 @@ describe 'User API' do
 
     it 'user can create recipe' do
       list = {
-        name: 'Baguette',
-        ingredients: {'Flour' => {amount: 1.00},
-                      'Water' => {amount: 0.62},
-                      'Yeast' => {amount: 0.02},
+        name: 'baguette',
+        ingredients: {'flour' => {amount: 1.00},
+                      'water' => {amount: 0.62},
+                      'yeast' => {amount: 0.02},
                       'Salt'  => {amount: 0.02}},
       }
 
@@ -70,7 +70,7 @@ describe 'User API' do
 
       new_recipe = JSON.parse(response.body, symbolize_names: true)
 
-      expect(Recipe.exists?(name: 'Baguette')).to be(true)
+      expect(Recipe.exists?(name: 'baguette')).to be(true)
       expect(Ingredient.any? {|x| list[:ingredients].keys}).to be(true)
       expect(RecipeIngredient.any? {|x| list[:ingredients].values}).to be(true)
     end
@@ -93,8 +93,8 @@ describe 'User API' do
 
     it 'returns the family of the recipe' do
       user = create(:user)
-      user.recipes << Recipe.create(name: 'Baguette', user_id: user.id)
-      recipe = Recipe.find_by(name: 'Baguette')
+      user.recipes << Recipe.create(name: 'baguette', user_id: user.id)
+      recipe = Recipe.find_by(name: 'baguette')
       flour  = Ingredient.create(name: 'flour', category: 'flour')
       water  = Ingredient.create(name: 'water', category: 'water')
       salt   = Ingredient.create(name: 'salt')
@@ -112,6 +112,35 @@ describe 'User API' do
       return_recipe = JSON.parse(response.body, symbolize_names: true)
 
       expect(return_recipe[:recipe][:family]).to eq('Lean')
+    end
+
+    it 'returns list of all recipes grouped by family' do
+      user = create(:user)
+      user.recipes << create_list(:recipe, 10, user_id: user.id)
+
+      get "/api/v1/families", params: {token: @token}
+
+      expect(response).to be_success
+
+      families = JSON.parse(response.body, symbolize_names: true)
+
+      family_names = %w(Lean Soft Rich Sweet Slack).map(&:to_sym)
+      expect(families).to be_a(Hash)
+      expect(families.keys).to include(*family_names)
+    end
+
+    it 'returns list of recipes that align with requested family' do
+      user = create(:user)
+      user.recipes << create_list(:recipe, 10, user_id: user.id)
+      recipe = user.recipes[0]
+
+      get "/api/v1/families/#{recipe.family}", params: {token: @token}
+
+      expect(response).to be_success
+
+      family = JSON.parse(response.body, symbolize_names: true)
+
+      expect(family.all? {|hash| hash[:family] == recipe.family}).to be true
     end
   end
 end

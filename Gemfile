@@ -35,6 +35,7 @@ gem 'faraday'
 gem 'figaro'
 gem 'jwt'
 gem 'omniauth-amazon'
+gem 'active_poro'
 
 
 group :development, :test do

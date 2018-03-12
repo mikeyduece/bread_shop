@@ -4,5 +4,9 @@ FactoryBot.define do
       "#{n}Recipe"
     end
     user
+    sequence :family do |n|
+      @family ||= %w(Lean Soft Rich Sweet Slack)
+      @family.sample
+    end
   end
 end
