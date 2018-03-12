@@ -5,11 +5,12 @@
 
 ##### Versions
 
-<sup>Ruby 2.5.0</sup>
-  <sup>Rails 5.1.5</sup>
+<sup>Ruby 2.5.0</sup> <sup>/</sup> <sup>Rails 5.1.5</sup>
 
-### Available Endpoints
+### Endpoints
 All requests require token from client app to be sent in the params. If no token is present, the request will be denied.
+
+Base URL for all requests is `https://bread-shop-api.herokuapp.com/api/v1`
 
 `GET /:user_name/recipes?token=token` - Returns list of recipes that a user has created.
 ```ruby
@@ -18,7 +19,8 @@ All requests require token from client app to be sent in the params. If no token
     {
       id: integer,
       name: recipe_name,
-      user_id: integer
+      user_id: integer,
+      created_at: date
     },
     ...
     ]
@@ -27,20 +29,20 @@ All requests require token from client app to be sent in the params. If no token
 
 `POST /:user_name/recipes?token=token` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
 
-Example payload sent to endpoint
+Example payload sent to endpoint:
 ```ruby
   {
-    name: 'Baguette',
+    name: 'baguette',
     ingredients: {
-      'Flour' => {amount: 1.00},
-      'Water' => {amount: 0.62},
-      'Salt' => {amount: 0.02},
-      'Yeast' => {amount: 0.02}
+      'flour' => {amount: 1.00},
+      'water' => {amount: 0.62},
+      'salt' => {amount: 0.02},
+      'yeast' => {amount: 0.02}
     }
   }
 ```
 
-The response from the the `POST` request contains the submitted information along with baker's percentage(`bp`) and `total_percentage`. As seen below with the `GET` for a single recipe.
+The response from the the `POST` request contains the submitted information along with baker's percentage and `total_percentage`. As seen below with the `GET` for a single recipe.
 
 `GET /:user_name/recipes/:recipe_name?token=token` - Returns specific recipe.
 Example JSON response
@@ -49,16 +51,33 @@ Example JSON response
   {
     status: 200,
     recipe: {
-      name: 'Baguette',
+      name: 'baguette',
       ingredients: {
-        'Flour' => {amount: 1.00, bakers_percentage: 100.0},
-        'Water' => {amount: 0.65, bakers_percentage: 65.0},
-        'Salt' => {amount: 0.02, bakers_percentage: 2.0},
-        'Yeast' => {amount: 0.02, bakers_percentage: 2.0}
+        'flour' => {amount: 1.00, bakers_percentage: 100.0},
+        'water' => {amount: 0.65, bakers_percentage: 65.0},
+        'salt' => {amount: 0.02, bakers_percentage: 2.0},
+        'yeast' => {amount: 0.02, bakers_percentage: 2.0}
       },
       total_percentage: 169.0
     }
   }
 ```
 
+`GET /families?token=token` Returns a list of all recipes grouped by family name.
+
+```ruby
+  {
+    status: 200,
+    recipes: {
+      [
+        'Lean' => [{
+          name: 'Recipe Name',
+          family: 'Lean'
+          created_at: date
+          user_id: integer
+          }]
+      ]
+    }
+  }
+```
 
