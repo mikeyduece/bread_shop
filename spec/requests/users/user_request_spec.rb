@@ -128,5 +128,19 @@ describe 'User API' do
       expect(families).to be_a(Hash)
       expect(families.keys).to include(*family_names)
     end
+
+    it 'returns list of recipes that align with requested family' do
+      user = create(:user)
+      user.recipes << create_list(:recipe, 10, user_id: user.id)
+      recipe = user.recipes[0]
+
+      get "/api/v1/families/#{recipe.family}", params: {token: @token}
+
+      expect(response).to be_success
+
+      family = JSON.parse(response.body, symbolize_names: true)
+
+      expect(family.all? {|hash| hash[:family] == recipe.family}).to be true
+    end
   end
 end

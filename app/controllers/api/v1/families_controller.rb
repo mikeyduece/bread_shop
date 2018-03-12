@@ -6,6 +6,7 @@ class Api::V1::FamiliesController < Api::V1::ApplicationController
   end
 
   def show
-    require 'pry'; binding.pry
+    recipe = Recipe.where(family: params[:family_name])
+    render json: recipe
   end
 end
