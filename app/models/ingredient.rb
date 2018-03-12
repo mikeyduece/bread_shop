@@ -29,7 +29,7 @@ class Ingredient < ApplicationRecord
   end
 
   def water
-    %w(water)
+    %w(water milk)
   end
 
   def flours
