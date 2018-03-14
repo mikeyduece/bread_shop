@@ -12,7 +12,7 @@ All requests require token from client app to be sent in the params. If no token
 
 Base URL for all requests is `https://bread-shop-api.herokuapp.com/api/v1`
 
-`GET /:user_name/recipes?token=token` - Returns list of recipes that a user has created.
+`GET /users/:email/recipes?token=token` - Returns list of recipes that a user has created.
 ```ruby
   {
     recipes: [
@@ -27,7 +27,7 @@ Base URL for all requests is `https://bread-shop-api.herokuapp.com/api/v1`
   }
 ```
 
-`POST /:user_name/recipes?token=token` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
+`POST /users/:email/recipes?token=token` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
 
 Example payload sent to endpoint:
 ```ruby
@@ -44,7 +44,7 @@ Example payload sent to endpoint:
 
 The response from the the `POST` request contains the submitted information along with baker's percentage and `total_percentage`. As seen below with the `GET` for a single recipe.
 
-`GET /:user_name/recipes/:recipe_name?token=token` - Returns specific recipe.
+`GET /users/:email/recipes/:recipe_name?token=token` - Returns specific recipe.
 Example JSON response
 
 ```ruby
