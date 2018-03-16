@@ -50,6 +50,7 @@ group :development, :test do
   gem 'vcr'
   gem 'webmock'
   gem 'simplecov'
+  gem 'faker'
 end
 
 group :development do
