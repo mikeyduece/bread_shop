@@ -48,8 +48,9 @@ describe 'User API' do
       user.recipes.each {|x| x.recipe_ingredients = create_list(:recipe_ingredient, 6)}
       token = TokiToki.encode(user.attributes)
       recipe = user.recipes[0]
-      flour  = create(:ingredient, name: 'Flour')
+      flour  = create(:ingredient, name: 'flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
+
       get "/api/v1/users/#{user.email}/recipes/#{recipe.name}", params: {token: token}
 
       expect(response).to be_success
@@ -133,7 +134,6 @@ describe 'User API' do
       user.recipes = create_list(:recipe, 10, user: user)
       user.recipes.each {|x| x.recipe_ingredients = create_list(:recipe_ingredient, 6)}
       token = TokiToki.encode(user.attributes)
-      require 'pry'; binding.pry
 
       get "/api/v1/families", params: {token: token}
 
@@ -158,6 +158,7 @@ describe 'User API' do
       expect(response).to be_success
 
       family = JSON.parse(response.body, symbolize_names: true)
+      require 'pry'; binding.pry
 
       expect(family.all? {|hash| hash[:family] == recipe.family}).to be true
     end

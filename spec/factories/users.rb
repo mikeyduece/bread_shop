@@ -6,8 +6,5 @@ FactoryBot.define do
     end
     zipcode { Faker::Address.postcode }
     email { Faker::Internet.email }
-    #sequence :email do |n|
-      #"#{n}myemail@gmail.com"
-    #end
   end
 end

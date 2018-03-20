@@ -65,7 +65,9 @@ class Recipe < ApplicationRecord
   end
 
   def soft
-    if (water_percentage + fat_percentage) < 70.0 && moderate.include?(sweetener_percentage) && moderate.include?(fat_percentage)
+    if (water_percentage + fat_percentage) < 70.0 &&
+        moderate.include?(sweetener_percentage) &&
+        moderate.include?(fat_percentage)
       return true
     end
   end

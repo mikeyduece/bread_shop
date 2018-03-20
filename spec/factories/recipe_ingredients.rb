@@ -4,7 +4,7 @@ FactoryBot.define do
     ingredient
     sequence :amount do |n|
       @amount ||= (0.01..100.0).step(0.01).to_a.shuffle
-      @amount[n]
+      @amount[n].round(2)
     end
   end
 end
