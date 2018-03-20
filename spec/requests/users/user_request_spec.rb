@@ -158,7 +158,6 @@ describe 'User API' do
       expect(response).to be_success
 
       family = JSON.parse(response.body, symbolize_names: true)
-      require 'pry'; binding.pry
 
       expect(family.all? {|hash| hash[:family] == recipe.family}).to be true
     end
