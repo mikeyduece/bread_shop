@@ -35,7 +35,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def destroy
     recipe = current_user.recipes.find_by_name(params[:recipe_name])
-    current_user.user_recipes.delete(recipe.id)
+    current_user.user_recipes.find_by(recipe_id: recipe.id).destroy
     recipe.recipe_ingredients.delete_all
     recipe.destroy
     render json: {status: 204, message: "Successfully deleted #{recipe.name}"}

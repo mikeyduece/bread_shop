@@ -5,7 +5,15 @@ class Recipe < ApplicationRecord
   validates :name, uniqueness: true
 
   def self.family_group
-    all.group_by(&:family)
+    grouped = all.group_by(&:family)
+    serialized_recipes = {}
+    grouped.each do |family, recipes|
+      serialized_recipes[family] = recipes.map do |recipe|
+        recipe.as_json(only: [:name],
+                       include: {user: {only: [:name, :email]}})
+      end
+    end
+    serialized_recipes
   end
 
   def assign_family
@@ -65,7 +73,9 @@ class Recipe < ApplicationRecord
   end
 
   def soft
-    if (water_percentage + fat_percentage) < 70.0 && moderate.include?(sweetener_percentage) && moderate.include?(fat_percentage)
+    if (water_percentage + fat_percentage) < 70.0 &&
+        moderate.include?(sweetener_percentage) &&
+        moderate.include?(fat_percentage)
       return true
     end
   end
