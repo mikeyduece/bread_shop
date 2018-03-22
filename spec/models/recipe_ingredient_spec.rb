@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe RecipeIngredient, type: :model do
   it {should validate_presence_of :amount}
+  it {should validate_numericality_of :amount}
+  it { should_not allow_value(-1).for(:amount) }
+  it { should allow_value(0).for(:amount) }
+
   context 'Instance Methods' do
     it '#bp' do
       user = create(:user)

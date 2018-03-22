@@ -1,7 +1,7 @@
 class RecipeIngredient < ApplicationRecord
   belongs_to :recipe
   belongs_to :ingredient
-  validates :amount, presence: true
+  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0}
 
   def bakers_percentage
     get_bakers_percentage
