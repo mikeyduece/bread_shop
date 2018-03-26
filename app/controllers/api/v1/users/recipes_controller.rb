@@ -3,7 +3,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def index
     recipes = current_user.recipes
-    render json: {status: 200, recipes: recipes}
+    render json: { status: 200, recipes: recipes }
   end
 
   def show
@@ -11,14 +11,16 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     if recipe.family.nil?
       recipe.update(family: recipe.assign_family)
     end
-    render json: {status: 200,
-                  recipe: {
-                        name: recipe.name,
-                        ingredients: recipe.ingredient_list,
-                        total_percentage: recipe.total_percentage,
-                        family: recipe.family
-                           }
-                  }
+
+    render json: {
+      status: 200,
+      recipe: {
+        name: recipe.name,
+        ingredients: recipe.ingredient_list,
+        total_percentage: recipe.total_percentage,
+        family: recipe.family
+      }
+    }
   end
 
   def create
@@ -26,11 +28,13 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     ingredients = Ingredient.create_list(params[:recipe][:ingredients].keys)
     rec_ings    = RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
     recipe.update(family: recipe.assign_family)
-    render json: {status: 201, recipe: {name: recipe.name,
-                                        ingredients: rec_ings,
-                                        total_percentage: recipe.total_percentage
-                                        }
-                 }
+    render json: {
+      status: 201, recipe: {
+        name: recipe.name,
+        ingredients: rec_ings,
+        total_percentage: recipe.total_percentage
+      }
+    }
   end
 
   def destroy
@@ -38,6 +42,6 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     current_user.user_recipes.find_by(recipe_id: recipe.id).destroy
     recipe.recipe_ingredients.delete_all
     recipe.destroy
-    render json: {status: 204, message: "Successfully deleted #{recipe.name}"}
+    render json: { status: 204, message: "Successfully deleted #{recipe.name}" }
   end
 end

@@ -504,7 +504,7 @@ Layout/MultilineMethodCallBraceLayout:
     - same_line
 
 Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: aligned
+  EnforcedStyle: indented
   SupportedStyles:
     - aligned
     - indented
@@ -524,7 +524,7 @@ Layout/MultilineMethodDefinitionBraceLayout:
     - same_line
 
 Layout/MultilineOperationIndentation:
-  EnforcedStyle: aligned
+  EnforcedStyle: indented
   SupportedStyles:
     - aligned
     - indented

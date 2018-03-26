@@ -71,12 +71,10 @@ RSpec.configure do |config|
 
   config.before(:all) do
     DatabaseCleaner.clean
-    #DatabaseCleaner.clean_with(:truncation)
   end
 
   config.after(:each) do
     DatabaseCleaner.clean
-    #DatabaseCleaner.clean_with(:truncation)
   end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

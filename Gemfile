@@ -34,8 +34,8 @@ gem 'faraday'
 gem 'figaro'
 gem 'jwt'
 gem 'omniauth-amazon'
-#gem 'active_poro'
-#gem 'fast_jsonapi'
+# gem 'active_poro'
+# gem 'fast_jsonapi'
 gem 'active_model_serializers', '~> 0.10.0'
 
 group :development, :test do

@@ -188,23 +188,23 @@ Layout/EndOfLine:
 
 Layout/ExtraSpacing:
   Description: 'Do not use unnecessary spacing.'
-  Enabled: false
+  Enabled: true
 
 Layout/FirstParameterIndentation:
   Description: 'Checks the indentation of the first parameter in a method call.'
-  Enabled: false
+  Enabled: true
 
 Layout/IndentArray:
   Description: >-
                  Checks the indentation of the first element in an array
                  literal.
-  Enabled: false
+  Enabled: true
 
 Layout/IndentAssignment:
   Description: >-
                  Checks the indentation of the first line of the
                  right-hand-side of a multi-line assignment.
-  Enabled: false
+  Enabled: true
 
 Layout/IndentHash:
   Description: 'Checks the indentation of the first key in a hash literal.'
@@ -213,106 +213,106 @@ Layout/IndentHash:
 Layout/IndentHeredoc:
   Description: 'This cops checks the indentation of the here document bodies.'
   StyleGuide: '#squiggly-heredocs'
-  Enabled: false
+  Enabled: true
 
 Layout/IndentationConsistency:
   Description: 'Keep indentation straight.'
   StyleGuide: '#spaces-indentation'
-  Enabled: false
+  Enabled: true
 
 Layout/IndentationWidth:
   Description: 'Use 2 spaces for indentation.'
   StyleGuide: '#spaces-indentation'
-  Enabled: false
+  Enabled: true
 
 Layout/InitialIndentation:
   Description: >-
     Checks the indentation of the first non-blank non-comment line in a file.
-  Enabled: false
+  Enabled: true
 
 Layout/LeadingCommentSpace:
   Description: 'Comments should start with a space.'
   StyleGuide: '#hash-space'
-  Enabled: false
+  Enabled: true
 
 Layout/MultilineArrayBraceLayout:
   Description: >-
                  Checks that the closing brace in an array literal is
                  either on the same line as the last array element, or
                  a new line.
-  Enabled: false
+  Enabled: true
 
 Layout/MultilineBlockLayout:
   Description: 'Ensures newlines after multiline block do statements.'
-  Enabled: false
+  Enabled: true
 
 Layout/MultilineHashBraceLayout:
   Description: >-
                  Checks that the closing brace in a hash literal is
                  either on the same line as the last hash element, or
                  a new line.
-  Enabled: false
+  Enabled: true
 
 Layout/MultilineMethodCallBraceLayout:
   Description: >-
                  Checks that the closing brace in a method call is
                  either on the same line as the last method argument, or
                  a new line.
-  Enabled: false
+  Enabled: true
 
 Layout/MultilineMethodCallIndentation:
   Description: >-
                  Checks indentation of method calls with the dot operator
                  that span more than one line.
-  Enabled: false
+  Enabled: true
 
 Layout/MultilineMethodDefinitionBraceLayout:
   Description: >-
                  Checks that the closing brace in a method definition is
                  either on the same line as the last method parameter, or
                  a new line.
-  Enabled: false
+  Enabled: true
 
 Layout/MultilineOperationIndentation:
   Description: >-
                  Checks indentation of binary operations that span more than
                  one line.
-  Enabled: false
+  Enabled: true
 
 Layout/RescueEnsureAlignment:
   Description: 'Align rescues and ensures correctly.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceAfterColon:
   Description: 'Use spaces after colons.'
   StyleGuide: '#spaces-operators'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceAfterComma:
   Description: 'Use spaces after commas.'
   StyleGuide: '#spaces-operators'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceAfterMethodName:
   Description: >-
                  Do not put a space between a method name and the opening
                  parenthesis in a method definition.
   StyleGuide: '#parens-no-spaces'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceAfterNot:
   Description: Tracks redundant space after the ! operator.
   StyleGuide: '#no-space-bang'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceAfterSemicolon:
   Description: 'Use spaces after semicolons.'
   StyleGuide: '#spaces-operators'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceAroundBlockParameters:
   Description: 'Checks the spacing inside and after block parameters pipes.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceAroundEqualsInParameterDefault:
   Description: >-
@@ -320,104 +320,106 @@ Layout/SpaceAroundEqualsInParameterDefault:
                  have or don't have surrounding space depending on
                  configuration.
   StyleGuide: '#spaces-around-equals'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceAroundKeyword:
   Description: 'Use a space around keywords if appropriate.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceAroundOperators:
   Description: 'Use a single space around operators.'
   StyleGuide: '#spaces-operators'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceBeforeBlockBraces:
   Description: >-
                  Checks that the left block brace has or doesn't have space
                  before it.
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceBeforeComma:
   Description: 'No spaces before commas.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceBeforeComment:
   Description: >-
                  Checks for missing space between code and a comment on the
                  same line.
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceBeforeFirstArg:
   Description: >-
                  Checks that exactly one space is used between a method name
                  and the first argument for method calls without parentheses.
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceBeforeSemicolon:
   Description: 'No spaces before semicolons.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInLambdaLiteral:
   Description: 'Checks for spaces in lambda literals.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInsideArrayLiteralBrackets:
   Description: 'Checks the spacing inside array literal brackets.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInsideArrayPercentLiteral:
   Description: 'No unnecessary additional spaces between elements in %i/%w literals.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInsideBlockBraces:
   Description: >-
                  Checks that block braces have or don't have surrounding space.
                  For blocks taking parameters, checks that the left brace has
                  or doesn't have trailing space.
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInsideHashLiteralBraces:
   Description: "Use spaces inside hash literal braces - or don't."
   StyleGuide: '#spaces-operators'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInsideParens:
   Description: 'No spaces after ( or before ).'
   StyleGuide: '#spaces-braces'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInsidePercentLiteralDelimiters:
   Description: 'No unnecessary spaces inside delimiters of %i/%w/%x literals.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInsideRangeLiteral:
   Description: 'No spaces inside range literals.'
   StyleGuide: '#no-space-inside-range-literals'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInsideReferenceBrackets:
   Description: 'Checks the spacing inside referential brackets.'
-  Enabled: false
+  Enabled: true
 
 Layout/SpaceInsideStringInterpolation:
   Description: 'Checks for padding/surrounding spaces inside string interpolation.'
   StyleGuide: '#string-interpolation'
-  Enabled: false
+  Enabled: true
 
 Layout/Tab:
   Description: 'No hard tabs.'
   StyleGuide: '#spaces-indentation'
-  Enabled: false
+  Enabled: true
 
 Layout/TrailingBlankLines:
   Description: 'Checks trailing blank lines and final newline.'
   StyleGuide: '#newline-eof'
-  Enabled: false
+  Enabled: true
+  AutoCorrect: true
 
 Layout/TrailingWhitespace:
   Description: 'Avoid trailing whitespace.'
   StyleGuide: '#no-trailing-whitespace'
-  Enabled: false
+  Enabled: true
+  AutoCorrect: true
 
 #################### Lint ##################################
 ### Warnings
