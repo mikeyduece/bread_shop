@@ -73,11 +73,30 @@ Example JSON response
         'Lean' => [{
           name: 'Recipe Name',
           family: 'Lean'
-          created_at: date
-          user_id: integer
+          user: {
+            name: 'Name',
+            email: 'email@email.com'
+          },
+          ...
           }]
       ]
     }
   }
+```
+
+`GET /families/:family_name?token=token` Returns a list of all recipes that are associated with that family_name.
+
+```ruby
+  [
+    {
+    recipe_name: 'Recipe Name',
+    family: 'Family Name',
+    user: {
+      name: 'Name',
+      email: 'email@email.com'
+          }
+    },
+  ...
+  ]
 ```
 
