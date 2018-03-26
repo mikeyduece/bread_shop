@@ -1,5 +1,4 @@
 class Api::V1::AuthenticationController < Api::V1::ApplicationController
-
   def amazon
     user_info = params[:user_info]
     token = TokiToki.encode(user_info)
