@@ -55,7 +55,7 @@ RSpec.describe Recipe, type: :model do
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[4].id, amount: 30)
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[5].id, amount: 20)
 
-      total = recipe.total_percentage
+      total = recipe.total_percent
 
       expect(total).to eq(138.75)
     end
@@ -75,7 +75,7 @@ RSpec.describe Recipe, type: :model do
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[4].id, amount: 30)
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[5].id, amount: 20)
 
-      total = recipe.total_percentage
+      total = recipe.total_percent
 
       expect(total).to eq(352.82)
     end

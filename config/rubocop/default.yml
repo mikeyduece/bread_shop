@@ -61,6 +61,7 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/**/*'
     - '.git/**/*'
+    - 'db/schema.rb'
   # Default formatter will be used if no `-f/--format` option is given.
   DefaultFormatter: progress
   # Cop names are displayed in offense messages by default. Change behavior
@@ -232,7 +233,7 @@ Layout/AlignParameters:
   #
   #     method_call(a,
   #       b)
-  EnforcedStyle: with_first_parameter
+  EnforcedStyle: with_fixed_indentation
   SupportedStyles:
     - with_first_parameter
     - with_fixed_indentation
@@ -1507,6 +1508,8 @@ Metrics/BlockLength:
   CountComments: false  # count full line comments?
   Max: 25
   ExcludedMethods: []
+  Exclude:
+    - 'spec/**/*'
 
 Metrics/BlockNesting:
   CountBlocks: false
@@ -1535,11 +1538,14 @@ Metrics/LineLength:
   # The IgnoredPatterns option is a list of !ruby/regexp and/or string
   # elements. Strings will be converted to Regexp objects. A line that matches
   # any regular expression listed in this option will be ignored by LineLength.
-  IgnoredPatterns: []
+  IgnoredPatterns: ['(\A|\s)#']
+  Exclude:
+    - 'spec/**/*'
+    - 'config/routes.rb'
 
 Metrics/MethodLength:
   CountComments: false  # count full line comments?
-  Max: 10
+  Max: 11
 
 Metrics/ModuleLength:
   CountComments: false  # count full line comments?

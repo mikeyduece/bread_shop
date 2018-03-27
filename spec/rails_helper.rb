@@ -21,23 +21,14 @@ Shoulda::Matchers.configure do |config|
 end
 
 def stub_omniauth
-  # first, set OmniAuth to run in test mode
   OmniAuth.config.test_mode = true
-  # then, provide a set of fake oauth data that
-  # omniauth will use when a user tries to authenticate:
   OmniAuth.config.mock_auth[:amazon_oauth] = OmniAuth::AuthHash.new({
-    user_info: {
-      provider: "amazon_oauth",
-      uid: "1234567890",
-      info: {
-        email: "rickastley@gmail.com",
-        name: "Rick Astley",
-        postal_code: '80202'
-      },
-      credentials: {
-        token: '12345678900987654321'
-      }
-    }
+    user_info: { provider: "amazon_oauth",
+                 uid: "1234567890",
+                 info: { email: "rickastley@gmail.com",
+                         name: "Rick Astley",
+                         postal_code: '80202' },
+                 credentials: { token: '12345678900987654321' } }
   })
 end
 

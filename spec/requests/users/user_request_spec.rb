@@ -18,7 +18,9 @@ describe 'User API' do
     it 'returns list of recipes for a user with params' do
       user = create(:user)
       user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each { |x| x.recipe_ingredients = create_list(:recipe_ingredient, 6) }
+      user.recipes.each do |x|
+        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+      end
       token = TokiToki.encode(user.attributes)
 
       get "/api/v1/users/#{user.email}/recipes", params: { token: token }
@@ -34,7 +36,9 @@ describe 'User API' do
     it 'does not return anything without token in params' do
       user = create(:user)
       user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each { |x| x.recipe_ingredients = create_list(:recipe_ingredient, 6) }
+      user.recipes.each do |x|
+        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+      end
 
       get "/api/v1/users/#{user.email}/recipes"
 
@@ -45,13 +49,16 @@ describe 'User API' do
     it 'returns recipe with ingredients and total percentage' do
       user = create(:user)
       user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each { |x| x.recipe_ingredients = create_list(:recipe_ingredient, 6) }
+      user.recipes.each do |x|
+        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+      end
       token = TokiToki.encode(user.attributes)
       recipe = user.recipes[0]
       flour  = create(:ingredient, name: 'flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
 
-      get "/api/v1/users/#{user.email}/recipes/#{recipe.name}", params: { token: token }
+      get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
+        params: { token: token }
 
       expect(response).to be_success
 
@@ -65,7 +72,9 @@ describe 'User API' do
     it 'can create recipe' do
       user = create(:user)
       user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each { |x| x.recipe_ingredients = create_list(:recipe_ingredient, 6) }
+      user.recipes.each do |x|
+        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+      end
       token = TokiToki.encode(user.attributes)
       list = {
         name: 'baguette',
@@ -77,7 +86,8 @@ describe 'User API' do
         },
       }
 
-      post "/api/v1/users/#{user.email}/recipes", params: { token: token, recipe: list }
+      post "/api/v1/users/#{user.email}/recipes",
+        params: { token: token, recipe: list }
 
       expect(response).to be_success
       expect(Recipe.exists?(name: 'baguette')).to be(true)
@@ -88,13 +98,16 @@ describe 'User API' do
     it 'user can delete recipe' do
       user = create(:user)
       user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each { |x| x.recipe_ingredients = create_list(:recipe_ingredient, 6) }
+      user.recipes.each do |x|
+        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+      end
       token = TokiToki.encode(user.attributes)
       recipe = user.recipes[0]
       flour  = create(:ingredient, name: 'Flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
 
-      delete "/api/v1/users/#{user.email}/recipes/#{recipe.name}", params: { token: token }
+      delete "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
+        params: { token: token }
 
       expect(response).to be_success
 
@@ -119,7 +132,8 @@ describe 'User API' do
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
       token = TokiToki.encode(user.attributes)
 
-      get "/api/v1/users/#{user.email}/recipes/#{user.recipes[0].name}", params: { token: token }
+      get "/api/v1/users/#{user.email}/recipes/#{user.recipes[0].name}",
+        params: { token: token }
 
       expect(response).to be_success
 
@@ -131,7 +145,9 @@ describe 'User API' do
     it 'returns list of all recipes grouped by family' do
       user = create(:user)
       user.recipes = create_list(:recipe, 10, user: user)
-      user.recipes.each { |x| x.recipe_ingredients = create_list(:recipe_ingredient, 6) }
+      user.recipes.each do |x|
+        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+      end
       token = TokiToki.encode(user.attributes)
 
       get "/api/v1/families", params: { token: token }
@@ -148,7 +164,9 @@ describe 'User API' do
     it 'returns list of recipes that align with requested family' do
       user = create(:user)
       user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each { |x| x.recipe_ingredients = create_list(:recipe_ingredient, 6) }
+      user.recipes.each do |x|
+        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+      end
       token = TokiToki.encode(user.attributes)
       recipe = user.recipes[0]
 
