@@ -4,20 +4,20 @@ RSpec.describe Ingredient, type: :model do
   it { should validate_uniqueness_of :name }
 
   it 'can assign categories' do
-    fat_1 = Ingredient.create(name: 'butter')
-    fat_2 = Ingredient.create(name: 'cream')
-    sweet_1 = Ingredient.create(name: 'brown sugar')
-    sweet_2 = Ingredient.create(name: 'honey')
-    flour_1 = Ingredient.create(name: 'bread flour')
-    flour_2 = Ingredient.create(name: 'semolina')
+    fat1 = Ingredient.create(name: 'butter')
+    fat2 = Ingredient.create(name: 'cream')
+    sweet1 = Ingredient.create(name: 'brown sugar')
+    sweet2 = Ingredient.create(name: 'honey')
+    flour1 = Ingredient.create(name: 'bread flour')
+    flour2 = Ingredient.create(name: 'semolina')
     water = Ingredient.create(name: 'water')
 
-    expect(fat_1.category).to eq('fat')
-    expect(fat_2.category).to eq('fat')
-    expect(sweet_1.category).to eq('sweetener')
-    expect(sweet_2.category).to eq('sweetener')
-    expect(flour_1.category).to eq('flour')
-    expect(flour_2.category).to eq('flour')
+    expect(fat1.category).to eq('fat')
+    expect(fat2.category).to eq('fat')
+    expect(sweet1.category).to eq('sweetener')
+    expect(sweet2.category).to eq('sweetener')
+    expect(flour1.category).to eq('flour')
+    expect(flour2.category).to eq('flour')
     expect(water.category).to eq('water')
   end
 end

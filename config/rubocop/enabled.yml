@@ -826,78 +826,78 @@ Metrics/PerceivedComplexity:
 Naming/AccessorMethodName:
   Description: Check the naming of accessor methods for get_/set_.
   StyleGuide: '#accessor_mutator_method_names'
-  Enabled: false
+  Enabled: true
 
 Naming/AsciiIdentifiers:
   Description: 'Use only ascii symbols in identifiers.'
   StyleGuide: '#english-identifiers'
-  Enabled: false
+  Enabled: true
 
 Naming/BinaryOperatorParameterName:
   Description: 'When defining binary operators, name the argument other.'
   StyleGuide: '#other-arg'
-  Enabled: false
+  Enabled: true
 
 Naming/ClassAndModuleCamelCase:
   Description: 'Use CamelCase for classes and modules.'
   StyleGuide: '#camelcase-classes'
-  Enabled: false
+  Enabled: true
 
 Naming/ConstantName:
   Description: 'Constants should use SCREAMING_SNAKE_CASE.'
   StyleGuide: '#screaming-snake-case'
-  Enabled: false
+  Enabled: true
 
 Naming/FileName:
   Description: 'Use snake_case for source file names.'
   StyleGuide: '#snake-case-files'
-  Enabled: false
+  Enabled: true
 
 Naming/HeredocDelimiterCase:
   Description: 'Use configured case for heredoc delimiters.'
   StyleGuide: '#heredoc-delimiters'
-  Enabled: false
+  Enabled: true
 
 Naming/HeredocDelimiterNaming:
   Description: 'Use descriptive heredoc delimiters.'
   StyleGuide: '#heredoc-delimiters'
-  Enabled: false
+  Enabled: true
 
 Naming/MemoizedInstanceVariableName:
   Description: >-
     Memoized method name should match memo instance variable name.
-  Enabled: false
+  Enabled: true
 
 Naming/MethodName:
   Description: 'Use the configured style when naming methods.'
   StyleGuide: '#snake-case-symbols-methods-vars'
-  Enabled: false
+  Enabled: true
 
 Naming/PredicateName:
   Description: 'Check the names of predicate methods.'
   StyleGuide: '#bool-methods-qmark'
-  Enabled: false
+  Enabled: true
 
 Naming/UncommunicativeBlockParamName:
   Description: >-
                 Checks for block parameter names that contain capital letters,
                 end in numbers, or do not meet a minimal length.
-  Enabled: false
+  Enabled: true
 
 Naming/UncommunicativeMethodParamName:
   Description: >-
                 Checks for method parameter names that contain capital letters,
                 end in numbers, or do not meet a minimal length.
-  Enabled: false
+  Enabled: true
 
 Naming/VariableName:
   Description: 'Use the configured style when naming variables.'
   StyleGuide: '#snake-case-symbols-methods-vars'
-  Enabled: false
+  Enabled: true
 
 Naming/VariableNumber:
   Description: 'Use the configured style when numbering variables.'
-  Enabled: false
+  Enabled: true
 
 #################### Performance ###########################
 

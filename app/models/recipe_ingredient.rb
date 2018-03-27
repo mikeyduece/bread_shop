@@ -5,7 +5,7 @@ class RecipeIngredient < ApplicationRecord
                      numericality: { greater_than_or_equal_to: 0 }
 
   def bakers_percentage
-    get_bakers_percentage
+    calculate_bakers_percentage
   end
 
   def self.create_with_list(rec_id, list)
@@ -22,7 +22,7 @@ class RecipeIngredient < ApplicationRecord
 
   private
 
-  def get_bakers_percentage
+  def calculate_bakers_percentage
     flour_amt = recipe.flour_amts
     ((amount / flour_amt) * 100).round(2)
   end

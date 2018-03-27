@@ -24,9 +24,7 @@ class Recipe < ApplicationRecord
   end
 
   def flour_amts
-    recipe_ingredients.joins(:ingredient)
-      .where(ingredients: { category: 'flour' })
-      .sum(:amount)
+    sum_recipe_ingredient_amounts('flour')
   end
 
   def total_percent
@@ -122,20 +120,20 @@ class Recipe < ApplicationRecord
   end
 
   def sweetener_amounts
-    recipe_ingredients.joins(:ingredient)
-      .where(ingredients: { category: 'sweetener' })
-      .sum(:amount)
+    sum_recipe_ingredient_amounts('sweetener')
   end
 
   def fat_amounts
-    recipe_ingredients.joins(:ingredient)
-      .where(ingredients: { category: 'fat' })
-      .sum(:amount)
+    sum_recipe_ingredient_amounts('fat')
   end
 
   def water_amt
+    sum_recipe_ingredient_amounts('water')
+  end
+
+  def sum_recipe_ingredient_amounts(category)
     recipe_ingredients.joins(:ingredient)
-      .where(ingredients: { category: 'water' })
+      .where(ingredients: { category: category })
       .sum(:amount)
   end
 
