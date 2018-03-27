@@ -35,7 +35,7 @@ describe 'User API' do
       user = create(:user)
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each { |x| x.recipe_ingredients = create_list(:recipe_ingredient, 6) }
-      token = TokiToki.encode(user.attributes)
+
       get "/api/v1/users/#{user.email}/recipes"
 
       expect(response).to_not be_success
@@ -80,12 +80,9 @@ describe 'User API' do
       post "/api/v1/users/#{user.email}/recipes", params: { token: token, recipe: list }
 
       expect(response).to be_success
-
-      new_recipe = JSON.parse(response.body, symbolize_names: true)
-
       expect(Recipe.exists?(name: 'baguette')).to be(true)
-      expect(Ingredient.any? { |x| list[:ingredients].keys }).to be(true)
-      expect(RecipeIngredient.any? { |x| list[:ingredients].values }).to be(true)
+      expect(Ingredient.any? { list[:ingredients].keys }).to be(true)
+      expect(RecipeIngredient.any? { list[:ingredients].values }).to be(true)
     end
 
     it 'user can delete recipe' do
@@ -116,10 +113,10 @@ describe 'User API' do
       water  = Ingredient.create(name: 'water', category: 'water')
       salt   = Ingredient.create(name: 'salt')
       yeast  = Ingredient.create(name: 'yeast')
-      rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
-      rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
-      rec_salt  = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
-      rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
+      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
+      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
+      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
+      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
       token = TokiToki.encode(user.attributes)
 
       get "/api/v1/users/#{user.email}/recipes/#{user.recipes[0].name}", params: { token: token }

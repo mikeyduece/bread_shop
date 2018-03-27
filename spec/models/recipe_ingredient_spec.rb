@@ -9,7 +9,7 @@ RSpec.describe RecipeIngredient, type: :model do
   context 'Instance Methods' do
     it '#bp' do
       user = create(:user)
-      recipe = create(:recipe)
+      recipe = create(:recipe, user: user)
       ing_list = create_list(:ingredient, 6)
       flour_1 = create(:ingredient, name: 'ap flour', category: 'flour')
       flour_2 = create(:ingredient, name: 'bread flour', category: 'flour')

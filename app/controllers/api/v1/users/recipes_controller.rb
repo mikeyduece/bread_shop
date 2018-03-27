@@ -25,9 +25,10 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def create
     recipe = Recipe.create(user_id: current_user.id, name: params[:recipe][:name])
-    ingredients = Ingredient.create_list(params[:recipe][:ingredients].keys)
-    rec_ings    = RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
+    Ingredient.create_list(params[:recipe][:ingredients].keys)
+    rec_ings = RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
     recipe.update(family: recipe.assign_family)
+
     render json: {
       status: 201, recipe: {
         name: recipe.name,
