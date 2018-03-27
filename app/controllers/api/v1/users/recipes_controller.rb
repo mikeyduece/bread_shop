@@ -1,7 +1,6 @@
 class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   before_action :authenticate_user!
   before_action :ingredient_list, only: [:create]
-  before_action :recipe_ingredient_list, only: [:create]
 
   def index
     recipes = current_user.recipes
@@ -17,14 +16,14 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     render json: { status: 200,
                    recipe: { name: recipe.name,
                              ingredients: recipe.ingredient_list,
-                             total_percentage: recipe.total_percentage,
+                             total_percentage: recipe.total_percent,
                              family: recipe.family } }
   end
 
   def create
     recipe = Recipe.create(user_id: current_user.id,
                            name: params[:recipe][:name])
-    recipe_ingredients = recipe_ingredient_list
+    recipe_ingredients = recipe_ingredient_list(recipe)
     recipe.update(family: recipe.assign_family)
     render json: { status: 201, recipe: {
                                 name: recipe.name,
@@ -46,7 +45,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     Ingredient.create_list(params[:recipe][:ingredients].keys)
   end
 
-  def recipe_ingredient_list
+  def recipe_ingredient_list(recipe)
     RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
   end
 end
