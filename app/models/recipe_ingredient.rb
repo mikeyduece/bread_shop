@@ -1,7 +1,8 @@
 class RecipeIngredient < ApplicationRecord
   belongs_to :recipe
   belongs_to :ingredient
-  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :amount, presence: true,
+                     numericality: { greater_than_or_equal_to: 0 }
 
   def bakers_percentage
     get_bakers_percentage
@@ -11,15 +12,11 @@ class RecipeIngredient < ApplicationRecord
     saved = {}
     list.each do |name, value|
       ing = Ingredient.find_by(name: name)
-      x = RecipeIngredient.create(recipe_id: rec_id,
-                                  ingredient_id: ing.id,
+      x = RecipeIngredient.create(recipe_id: rec_id, ingredient_id: ing.id,
                                   amount: value[:amount].to_f)
-      saved[name] = {
-        amount: value[:amount].to_f,
-        bakers_percentage: x.bakers_percentage
-      }
+      saved[name] = { amount: value[:amount].to_f,
+                      bakers_percentage: x.bakers_percentage }
     end
-
     saved
   end
 

@@ -1,5 +1,7 @@
 class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   before_action :authenticate_user!
+  before_action :ingredient_list, only: [:create]
+  before_action :recipe_ingredient_list, only: [:create]
 
   def index
     recipes = current_user.recipes
@@ -12,37 +14,39 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
       recipe.update(family: recipe.assign_family)
     end
 
-    render json: {
-      status: 200,
-      recipe: {
-        name: recipe.name,
-        ingredients: recipe.ingredient_list,
-        total_percentage: recipe.total_percentage,
-        family: recipe.family
-      }
-    }
+    render json: { status: 200,
+                   recipe: { name: recipe.name,
+                             ingredients: recipe.ingredient_list,
+                             total_percentage: recipe.total_percentage,
+                             family: recipe.family } }
   end
 
   def create
-    recipe = Recipe.create(user_id: current_user.id, name: params[:recipe][:name])
-    Ingredient.create_list(params[:recipe][:ingredients].keys)
-    rec_ings = RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
+    recipe = Recipe.create(user_id: current_user.id,
+                           name: params[:recipe][:name])
+    recipe_ingredients = recipe_ingredient_list
     recipe.update(family: recipe.assign_family)
-
-    render json: {
-      status: 201, recipe: {
-        name: recipe.name,
-        ingredients: rec_ings,
-        total_percentage: recipe.total_percentage
-      }
-    }
+    render json: { status: 201, recipe: {
+                                name: recipe.name,
+                                ingredients: recipe_ingredients,
+                                total_percentage: recipe.total_percent
+    } }
   end
 
   def destroy
     recipe = current_user.recipes.find_by_name(params[:recipe_name])
-    current_user.user_recipes.find_by(recipe_id: recipe.id).destroy
-    recipe.recipe_ingredients.delete_all
+    recipe.user.recipes.delete(recipe)
     recipe.destroy
     render json: { status: 204, message: "Successfully deleted #{recipe.name}" }
+  end
+
+  private
+
+  def ingredient_list
+    Ingredient.create_list(params[:recipe][:ingredients].keys)
+  end
+
+  def recipe_ingredient_list
+    RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
   end
 end

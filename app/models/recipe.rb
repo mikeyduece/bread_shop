@@ -1,8 +1,10 @@
 class Recipe < ApplicationRecord
   belongs_to :user
-  has_many :recipe_ingredients, dependent: :delete_all
+  has_many :recipe_ingredients, dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
   validates :name, uniqueness: true
+
+  before_destroy :destroy_all_recipe_ingredients
 
   def self.family_group
     grouped = all.group_by(&:family)
@@ -27,7 +29,7 @@ class Recipe < ApplicationRecord
       .sum(:amount)
   end
 
-  def total_percentage
+  def total_percent
     recipe_ingredients.reduce(0) { |sum, x| sum + x.bakers_percentage }.round(2)
   end
 
@@ -135,5 +137,9 @@ class Recipe < ApplicationRecord
     recipe_ingredients.joins(:ingredient)
       .where(ingredients: { category: 'water' })
       .sum(:amount)
+  end
+
+  def destroy_all_recipe_ingredients
+    recipe_ingredients.delete_all
   end
 end
