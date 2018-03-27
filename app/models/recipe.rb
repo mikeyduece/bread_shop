@@ -10,9 +10,10 @@ class Recipe < ApplicationRecord
     grouped.each do |family, recipes|
       serialized_recipes[family] = recipes.map do |recipe|
         recipe.as_json(only: [:name],
-                       include: {user: {only: [:name, :email]}})
+                       include: { user: { only: [:name, :email] } })
       end
     end
+
     serialized_recipes
   end
 
@@ -22,12 +23,12 @@ class Recipe < ApplicationRecord
 
   def flour_amts
     recipe_ingredients.joins(:ingredient)
-      .where(ingredients: {category: 'flour'})
+      .where(ingredients: { category: 'flour' })
       .sum(:amount)
   end
 
   def total_percentage
-    recipe_ingredients.reduce(0) {|sum, x| sum += x.bakers_percentage}.round(2)
+    recipe_ingredients.reduce(0) { |sum, x| sum += x.bakers_percentage }.round(2)
   end
 
   def sweetener_percentage
@@ -49,8 +50,10 @@ class Recipe < ApplicationRecord
     list = {}
     recipe_ingredients.includes(:ingredient).each do |recipe_ingredient|
       ingredient = ingredients.find(recipe_ingredient.ingredient_id)
-      list[ingredient.name] = {amount: recipe_ingredient.amount,
-                               bakers_percentage: recipe_ingredient.bakers_percentage}
+      list[ingredient.name] = {
+        amount: recipe_ingredient.amount,
+        bakers_percentage: recipe_ingredient.bakers_percentage
+      }
     end
 
     list
@@ -69,7 +72,7 @@ class Recipe < ApplicationRecord
   end
 
   def lean
-    return true if sweet_and_fat_amts.all? {|amt| low.include?(amt)}
+    return true if sweet_and_fat_amts.all? { |amt| low.include?(amt) }
   end
 
   def soft
@@ -81,7 +84,8 @@ class Recipe < ApplicationRecord
   end
 
   def rich
-    if (moderate.include?(sweetener_percentage) && high.include?(fat_percentage)) ||
+    if (moderate.include?(sweetener_percentage) &&
+        high.include?(fat_percentage)) ||
         high.include?(fat_percentage)
       return true
     end
@@ -92,7 +96,7 @@ class Recipe < ApplicationRecord
   end
 
   def sweet
-    return true if sweet_and_fat_amts.all? {|amt| high.include?(amt)}
+    return true if sweet_and_fat_amts.all? { |amt| high.include?(amt) }
   end
 
   def low
@@ -117,19 +121,19 @@ class Recipe < ApplicationRecord
 
   def sweetener_amounts
     recipe_ingredients.joins(:ingredient)
-      .where(ingredients: {category: 'sweetener'})
+      .where(ingredients: { category: 'sweetener' })
       .sum(:amount)
   end
 
   def fat_amounts
     recipe_ingredients.joins(:ingredient)
-      .where(ingredients: { category: 'fat'})
+      .where(ingredients: { category: 'fat' })
       .sum(:amount)
   end
 
   def water_amt
     recipe_ingredients.joins(:ingredient)
-      .where(ingredients: {category: 'water'})
+      .where(ingredients: { category: 'water' })
       .sum(:amount)
   end
 end

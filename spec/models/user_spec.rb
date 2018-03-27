@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it {should validate_uniqueness_of :email}
-  it {should validate_uniqueness_of :uid}
+  it { should validate_uniqueness_of :email }
+  it { should validate_uniqueness_of :uid }
   context 'Class Methods' do
     it '.from_auth' do
       user = User.from_auth(stub_omniauth[:user_info])

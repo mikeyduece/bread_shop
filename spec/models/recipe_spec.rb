@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
-  it {should validate_uniqueness_of :name}
+  it { should validate_uniqueness_of :name }
   context 'Instance Methods' do
     it '#flour_amts' do
       user = create(:user)
@@ -153,7 +153,6 @@ RSpec.describe Recipe, type: :model do
       butter_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.25)
       sugar_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sugar.id, amount: 0.05)
 
-
       fat = recipe.fat_percentage
 
       expect(fat).to eq(25.0)
@@ -168,7 +167,6 @@ RSpec.describe Recipe, type: :model do
       bf_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bf.id, amount: 1.0)
       butter_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: butter.id, amount: 0.25)
       sc_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: sc.id, amount: 0.05)
-
 
       fat = recipe.fat_percentage
 
@@ -185,7 +183,6 @@ RSpec.describe Recipe, type: :model do
       bf_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bf.id, amount: 1.0)
       canola_oil_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: canola.id, amount: 0.25)
       evoo_rec = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: evoo.id, amount: 0.05)
-
 
       fat = recipe.fat_percentage
 
@@ -209,15 +206,15 @@ RSpec.describe Recipe, type: :model do
     end
 
     it '#assign_family as Lean' do
-      user   = create(:user)
+      user = create(:user)
       recipe = Recipe.create(name: 'Baguette', user_id: user.id)
-      flour  = Ingredient.create(name: 'flour', category: 'flour')
-      water  = Ingredient.create(name: 'water', category: 'water')
-      salt   = Ingredient.create(name: 'salt')
-      yeast  = Ingredient.create(name: 'yeast')
+      flour = Ingredient.create(name: 'flour', category: 'flour')
+      water = Ingredient.create(name: 'water', category: 'water')
+      salt = Ingredient.create(name: 'salt')
+      yeast = Ingredient.create(name: 'yeast')
       rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
       rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
-      rec_salt  = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
+      rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
       rec_yeast = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
       recipe.assign_family
 
@@ -231,13 +228,13 @@ RSpec.describe Recipe, type: :model do
     it '#assign_family as Soft' do
       user = create(:user)
       recipe = Recipe.create(name: 'Ballons', user_id: user.id)
-      flour  = Ingredient.create(name: 'flour', category: 'flour')
-      water  = Ingredient.create(name: 'water', category: 'water')
-      milk  = Ingredient.create(name: 'milk')
-      butter  = Ingredient.create(name: 'butter', category: 'fat')
-      sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
-      salt   = Ingredient.create(name: 'salt')
-      yeast  = Ingredient.create(name: 'yeast')
+      flour = Ingredient.create(name: 'flour', category: 'flour')
+      water = Ingredient.create(name: 'water', category: 'water')
+      milk = Ingredient.create(name: 'milk')
+      butter = Ingredient.create(name: 'butter', category: 'fat')
+      sugar = Ingredient.create(name: 'sugar', category: 'sweetener')
+      salt = Ingredient.create(name: 'salt')
+      yeast = Ingredient.create(name: 'yeast')
       rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.75)
       rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.70)
       rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.035)
@@ -257,12 +254,12 @@ RSpec.describe Recipe, type: :model do
     it '#assign_family as Rich' do
       user = create(:user)
       recipe = Recipe.create(name: 'Butter Bread', user_id: user.id)
-      flour  = Ingredient.create(name: 'flour', category: 'flour')
-      eggs  = Ingredient.create(name: 'eggs')
-      milk  = Ingredient.create(name: 'milk')
-      butter  = Ingredient.create(name: 'butter', category: 'fat')
-      salt   = Ingredient.create(name: 'salt')
-      yeast  = Ingredient.create(name: 'yeast')
+      flour = Ingredient.create(name: 'flour', category: 'flour')
+      eggs = Ingredient.create(name: 'eggs')
+      milk = Ingredient.create(name: 'milk')
+      butter = Ingredient.create(name: 'butter', category: 'fat')
+      salt = Ingredient.create(name: 'salt')
+      yeast = Ingredient.create(name: 'yeast')
       rec_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.31)
       rec_eggs = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: eggs.id, amount: 0.10)
       rec_salt = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.025)
@@ -281,13 +278,13 @@ RSpec.describe Recipe, type: :model do
     it '#assign_family as Slack' do
       user = create(:user)
       recipe = Recipe.create(name: 'Focaccia', user_id: user.id)
-      flour_1  = Ingredient.create(name: 'flour I', category: 'flour')
-      flour_2  = Ingredient.create(name: 'flour II', category: 'flour')
-      water  = Ingredient.create(name: 'water', category: 'water')
-      evoo  = Ingredient.create(name: 'olive oil', category: 'fat')
-      sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
-      salt   = Ingredient.create(name: 'salt')
-      yeast  = Ingredient.create(name: 'yeast')
+      flour_1 = Ingredient.create(name: 'flour I', category: 'flour')
+      flour_2 = Ingredient.create(name: 'flour II', category: 'flour')
+      water = Ingredient.create(name: 'water', category: 'water')
+      evoo = Ingredient.create(name: 'olive oil', category: 'fat')
+      sugar = Ingredient.create(name: 'sugar', category: 'sweetener')
+      salt = Ingredient.create(name: 'salt')
+      yeast = Ingredient.create(name: 'yeast')
       rec_flour_1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_1.id, amount: 0.67)
       rec_flour_2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour_2.id, amount: 1.00)
       rec_water = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 1.12)
@@ -307,14 +304,14 @@ RSpec.describe Recipe, type: :model do
     it '#assign_family as Sweet' do
       user = create(:user)
       recipe = Recipe.create(name: 'Cinnamon Rolls', user_id: user.id)
-      bread_flour  = Ingredient.create(name: 'bread flour', category: 'flour')
-      cake_flour  = Ingredient.create(name: 'cake flour', category: 'flour')
+      bread_flour = Ingredient.create(name: 'bread flour', category: 'flour')
+      cake_flour = Ingredient.create(name: 'cake flour', category: 'flour')
       eggs  = Ingredient.create(name: 'eggs')
       milk  = Ingredient.create(name: 'milk')
-      butter  = Ingredient.create(name: 'butter', category: 'fat')
-      salt   = Ingredient.create(name: 'salt')
-      yeast  = Ingredient.create(name: 'yeast')
-      sugar  = Ingredient.create(name: 'sugar', category: 'sweetener')
+      butter = Ingredient.create(name: 'butter', category: 'fat')
+      salt = Ingredient.create(name: 'salt')
+      yeast = Ingredient.create(name: 'yeast')
+      sugar = Ingredient.create(name: 'sugar', category: 'sweetener')
       rec_bread_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: bread_flour.id, amount: 0.65)
       rec_cake_flour = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: cake_flour.id, amount: 0.80)
       rec_eggs = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: eggs.id, amount: 0.22)

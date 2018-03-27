@@ -27,20 +27,19 @@ def stub_omniauth
   # omniauth will use when a user tries to authenticate:
   OmniAuth.config.mock_auth[:amazon_oauth] = OmniAuth::AuthHash.new({
     user_info: {
-       provider: "amazon_oauth",
-            uid: "1234567890",
-           info: {
-              email: "rickastley@gmail.com",
-               name: "Rick Astley",
-               postal_code: '80202'
-            },
-    credentials: {
-            token: '12345678900987654321'
-                 }
+      provider: "amazon_oauth",
+      uid: "1234567890",
+      info: {
+        email: "rickastley@gmail.com",
+        name: "Rick Astley",
+        postal_code: '80202'
+      },
+      credentials: {
+        token: '12345678900987654321'
+      }
     }
-    })
+  })
 end
-
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -72,12 +71,10 @@ RSpec.configure do |config|
 
   config.before(:all) do
     DatabaseCleaner.clean
-    #DatabaseCleaner.clean_with(:truncation)
   end
 
   config.after(:each) do
     DatabaseCleaner.clean
-    #DatabaseCleaner.clean_with(:truncation)
   end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
