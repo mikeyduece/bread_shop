@@ -1446,7 +1446,7 @@ Style/Dir:
 
 Style/Documentation:
   Description: 'Document classes and non-namespace modules.'
-  Enabled: true
+  Enabled: false
   Exclude:
     - 'spec/**/*'
     - 'test/**/*'
@@ -1472,7 +1472,7 @@ Style/EmptyBlockParameter:
 
 Style/EmptyCaseCondition:
   Description: 'Avoid empty condition in case statements.'
-  Enabled: true
+  Enabled: false
 
 Style/EmptyElse:
   Description: 'Avoid empty else-clauses.'

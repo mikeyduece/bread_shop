@@ -12,7 +12,7 @@ class Recipe < ApplicationRecord
     grouped.each do |family, recipes|
       serialized_recipes[family] = recipes.map do |recipe|
         recipe.as_json(only: [:name],
-                       include: { user: { only: [:name, :email] } })
+                       include: { user: { only: %i[name email] } })
       end
     end
 
@@ -79,7 +79,7 @@ class Recipe < ApplicationRecord
     if (water_percentage + fat_percentage) < 70.0 &&
         moderate.include?(sweetener_percentage) &&
         moderate.include?(fat_percentage)
-      return true
+      true
     end
   end
 
@@ -87,7 +87,7 @@ class Recipe < ApplicationRecord
     if (moderate.include?(sweetener_percentage) &&
         high.include?(fat_percentage)) ||
         high.include?(fat_percentage)
-      return true
+      true
     end
   end
 

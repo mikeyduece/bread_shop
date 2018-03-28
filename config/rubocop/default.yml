@@ -63,6 +63,8 @@ AllCops:
     - '.git/**/*'
     - 'db/schema.rb'
     - 'db/migrate/*'
+    - 'bin/setup*'
+    - 'bin/update*'
   # Default formatter will be used if no `-f/--format` option is given.
   DefaultFormatter: progress
   # Cop names are displayed in offense messages by default. Change behavior
@@ -914,10 +916,13 @@ Style/ClassAndModuleChildren:
   #   end
   #
   # The compact style is only forced, for classes or modules with one child.
-  EnforcedStyle: nested
+  EnforcedStyle: compact
   SupportedStyles:
     - nested
     - compact
+  Exclude:
+    - 'config/*'
+    - 'app/channels/application_cable/*'
 
 Style/ClassCheck:
   EnforcedStyle: is_a?
@@ -1068,6 +1073,8 @@ Style/GlobalVars:
 # needs to have to trigger this cop
 Style/GuardClause:
   MinBodyLength: 1
+  Exclude:
+    - 'app/controllers/api/v1/application_controller.rb'
 
 Style/HashSyntax:
   EnforcedStyle: ruby19
@@ -1171,6 +1178,8 @@ Style/NegatedIf:
     - both
     - prefix
     - postfix
+  Exclude:
+    - 'app/controllers/api/v1/application_controller.rb'
 
 Style/NestedParenthesizedCalls:
   Whitelist:

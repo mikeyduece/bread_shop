@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'TokiToki' do
+RSpec.describe 'TokiToki' do
   context 'Class Methods' do
     it '.encode' do
       token = TokiToki.encode('Rick Astley')

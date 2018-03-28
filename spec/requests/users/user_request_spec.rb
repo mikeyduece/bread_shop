@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'User API' do
+RSpec.describe 'User API' do
   context 'Authorization' do
     it 'should return token' do
       get api_v1_auth_amazon_path, params: stub_omniauth
@@ -83,7 +83,7 @@ describe 'User API' do
           'water' => { amount: 0.62 },
           'yeast' => { amount: 0.02 },
           'Salt'  => { amount: 0.02 }
-        },
+        }
       }
 
       post "/api/v1/users/#{user.email}/recipes",
@@ -150,13 +150,13 @@ describe 'User API' do
       end
       token = TokiToki.encode(user.attributes)
 
-      get "/api/v1/families", params: { token: token }
+      get '/api/v1/families', params: { token: token }
 
       expect(response).to be_success
 
       families = JSON.parse(response.body, symbolize_names: true)
 
-      family_names = %w(Lean Soft Rich Sweet Slack).map(&:to_sym)
+      family_names = %w[Lean Soft Rich Sweet Slack].map(&:to_sym)
       expect(families).to be_a(Hash)
       expect(families.keys).to include(*family_names)
     end
