@@ -1,3 +1,5 @@
+# This module encodes and decodes user information using JWT for authentication.
+
 module TokiToki
   def self.encode(sub)
     payload = {

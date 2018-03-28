@@ -5,7 +5,7 @@ FactoryBot.define do
     end
     user
     sequence :family do
-      @family ||= %w(Lean Soft Rich Sweet Slack)
+      @family ||= %w[Lean Soft Rich Sweet Slack]
       @family.sample
     end
   end
