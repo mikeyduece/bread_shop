@@ -1276,35 +1276,35 @@ Rails/Validation:
 
 Security/Eval:
   Description: 'The use of eval represents a serious security risk.'
-  Enabled: false
+  Enabled: true
 
 Security/JSONLoad:
   Description: >-
                  Prefer usage of `JSON.parse` over `JSON.load` due to potential
                  security issues. See reference for more information.
   Reference: 'http://ruby-doc.org/stdlib-2.3.0/libdoc/json/rdoc/JSON.html#method-i-load'
-  Enabled: false
+  Enabled: true
   # Autocorrect here will change to a method that may cause crashes depending
   # on the value of the argument.
-  AutoCorrect: false
+  AutoCorrect: true
 
 Security/MarshalLoad:
   Description: >-
                  Avoid using of `Marshal.load` or `Marshal.restore` due to potential
                  security issues. See reference for more information.
   Reference: 'http://ruby-doc.org/core-2.3.3/Marshal.html#module-Marshal-label-Security+considerations'
-  Enabled: false
+  Enabled: true
 
 Security/Open:
   Description: 'The use of Kernel#open represents a serious security risk.'
-  Enabled: false
+  Enabled: true
 
 Security/YAMLLoad:
   Description: >-
                  Prefer usage of `YAML.safe_load` over `YAML.load` due to potential
                  security issues. See reference for more information.
   Reference: 'https://ruby-doc.org/stdlib-2.3.3/libdoc/yaml/rdoc/YAML.html#module-YAML-label-Security'
-  Enabled: false
+  Enabled: true
 
 #################### Style ###############################
 
