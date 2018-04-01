@@ -16,10 +16,7 @@ class Recipe < ApplicationRecord
          hash[:amount] = (new_flour_weight * ((hash[:bakers_percentage].to_f) / 100)).round(2)
        end
      end
-<<<<<<< HEAD
      recipe
-=======
->>>>>>> 34950b6... Work on calculating new total weights for new total dough amount
   end
 
   def self.family_group
