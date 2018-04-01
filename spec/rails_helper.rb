@@ -21,8 +21,9 @@ Shoulda::Matchers.configure do |config|
 end
 
 def stub_omniauth
-  OmniAuth.config.test_mode = true
-  OmniAuth.config.mock_auth[:amazon_oauth] = OmniAuth::AuthHash.new(
+  omni_auth_config = OmniAuth.config
+  omni_auth_config.test_mode = true
+  omni_auth_config.mock_auth[:amazon_oauth] = OmniAuth::AuthHash.new(
     user_info: { provider: 'amazon_oauth',
                  uid: '1234567890',
                  info: { email: 'rickastley@gmail.com',

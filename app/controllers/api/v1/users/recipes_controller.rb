@@ -4,7 +4,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def index
     recipes = current_user.recipes
-    render json: { status: 200, recipes: recipes }
+    render json:  recipes, status: 200
   end
 
   def show

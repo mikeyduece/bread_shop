@@ -6,13 +6,29 @@ class Recipe < ApplicationRecord
 
   before_destroy :destroy_all_recipe_ingredients
 
+  def self.new_totals(recipe, new_dough_weight)
+     ingredients = recipe[:ingredients]
+     new_flour_weight = ((new_dough_weight.to_f / recipe[:total_percentage].to_f) * 100).round(2)
+     ingredients.each do |name, hash|
+       if name == 'flour'
+         hash[:amount] = new_flour_weight
+       else
+         hash[:amount] = (new_flour_weight * ((hash[:bakers_percentage].to_f) / 100)).round(2)
+       end
+     end
+<<<<<<< HEAD
+     recipe
+=======
+>>>>>>> 34950b6... Work on calculating new total weights for new total dough amount
+  end
+
   def self.family_group
     grouped = all.group_by(&:family)
     serialized_recipes = {}
     grouped.each do |family, recipes|
       serialized_recipes[family] = recipes.map do |recipe|
         recipe.as_json(only: [:name],
-                       include: { user: { only: %i[name email] } })
+                       ienclude: { user: { only: %i[name email] } })
       end
     end
 
