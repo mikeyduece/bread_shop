@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'User API' do
+  let!(:user) { create(:user) }
+  let!(:token) { TokiToki.encode(user.attributes) }
+  let!(:recipe) { create(:recipe, user: user) }
+
   context 'Authorization' do
     it 'should return token' do
       get api_v1_auth_amazon_path, params: stub_omniauth
@@ -16,12 +20,11 @@ RSpec.describe 'User API' do
 
   context 'user recipes' do
     it 'returns list of recipes for a user with params' do
-      user = create(:user)
+
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
       end
-      token = TokiToki.encode(user.attributes)
 
       get "/api/v1/users/#{user.email}/recipes", params: { token: token }
 
@@ -29,12 +32,12 @@ RSpec.describe 'User API' do
 
       recipes = JSON.parse(response.body, symbolize_names: true)
 
-      expect(recipes[:status]).to eq(200)
-      expect(recipes[:recipes].count).to eq(4)
+      expect(response.status).to eq(200)
+      expect(recipes.count).to eq(4)
     end
 
     it 'does not return anything without token in params' do
-      user = create(:user)
+
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
@@ -47,12 +50,11 @@ RSpec.describe 'User API' do
     end
 
     it 'returns recipe with ingredients and total percentage' do
-      user = create(:user)
+
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
       end
-      token = TokiToki.encode(user.attributes)
       recipe = user.recipes[0]
       flour  = create(:ingredient, name: 'flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
@@ -70,12 +72,11 @@ RSpec.describe 'User API' do
     end
 
     it 'can create recipe' do
-      user = create(:user)
+
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
       end
-      token = TokiToki.encode(user.attributes)
       list = {
         name: 'baguette',
         ingredients: {
@@ -96,12 +97,10 @@ RSpec.describe 'User API' do
     end
 
     it 'user can delete recipe' do
-      user = create(:user)
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
       end
-      token = TokiToki.encode(user.attributes)
       recipe = user.recipes[0]
       flour  = create(:ingredient, name: 'Flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
@@ -119,7 +118,7 @@ RSpec.describe 'User API' do
     end
 
     it 'returns the family of the recipe' do
-      user = create(:user)
+
       user.recipes << Recipe.create(name: 'baguette', user_id: user.id)
       recipe = Recipe.find_by(name: 'baguette')
       flour  = Ingredient.create(name: 'flour', category: 'flour')
@@ -130,7 +129,6 @@ RSpec.describe 'User API' do
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
-      token = TokiToki.encode(user.attributes)
 
       get "/api/v1/users/#{user.email}/recipes/#{user.recipes[0].name}",
         params: { token: token }
@@ -143,12 +141,10 @@ RSpec.describe 'User API' do
     end
 
     it 'returns list of all recipes grouped by family' do
-      user = create(:user)
       user.recipes = create_list(:recipe, 10, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
       end
-      token = TokiToki.encode(user.attributes)
 
       get '/api/v1/families', params: { token: token }
 
@@ -162,12 +158,10 @@ RSpec.describe 'User API' do
     end
 
     it 'returns list of recipes that align with requested family' do
-      user = create(:user)
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
       end
-      token = TokiToki.encode(user.attributes)
       recipe = user.recipes[0]
 
       get "/api/v1/families/#{recipe.family}", params: { token: token }
@@ -177,6 +171,76 @@ RSpec.describe 'User API' do
       family = JSON.parse(response.body, symbolize_names: true)
 
       expect(family.all? { |hash| hash[:family] == recipe.family }).to be true
+    end
+  end
+
+  context 'calculate new amounts' do
+    it 'calculates new amounts from new total dough weight' do
+      list = {
+        name: 'baguette',
+        ingredients: {
+          'flour' => { amount: 1.00 },
+          'water' => { amount: 0.62 },
+          'yeast' => { amount: 0.02 },
+          'salt'  => { amount: 0.02 }
+        }
+      }
+
+      post "/api/v1/users/#{user.email}/recipes", params: {
+        token: token,
+        recipe: list
+      }
+
+      original_recipe = JSON.parse(response.body, symbolize_names: true)
+
+      get "/api/v1/recipes/#{recipe[:name]}/new_totals", params: {
+        token: token,
+        recipe: original_recipe[:recipe],
+        new_dough_weight: 3.32
+      }
+
+      expect(response).to be_success
+
+      new_totals = JSON.parse(response.body, symbolize_names: true)
+
+      expect(new_totals[:ingredients][:flour][:amount]).to eq(2.0)
+      expect(new_totals[:ingredients][:water][:amount]).to eq(1.24)
+      expect(new_totals[:ingredients][:yeast][:amount]).to eq(0.04)
+      expect(new_totals[:ingredients][:salt][:amount]).to eq(0.04)
+    end
+
+    it 'calculates different amounts from different total dough weight' do
+      list = {
+        name: 'baguette',
+        ingredients: {
+          'flour' => { amount: 1.00 },
+          'water' => { amount: 0.62 },
+          'yeast' => { amount: 0.02 },
+          'salt'  => { amount: 0.02 }
+        }
+      }
+
+      post "/api/v1/users/#{user.email}/recipes", params: {
+        token: token,
+        recipe: list
+      }
+
+      original_recipe = JSON.parse(response.body, symbolize_names: true)
+
+      get "/api/v1/recipes/#{recipe[:name]}/new_totals", params: {
+        token: token,
+        recipe: original_recipe[:recipe],
+        new_dough_weight: 10.0
+      }
+
+      expect(response).to be_success
+
+      new_totals = JSON.parse(response.body, symbolize_names: true)
+
+      expect(new_totals[:ingredients][:flour][:amount]).to eq(6.02)
+      expect(new_totals[:ingredients][:water][:amount]).to eq(3.73)
+      expect(new_totals[:ingredients][:yeast][:amount]).to eq(0.12)
+      expect(new_totals[:ingredients][:salt][:amount]).to eq(0.12)
     end
   end
 end

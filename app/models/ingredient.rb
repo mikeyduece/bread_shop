@@ -21,20 +21,20 @@ class Ingredient < ApplicationRecord
   end
 
   def sweeteners
-    %w[sugar brown\ sugar corn\ syrup agave molasses honey maple\ syrup]
+    %w[sugar brown\ sugar corn\ syrup agave molasses honey maple\ syrup stevia].freeze
   end
 
   def fats
-    %w[butter cream sour\ cream canola\ oil olive\ oil margerine]
+    %w[butter cream sour\ cream canola\ oil olive\ oil margerine].freeze
   end
 
   def water
-    %w[water milk]
+    %w[water milk].freeze
   end
 
   def flours
     %w[flour bread\ flour high\ gluten\ flour ap\ flour all\ purpose\ flour
        spelt wheat\ flour whole\ wheat\ flour cake\ flour pastry\ flour semolina
-       durum corn\ meal flax\ meal]
+       durum corn\ meal flax\ meal].freeze
   end
 end

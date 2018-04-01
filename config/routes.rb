@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'auth_amazon', to: 'authentication#amazon'
       get 'families', to: 'families#index'
       get 'families/:family_name', to: 'families#show'
+      get 'recipes/:recipe_name/new_totals', to: 'recipes#show'
     end
   end
 end
