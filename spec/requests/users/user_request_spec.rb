@@ -20,7 +20,6 @@ RSpec.describe 'User API' do
 
   context 'user recipes' do
     it 'returns list of recipes for a user with params' do
-
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
@@ -37,7 +36,6 @@ RSpec.describe 'User API' do
     end
 
     it 'does not return anything without token in params' do
-
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
@@ -50,7 +48,6 @@ RSpec.describe 'User API' do
     end
 
     it 'returns recipe with ingredients and total percentage' do
-
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
@@ -72,7 +69,6 @@ RSpec.describe 'User API' do
     end
 
     it 'can create recipe' do
-
       user.recipes = create_list(:recipe, 4, user: user)
       user.recipes.each do |x|
         x.recipe_ingredients = create_list(:recipe_ingredient, 6)
@@ -118,7 +114,6 @@ RSpec.describe 'User API' do
     end
 
     it 'returns the family of the recipe' do
-
       user.recipes << Recipe.create(name: 'baguette', user_id: user.id)
       recipe = Recipe.find_by(name: 'baguette')
       flour  = Ingredient.create(name: 'flour', category: 'flour')

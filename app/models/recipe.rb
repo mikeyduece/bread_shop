@@ -7,16 +7,13 @@ class Recipe < ApplicationRecord
   before_destroy :destroy_all_recipe_ingredients
 
   def self.new_totals(recipe, new_dough_weight)
-     ingredients = recipe[:ingredients]
-     new_flour_weight = ((new_dough_weight.to_f / recipe[:total_percentage].to_f) * 100).round(2)
-     ingredients.each do |name, hash|
-       if name == 'flour'
-         hash[:amount] = new_flour_weight
-       else
-         hash[:amount] = (new_flour_weight * ((hash[:bakers_percentage].to_f) / 100)).round(2)
-       end
-     end
-     recipe
+    ingredients = recipe[:ingredients]
+    new_flour_weight = ((new_dough_weight.to_f / recipe[:total_percentage].to_f) * 100).round(2)
+    ingredients.each do |name, hash|
+      hash[:amount] = new_flour_weight if name == 'flour'
+      hash[:amount] = (new_flour_weight * hash[:bakers_percentage].to_f / 100).round(2)
+    end
+    recipe
   end
 
   def self.family_group
