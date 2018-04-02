@@ -100,3 +100,36 @@ Example JSON response
   ]
 ```
 
+`GET /recipes/:recipe_name/new_totals` Given a request with a recipe and amounts, the request params would look like so.
+
+```Ruby
+  {
+    recipe: {
+      name: 'baguette',
+      ingredients: {
+        'flour' => { amount: 1.00, bakers_percentage: 100.0 },
+        'water' => { amount: 0.62, bakers_percentage: 62.0  },
+        'yeast' => { amount: 0.02, bakers_percentage: 2.0 },
+        'salt'  => { amount: 0.02, bakers_percentage: 2.0 }
+      },
+      total_percentage: 166.0,
+      new_dough_weight: 10.0
+    }
+  }
+```
+
+The return from the previous request would be the recipe with the new amounts.
+```Ruby
+  {
+    recipe: {
+      name: 'baguette',
+      ingredients: {
+        'flour' => { amount: 6.02 },
+        'water' => { amount: 3.73 },
+        'yeast' => { amount: 0.12 },
+        'salt'  => { amount: 0.12 }
+      },
+      total_percentage: 166.0
+    }
+  }
+```
