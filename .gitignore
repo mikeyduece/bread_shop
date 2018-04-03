@@ -25,3 +25,6 @@
 
 # Ignore new RSpec examples.txt
 /spec/examples.txt
+
+# Ignore brakeman results
+brakeman.html
