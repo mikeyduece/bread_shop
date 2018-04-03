@@ -22,3 +22,9 @@
 
 # Ignore application configuration
 /config/application.yml
+
+# Ignore new RSpec examples.txt
+/spec/examples.txt
+
+# Ignore brakeman results
+brakeman.html
