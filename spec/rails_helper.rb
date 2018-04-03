@@ -7,6 +7,7 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 require 'webmock/rspec'
 require 'vcr'
+require 'brakeman'
 
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/cassettes'
@@ -94,4 +95,16 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  config.after(:suite) do
+    example_group = RSpec.describe('Brakeman Issues')
+    example = example_group.example('must have 0 Critical Security Issues') do
+      res = Brakeman.run app_path: "#{Rails.root}", output_files: ['brakeman.html']
+      serious=res.warnings.count { |w| w.confidence==0 }
+      puts "\n\nBrakeman Result:\n Critical Security Issues = #{serious}"
+      expect(serious).to eq 0
+    end
+    example_group.run
+    passed = example.execution_result.status == :passed
+    RSpec.configuration.reporter.example_failed example unless passed
+  end
 end

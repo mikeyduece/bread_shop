@@ -52,6 +52,7 @@ GEM
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     bindex (0.5.0)
+    brakeman (4.2.1)
     builder (3.2.3)
     byebug (10.0.1)
     capybara (2.18.0)
@@ -118,7 +119,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.2.1)
+    loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.0)
@@ -178,8 +179,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.3)
-      loofah (~> 2.0)
+    rails-html-sanitizer (1.0.4)
+      loofah (~> 2.2, >= 2.2.2)
     railties (5.1.5)
       actionpack (= 5.1.5)
       activesupport (= 5.1.5)
@@ -282,6 +283,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
+  brakeman
   byebug
   capybara
   coffee-rails (~> 4.2)
