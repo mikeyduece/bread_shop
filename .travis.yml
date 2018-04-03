@@ -10,7 +10,6 @@ before_script:
 - bundle exec rake db:test:prepare
 script:
   - bundle exec rspec
-  - bundle exec brakeman
 deploy:
   provider: heroku
   api_key:
