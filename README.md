@@ -13,19 +13,18 @@ All requests require token from client app to be sent in the params. If no token
 Base URL for all requests is `https://bread-shop-api.herokuapp.com/api/v1`
 
 `GET /users/:email/recipes?token=token` - Returns list of recipes that a user has created.
-```ruby
-  {
-    recipes: [
+
     {
-      id: integer,
-      name: recipe_name,
-      user_id: integer,
-      created_at: date
-    },
-    ...
-    ]
-  }
-```
+      recipes: [
+      {
+        id: integer,
+        name: recipe_name,
+        user_id: integer,
+        created_at: date
+      },
+      ...
+      ]
+    }
 
 `POST /users/:email/recipes?token=token` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
 
