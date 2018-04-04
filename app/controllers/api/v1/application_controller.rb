@@ -1,5 +1,5 @@
 class Api::V1::ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :exception
   helper_method :current_user, :authenticate_user!
 
   def current_user
