@@ -10,6 +10,7 @@ before_script:
 - bundle exec rake db:test:prepare
 script:
   - bundle exec rspec
+  - bundle exec brakeman --exit-on-warn --quiet -f plain
 deploy:
   provider: heroku
   api_key:
