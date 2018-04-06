@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'User API' do
-  let!(:user) { create(:user) }
-  let!(:token) { TokiToki.encode(user.attributes) }
-  let!(:recipe) { create(:recipe, user: user) }
+  let(:user) { create(:user) }
+  let(:token) { TokiToki.encode(user.attributes) }
+  let(:recipe) { create(:recipe, user: user) }
 
   context 'Authorization' do
     it 'should return token' do

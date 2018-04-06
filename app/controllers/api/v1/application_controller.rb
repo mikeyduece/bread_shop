@@ -10,11 +10,14 @@ class Api::V1::ApplicationController < ActionController::Base
     end
   end
 
-  def logged_in?
-    current_user != nil
-  end
 
   def authenticate_user!
     head :unauthorized unless logged_in?
+  end
+
+  private
+
+  def logged_in?
+    current_user != nil
   end
 end
