@@ -5,7 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'brakeman', :require => false
+gem 'brakeman', require: false
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.5'
 # Use postgresql as the database for Active Record
@@ -25,9 +25,6 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
-gem 'redis-rails'
-gem 'redis-namespace'
-gem 'redis-rack-cache'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

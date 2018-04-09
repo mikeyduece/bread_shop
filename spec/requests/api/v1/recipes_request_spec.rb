@@ -1,7 +1,7 @@
 require 'rails_helper'
 RSpec.describe 'New recipe amount calculation' do
-  let(:user) { create(:user)}
-  let(:token) { TokiToki.encode(user.attributes)}
+  let(:user) { create(:user) }
+  let(:token) { TokiToki.encode(user.attributes) }
 
   context 'calculate new amounts' do
     it 'calculates new amounts from new total dough weight' do
