@@ -5,6 +5,19 @@ class Ingredient < ApplicationRecord
 
   before_save :assign_category
 
+  SWEETENERS = %w[
+    sugar brown\ sugar corn\ syrup
+    agave molasses honey maple\ syrup stevia
+  ].freeze
+  FATS = %w[butter cream sour\ cream canola\ oil olive\ oil margerine].freeze
+  WATER = %w[water milk].freeze
+  FLOURS = %w[
+    flour bread\ flour high\ gluten\ flour ap\ flour all\ purpose\ flour
+    spelt wheat\ flour whole\ wheat\ flour cake\ flour pastry\ flour semolina
+    durum corn\ meal flax\ meal
+  ].freeze
+
+
   def self.create_list(list)
     list.map { |name| Ingredient.find_or_create_by(name: name) }
   end
@@ -13,28 +26,10 @@ class Ingredient < ApplicationRecord
 
   def assign_category
     case
-    when sweeteners.include?(self[:name]) then self[:category] = 'sweetener'
-    when fats.include?(self[:name])       then self[:category] = 'fat'
-    when flours.include?(self[:name])     then self[:category] = 'flour'
-    when water.include?(self[:name])      then self[:category] = 'water'
+    when SWEETENERS.include?(self[:name]) then self[:category] = 'sweetener'
+    when FATS.include?(self[:name])       then self[:category] = 'fat'
+    when FLOURS.include?(self[:name])     then self[:category] = 'flour'
+    when WATER.include?(self[:name])      then self[:category] = 'water'
     end
-  end
-
-  def sweeteners
-    %w[sugar brown\ sugar corn\ syrup agave molasses honey maple\ syrup stevia].freeze
-  end
-
-  def fats
-    %w[butter cream sour\ cream canola\ oil olive\ oil margerine].freeze
-  end
-
-  def water
-    %w[water milk].freeze
-  end
-
-  def flours
-    %w[flour bread\ flour high\ gluten\ flour ap\ flour all\ purpose\ flour
-       spelt wheat\ flour whole\ wheat\ flour cake\ flour pastry\ flour semolina
-       durum corn\ meal flax\ meal].freeze
   end
 end
