@@ -42,6 +42,7 @@ class Recipe < ApplicationRecord
   def total_percent
     recipe_ingredients.reduce(0) { |sum, recipe_ingredient| sum + recipe_ingredient.bakers_percentage }.round(2)
   end
+
   def ingredient_list
     list = {}
     recipe_ingredients.includes(:ingredient).each do |recipe_ingredient|

@@ -1,5 +1,4 @@
 module RecipeFamilyInfo
-
   def sweetener_percentage
     sweets = sweetener_amounts
     calculate_percentage(sweets)
@@ -14,7 +13,6 @@ module RecipeFamilyInfo
     water = water_amt
     calculate_percentage(water)
   end
-
 
   def lean
     return true if sweet_and_fat_amts.all? { |amt| low.include?(amt) }

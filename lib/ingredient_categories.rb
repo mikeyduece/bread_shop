@@ -1,5 +1,4 @@
 module IngredientCategories
-
   SWEETENERS = %w[
     sugar brown\ sugar corn\ syrup
     agave molasses honey maple\ syrup stevia
@@ -15,4 +14,3 @@ module IngredientCategories
     durum corn\ meal flax\ meal
   ].freeze
 end
-
