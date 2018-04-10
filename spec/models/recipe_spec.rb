@@ -1,7 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe Recipe, type: :model do
+RSpec.describe Recipe, 'validations' do
   it { should validate_uniqueness_of :name }
+end
+
+RSpec.describe Recipe, 'associations' do
+  it { should have_many(:recipe_ingredients).dependent(:destroy) }
+  it { should have_many(:ingredients).through(:recipe_ingredients) }
+  it { should belong_to(:user) }
+end
+
+RSpec.describe Recipe, type: :model do
   context 'Instance Methods' do
     it '#flour_amts' do
       create(:user)

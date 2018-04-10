@@ -1,11 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe RecipeIngredient, type: :model do
+RSpec.describe RecipeIngredient, 'validations' do
   it { should validate_presence_of :amount }
   it { should validate_numericality_of :amount }
   it { should_not allow_value(-1).for(:amount) }
   it { should allow_value(0).for(:amount) }
+end
 
+RSpec.describe RecipeIngredient, 'associations' do
+  it { should belong_to(:recipe) }
+  it { should belong_to(:ingredient) }
+end
+
+RSpec.describe RecipeIngredient, type: :model do
   context 'Instance Methods' do
     it '#bp' do
       user = create(:user)
