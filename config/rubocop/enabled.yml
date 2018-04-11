@@ -208,7 +208,7 @@ Layout/IndentAssignment:
 
 Layout/IndentHash:
   Description: 'Checks the indentation of the first key in a hash literal.'
-  Enabled: false
+  Enabled: true
 
 Layout/IndentHeredoc:
   Description: 'This cops checks the indentation of the here document bodies.'
@@ -804,7 +804,7 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Description: 'Avoid methods longer than 10 lines of code.'
   StyleGuide: '#short-methods'
-  Enabled: true
+  Enabled: false
 
 Metrics/ModuleLength:
   Description: 'Avoid modules longer than 100 lines of code.'

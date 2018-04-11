@@ -1,5 +1,5 @@
 class Api::V1::ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :exception
   helper_method :current_user, :authenticate_user!
 
   def current_user
@@ -10,11 +10,13 @@ class Api::V1::ApplicationController < ActionController::Base
     end
   end
 
-  def logged_in?
-    current_user != nil
+  def authenticate_user!
+    head(:unauthorized) unless logged_in?
   end
 
-  def authenticate_user!
-    head :unauthorized unless logged_in?
+  private
+
+  def logged_in?
+    current_user != nil
   end
 end

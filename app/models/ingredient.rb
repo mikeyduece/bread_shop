@@ -1,5 +1,7 @@
 class Ingredient < ApplicationRecord
-  has_many :recipe_ingredients
+  include IngredientCategories
+
+  has_many :recipe_ingredients, dependent: :destroy
   has_many :recipes, through: :recipe_ingredients
   validates :name, uniqueness: true
 
@@ -13,28 +15,10 @@ class Ingredient < ApplicationRecord
 
   def assign_category
     case
-    when sweeteners.include?(self[:name]) then self[:category] = 'sweetener'
-    when fats.include?(self[:name])       then self[:category] = 'fat'
-    when flours.include?(self[:name])     then self[:category] = 'flour'
-    when water.include?(self[:name])      then self[:category] = 'water'
+    when SWEETENERS.include?(self[:name]) then self[:category] = 'sweetener'
+    when FATS.include?(self[:name])       then self[:category] = 'fat'
+    when FLOURS.include?(self[:name])     then self[:category] = 'flour'
+    when WATER.include?(self[:name])      then self[:category] = 'water'
     end
-  end
-
-  def sweeteners
-    %w[sugar brown\ sugar corn\ syrup agave molasses honey maple\ syrup stevia].freeze
-  end
-
-  def fats
-    %w[butter cream sour\ cream canola\ oil olive\ oil margerine].freeze
-  end
-
-  def water
-    %w[water milk].freeze
-  end
-
-  def flours
-    %w[flour bread\ flour high\ gluten\ flour ap\ flour all\ purpose\ flour
-       spelt wheat\ flour whole\ wheat\ flour cake\ flour pastry\ flour semolina
-       durum corn\ meal flax\ meal].freeze
   end
 end

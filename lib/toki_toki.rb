@@ -8,7 +8,7 @@ module TokiToki
       exp: 4.hours.from_now.to_i,
       iat: Time.now.to_i
     }
-    JWT.encode payload, Rails.application.secrets.secret_key_base, 'HS256'
+    JWT.encode(payload, Rails.application.secrets.secret_key_base, 'HS256')
   end
 
   def self.decode(token)
@@ -19,6 +19,6 @@ module TokiToki
       leeway: 30,
       algorithm: 'HS256'
     }
-    JWT.decode token, Rails.application.secrets.secret_key_base, true, options
+    JWT.decode(token, Rails.application.secrets.secret_key_base, true, options)
   end
 end

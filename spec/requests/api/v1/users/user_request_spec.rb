@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'User API' do
-  let!(:user) { create(:user) }
-  let!(:token) { TokiToki.encode(user.attributes) }
-  let!(:recipe) { create(:recipe, user: user) }
+  let(:user) { create(:user) }
+  let(:token) { TokiToki.encode(user.attributes) }
+  let(:recipe) { create(:recipe, user: user) }
 
   context 'Authorization' do
     it 'should return token' do
@@ -76,10 +76,10 @@ RSpec.describe 'User API' do
       list = {
         name: 'baguette',
         ingredients: {
-          'flour' => { amount: 1.00 },
-          'water' => { amount: 0.62 },
-          'yeast' => { amount: 0.02 },
-          'Salt'  => { amount: 0.02 }
+          flour: { amount: 1.00 },
+          water: { amount: 0.62 },
+          yeast: { amount: 0.02 },
+          salt: { amount: 0.02 }
         }
       }
 
@@ -174,10 +174,10 @@ RSpec.describe 'User API' do
       list = {
         name: 'baguette',
         ingredients: {
-          'flour' => { amount: 1.00 },
-          'water' => { amount: 0.62 },
-          'yeast' => { amount: 0.02 },
-          'salt'  => { amount: 0.02 }
+          flour: { amount: 1.00 },
+          water: { amount: 0.62 },
+          yeast: { amount: 0.02 },
+          salt: { amount: 0.02 }
         }
       }
 
@@ -208,10 +208,10 @@ RSpec.describe 'User API' do
       list = {
         name: 'baguette',
         ingredients: {
-          'flour' => { amount: 1.00 },
-          'water' => { amount: 0.62 },
-          'yeast' => { amount: 0.02 },
-          'salt'  => { amount: 0.02 }
+          flour: { amount: 1.00 },
+          water: { amount: 0.62 },
+          yeast: { amount: 0.02 },
+          salt: { amount: 0.02 }
         }
       }
 

@@ -1,4 +1,6 @@
 class Recipe < ApplicationRecord
+  include RecipeFamilyInfo
+
   belongs_to :user
   has_many :recipe_ingredients, dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
@@ -21,8 +23,10 @@ class Recipe < ApplicationRecord
     serialized_recipes = {}
     grouped.each do |family, recipes|
       serialized_recipes[family] = recipes.map do |recipe|
-        recipe.as_json(only: [:name],
-                       ienclude: { user: { only: %i[name email] } })
+        recipe.as_json(
+          only: [:name],
+          include: { user: { only: %i[name email] } }
+        )
       end
     end
 
@@ -38,22 +42,7 @@ class Recipe < ApplicationRecord
   end
 
   def total_percent
-    recipe_ingredients.reduce(0) { |sum, x| sum + x.bakers_percentage }.round(2)
-  end
-
-  def sweetener_percentage
-    sweets = sweetener_amounts
-    calculate_percentage(sweets)
-  end
-
-  def fat_percentage
-    fats = fat_amounts
-    calculate_percentage(fats)
-  end
-
-  def water_percentage
-    water = water_amt
-    calculate_percentage(water)
+    recipe_ingredients.reduce(0) { |acc, elem| acc + elem.bakers_percentage }.round(2)
   end
 
   def ingredient_list
@@ -79,66 +68,6 @@ class Recipe < ApplicationRecord
     when rich  then self[:family] = 'Rich'
     when slack then self[:family] = 'Slack'
     end
-  end
-
-  def lean
-    return true if sweet_and_fat_amts.all? { |amt| low.include?(amt) }
-  end
-
-  def soft
-    if (water_percentage + fat_percentage) < 70.0 &&
-        moderate.include?(sweetener_percentage) &&
-        moderate.include?(fat_percentage)
-      true
-    end
-  end
-
-  def rich
-    if (moderate.include?(sweetener_percentage) &&
-        high.include?(fat_percentage)) ||
-        high.include?(fat_percentage)
-      true
-    end
-  end
-
-  def slack
-    return true if water_percentage + fat_percentage > 70.0
-  end
-
-  def sweet
-    return true if sweet_and_fat_amts.all? { |amt| high.include?(amt) }
-  end
-
-  def low
-    (0.0..4.99)
-  end
-
-  def moderate
-    (5.0..10.0)
-  end
-
-  def high
-    (11.0..25.0)
-  end
-
-  def sweet_and_fat_amts
-    [sweetener_percentage, fat_percentage]
-  end
-
-  def calculate_percentage(category)
-    ((category / flour_amts) * 100).round(2)
-  end
-
-  def sweetener_amounts
-    sum_recipe_ingredient_amounts('sweetener')
-  end
-
-  def fat_amounts
-    sum_recipe_ingredient_amounts('fat')
-  end
-
-  def water_amt
-    sum_recipe_ingredient_amounts('water')
   end
 
   def sum_recipe_ingredient_amounts(category)

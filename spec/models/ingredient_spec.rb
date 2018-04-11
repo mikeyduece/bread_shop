@@ -1,8 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe Ingredient, type: :model do
+RSpec.describe Ingredient, 'validations' do
   it { should validate_uniqueness_of :name }
+end
 
+RSpec.describe Ingredient, 'associations' do
+  it { should have_many(:recipe_ingredients).dependent(:destroy) }
+  it { should have_many(:recipes).through(:recipe_ingredients) }
+end
+
+RSpec.describe Ingredient, type: :model do
   it 'can assign categories' do
     fat1 = Ingredient.create(name: 'butter')
     fat2 = Ingredient.create(name: 'cream')
