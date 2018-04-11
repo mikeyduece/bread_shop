@@ -10,7 +10,6 @@ RSpec.describe Ingredient, 'associations' do
 end
 
 RSpec.describe Ingredient, type: :model do
-
   it 'can assign categories' do
     fat1 = Ingredient.create(name: 'butter')
     fat2 = Ingredient.create(name: 'cream')

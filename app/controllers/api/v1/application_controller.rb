@@ -11,7 +11,7 @@ class Api::V1::ApplicationController < ActionController::Base
   end
 
   def authenticate_user!
-    head :unauthorized unless logged_in?
+    head(:unauthorized) unless logged_in?
   end
 
   private

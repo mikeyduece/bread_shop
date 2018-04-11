@@ -23,8 +23,10 @@ class Recipe < ApplicationRecord
     serialized_recipes = {}
     grouped.each do |family, recipes|
       serialized_recipes[family] = recipes.map do |recipe|
-        recipe.as_json(only: [:name],
-                       ienclude: { user: { only: %i[name email] } })
+        recipe.as_json(
+          only: [:name],
+          include: { user: { only: %i[name email] } }
+        )
       end
     end
 
@@ -40,7 +42,7 @@ class Recipe < ApplicationRecord
   end
 
   def total_percent
-    recipe_ingredients.reduce(0) { |sum, recipe_ingredient| sum + recipe_ingredient.bakers_percentage }.round(2)
+    recipe_ingredients.reduce(0) { |acc, elem| acc + elem.bakers_percentage }.round(2)
   end
 
   def ingredient_list

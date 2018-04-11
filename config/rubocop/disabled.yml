@@ -9,25 +9,25 @@ Layout/FirstArrayElementLineBreak:
   Description: >-
                  Checks for a line break before the first element in a
                  multi-line array.
-  Enabled: false
+  Enabled: true
 
 Layout/FirstHashElementLineBreak:
   Description: >-
                  Checks for a line break before the first element in a
                  multi-line hash.
-  Enabled: false
+  Enabled: true
 
 Layout/FirstMethodArgumentLineBreak:
   Description: >-
                  Checks for a line break before the first argument in a
                  multi-line method call.
-  Enabled: false
+  Enabled: true
 
 Layout/FirstMethodParameterLineBreak:
   Description: >-
                  Checks for a line break before the first parameter in a
                  multi-line method parameter definition.
-  Enabled: false
+  Enabled: true
 
 Layout/MultilineAssignmentLayout:
   Description: 'Check for a newline after the assignment operator in multi-line assignments.'
@@ -46,7 +46,7 @@ Rails:
 Rails/SaveBang:
   Description: 'Identifies possible cases where Active Record save! or related should be used.'
   StyleGuide: 'https://github.com/bbatsov/rails-style-guide#save-bang'
-  Enabled: false
+  Enabled: true
 
 Style/AutoResourceCleanup:
   Description: 'Suggests the usage of an auto resource cleanup version of a method (if available).'
@@ -70,22 +70,31 @@ Style/DocumentationMethod:
 
 Style/EmptyLineAfterGuardClause:
   Description: 'Add empty line after guard clause.'
-  Enabled: false
+  Enabled: true
 
 Style/ImplicitRuntimeError:
   Description: >-
                  Use `raise` or `fail` with an explicit exception class and
                  message, rather than just a message.
-  Enabled: false
+  Enabled: true
 
 Style/InlineComment:
   Description: 'Avoid trailing inline comments.'
-  Enabled: false
+  Enabled: true
+  Exclude:
+    - 'config/**/*'
 
 Style/MethodCallWithArgsParentheses:
   Description: 'Use parentheses for method calls with arguments.'
   StyleGuide: '#method-invocation-parens'
-  Enabled: false
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'config/**/*'
+    - 'bin/**/*'
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'config.ru'
 
 Style/MethodCalledOnDoEndBlock:
   Description: 'Avoid chaining a method call on a do...end block.'
@@ -116,13 +125,15 @@ Style/Send:
 
 Style/SingleLineBlockParams:
   Description: 'Enforces the names of some block params.'
-  Enabled: false
+  Enabled: true
 
 Style/StringHashKeys:
   Description: 'Prefer symbols instead of strings as hash keys.'
   StyleGuide: '#symbols-as-keys'
-  Enabled: false
+  Enabled: true
+  Exclude:
+    - 'config/environments/*'
 
 Style/StringMethods:
   Description: 'Checks if configured preferred methods are used over non-preferred.'
-  Enabled: false
+  Enabled: true

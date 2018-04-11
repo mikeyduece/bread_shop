@@ -4,36 +4,49 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def index
     recipes = current_user.recipes
-    render json: recipes, status: 200
+    render(json: recipes, status: 200)
   end
 
   def show
     recipe = current_user.recipes.find_by(name: params[:recipe_name])
     recipe.update(family: recipe.assign_family) if recipe.family.nil?
-    render json: { status: 200,
-                   recipe: { name: recipe.name,
-                             ingredients: recipe.ingredient_list,
-                             total_percentage: recipe.total_percent,
-                             family: recipe.family } }
+    render(
+      json: {
+        status: 200,
+        recipe: {
+          name: recipe.name,
+          ingredients: recipe.ingredient_list,
+          total_percentage: recipe.total_percent,
+          family: recipe.family
+        }
+      }
+    )
   end
 
   def create
-    recipe = Recipe.create(user_id: current_user.id,
-                           name: params[:recipe][:name])
+    recipe = Recipe.create(
+      user_id: current_user.id,
+      name: params[:recipe][:name]
+    )
     recipe_ingredients = recipe_ingredient_list(recipe)
     recipe.update(family: recipe.assign_family)
-    render json: { status: 201, recipe: {
-                                name: recipe.name,
-                                ingredients: recipe_ingredients,
-                                total_percentage: recipe.total_percent
-    } }
+    render(
+      json: {
+        status: 201,
+        recipe: {
+          name: recipe.name,
+          ingredients: recipe_ingredients,
+          total_percentage: recipe.total_percent
+        }
+      }
+    )
   end
 
   def destroy
     recipe = current_user.recipes.find_by_name(params[:recipe_name])
     recipe.user.recipes.delete(recipe)
     recipe.destroy
-    render json: { status: 204, message: "Successfully deleted #{recipe.name}" }
+    render(json: { status: 204, message: "Successfully deleted #{recipe.name}" })
   end
 
   private
