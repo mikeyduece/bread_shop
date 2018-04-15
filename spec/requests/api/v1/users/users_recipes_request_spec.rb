@@ -125,7 +125,7 @@ RSpec.describe 'User API' do
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
 
-      get "/api/v1/users/#{user.email}/recipes/#{user.recipes[0].name}",
+      get "/api/v1/users/#{user.email}/recipes/#{user.recipes[-1].name}",
         params: { token: token }
 
       expect(response).to be_success
