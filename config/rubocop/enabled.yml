@@ -233,7 +233,7 @@ Layout/InitialIndentation:
 Layout/LeadingCommentSpace:
   Description: 'Comments should start with a space.'
   StyleGuide: '#hash-space'
-  Enabled: false
+  Enabled: true
 
 Layout/MultilineArrayBraceLayout:
   Description: >-
