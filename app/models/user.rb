@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  include StreamRails::Activity
-  as_activity
+  # include StreamRails::Activity
+  # as_activity
 
   validates :email, uniqueness: true
   validates :uid, uniqueness: true
@@ -19,7 +19,4 @@ class User < ApplicationRecord
     user
   end
 
-  # def activity_object
-    # self.user
-  # end
 end
