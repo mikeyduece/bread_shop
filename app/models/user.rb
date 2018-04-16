@@ -5,6 +5,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :uid, uniqueness: true
   has_many :recipes
+  has_many :follows, dependent: :destroy
 
   def self.from_auth(auth)
     user = find_by(email: auth[:info][:email])
@@ -16,7 +17,11 @@ class User < ApplicationRecord
         uid: auth[:uid]
       )
     end
+
     user
   end
 
+  def followed_by(user = nil)
+    user.follows.find_by(target_id: id)
+  end
 end

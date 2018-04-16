@@ -11,5 +11,6 @@ RSpec.describe 'User Requests' do
     user_list = JSON.parse(response.body, symbolize_names: true)
 
     expect(user_list.count).to eq(10)
+    expect(response.status).to eq(200)
   end
 end
