@@ -9,7 +9,8 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def show
     recipe = current_user.recipes.find_by(name: params[:recipe_name])
-    recipe.update(family: recipe.assign_family) if recipe.family.nil?
+    family = recipe.assign_family
+    recipe.update(family: family) # if recipe.family.nil?
     render(
       json: {
         status: 200,

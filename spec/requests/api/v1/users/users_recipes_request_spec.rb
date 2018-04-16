@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'User API' do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_with_recipes) }
   let!(:token) { TokiToki.encode(user.attributes) }
-  let!(:recipe) { create(:recipe, user: user) }
 
   context 'Authorization' do
     it 'should return token' do
@@ -20,11 +19,6 @@ RSpec.describe 'User API' do
 
   context 'user recipes' do
     it 'returns list of recipes for a user with params' do
-      user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each do |x|
-        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
-      end
-
       get "/api/v1/users/#{user.email}/recipes", params: { token: token }
 
       expect(response).to be_success
@@ -36,11 +30,6 @@ RSpec.describe 'User API' do
     end
 
     it 'does not return anything without token in params' do
-      user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each do |x|
-        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
-      end
-
       get "/api/v1/users/#{user.email}/recipes"
 
       expect(response).to_not be_success
@@ -48,13 +37,12 @@ RSpec.describe 'User API' do
     end
 
     it 'returns recipe with ingredients and total percentage' do
-      user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each do |x|
-        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
-      end
       recipe = user.recipes[0]
       flour  = create(:ingredient, name: 'flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
+      6.times do
+        create(:recipe_ingredient, recipe: recipe)
+      end
 
       get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
         params: { token: token }
@@ -69,10 +57,6 @@ RSpec.describe 'User API' do
     end
 
     it 'can create recipe' do
-      user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each do |x|
-        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
-      end
       list = {
         name: 'baguette',
         ingredients: {
@@ -93,10 +77,6 @@ RSpec.describe 'User API' do
     end
 
     it 'user can delete recipe' do
-      user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each do |x|
-        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
-      end
       recipe = user.recipes[0]
       flour  = create(:ingredient, name: 'Flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
@@ -114,8 +94,8 @@ RSpec.describe 'User API' do
     end
 
     it 'returns the family of the recipe' do
-      user.recipes << Recipe.create(name: 'baguette', user_id: user.id)
-      recipe = Recipe.find_by(name: 'baguette')
+      user.recipes << create(:recipe, name: 'baguette', user: user)
+      recipe = user.recipes.last
       flour  = Ingredient.create(name: 'flour', category: 'flour')
       water  = Ingredient.create(name: 'water', category: 'water')
       salt   = Ingredient.create(name: 'salt')
@@ -125,7 +105,7 @@ RSpec.describe 'User API' do
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
       RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
 
-      get "/api/v1/users/#{user.email}/recipes/#{user.recipes[-1].name}",
+      get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
         params: { token: token }
 
       expect(response).to be_success
@@ -188,7 +168,7 @@ RSpec.describe 'User API' do
 
       original_recipe = JSON.parse(response.body, symbolize_names: true)
 
-      get "/api/v1/recipes/#{recipe[:name]}/new_totals", params: {
+      get "/api/v1/recipes/#{original_recipe[:recipe][:name]}/new_totals", params: {
         token: token,
         recipe: original_recipe[:recipe],
         new_dough_weight: 3.32
@@ -222,7 +202,7 @@ RSpec.describe 'User API' do
 
       original_recipe = JSON.parse(response.body, symbolize_names: true)
 
-      get "/api/v1/recipes/#{recipe[:name]}/new_totals", params: {
+      get "/api/v1/recipes/#{original_recipe[:recipe][:name]}/new_totals", params: {
         token: token,
         recipe: original_recipe[:recipe],
         new_dough_weight: 10.0
