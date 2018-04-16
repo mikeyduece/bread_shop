@@ -10,10 +10,11 @@ class Api::V1::Users::FeedsController < Api::V1::ApplicationController
   end
 
   def flat
-    feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:flat]
-    results = feed.get['results']
-    activities = @enricher.enrich_activities(results)
-    render(json: activites)
+    results_stream(:flat)
+    # feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:flat]
+    # results = feed.get['results']
+    # activities = @enricher.enrich_activities(results)
+    # render(json: activites)
   end
 
   def aggregated
@@ -34,5 +35,12 @@ class Api::V1::Users::FeedsController < Api::V1::ApplicationController
 
   def create_enricher
     @enricher = StreamRails::Enrich.new
+  end
+
+  def results_stream(feed_type)
+    feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[feed_type]
+    results = feed.get['results']
+    activities = @enricher.enrich_activities(results)
+    render(json: activities)
   end
 end

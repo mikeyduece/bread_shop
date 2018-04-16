@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.5.0
+- 2.5.0
 sudo: enabled
 notifications:
   email: false
@@ -9,8 +9,8 @@ before_script:
 - RAILS_ENV=test bundle exec rake db:migrate
 - bundle exec rake db:test:prepare
 script:
-  - bundle exec rspec
-  - bundle exec brakeman --exit-on-warn --quiet -f plain
+- bundle exec rspec
+- bundle exec brakeman --exit-on-warn --quiet -f plain
 deploy:
   provider: heroku
   api_key:
@@ -18,3 +18,7 @@ deploy:
   app: breadshop
   on:
     repo: mikeyduece/bread_shop
+env:
+  global:
+  - secure: Q9yN5kqZTvUZrqvdE0pcMfjRtjBe4gmJ2NCKPDGWoeaqHY0vbr3WlpEadxQf5Pd8ICD/sfd0Yd4YzYizZFunSIBU0qdvD0QkEyhRnfG41/AxmV3XK3anlVayJoJrqmVjpG/S8eL+ER8P5KTkKEnX328SbRoa8sfXoovbldaPkiyEq3y6/oMc/H0sK24y0Ke9yF8lnF3y+Edu8q/h4Ntt3wHP24U2RUa/9iJjMhw4YtJIv+Z8NvLUgekVWejsi1xFMInk2yCrTdbLvKJS0KLdSdPaIQX1/pppHCWdaNWU/MIWWXDR/qMTnMPrkRzMwKKlAKSIs6fFObQAsfqoury+9UE2JsujlA0aIw3wQ4iQHgCEaTF8Hu98tuVQwYPGmXyOVUkqIvcZdLgPkMhVZtbeXBJdgdehSG7XKBmco/TfR4UwXEF50YyIk9u1oDI7cHH0VfZrLg14mZCV5I30mmclfzCPfFVqFvMrwZq5aEcRUmYLQTKnMLBarKdIhGyGHIgPUsd4u2LRctTBC3EUctgaX5hLT1PxWqCdBaLyTZQT32J7AflHnLxTgWKMW3EwBg6N9k/zxohgqNqNs43xHGCdCO/ZPd20kvA5xvr1gcsxUqHms7zyhi+6cyEp+EG7OR/zzF7SkhHnWA5Z74puLsIZ1kVjk5adDvAWuV8hWQjgZ8k=
+  - secure: vFneHwyRR4V4jewsJWW6BOip3w8mni/ZnGchx8nMpF26bqPIwedzCXZZZ+SEowVDZB5ElKjzTdpGJktTZoBRKEUmdLcz1gj1I/xtiizTxcrk/AqHxXsOyQsaq6jbs+n3AHgnQKDKGJrwdzHFPKm5tW2sV+4YIZjV+1gB0bRR6P0vSGGhF4i35Iv1gytKQyJVYTO1rphFwVOsS1tpLAu03+XkNgVXAV5NheLjORlIphJXS9n8KH8Q0wQxbrwhr0Kr1mQyMu/a95QFFeJCIsxrb9VTwKKGHo3A8Ir5wOyxz2psqy7ncUjUv3+sbqEZ6fYPCn5L4xQQqu0cy73KmuX/e+Ek0Aqv38jO/AFHLhFHlkcSX8QYgX9p8uMjh6FGXSx6dG86BmJDqeHdP5FfiejJyBvILdaTtR9LD11UJ0YIl3AZ/SVYI6JtfaAgbNZaV9BqA3Y19QYry77WFRS1sl+ud1Qkj25rutTAbyXLqO8jCYByq0cvqA2VEDLFxdDYc1wCTp7rG3ZVdFlQTi+RgPQNdVhlsASrm6Sl4tDNvlC+Li4d6qXEBOabUfqiBPvk1vUXLzjTA3j6ppBZrfqzrdu0wgX8bRZhH7e6UBqyLh5Mr8PGm1TtEHUHyz7ep2y612XvziS0b4mx5N2wg8QHUkoIJLlysR+pVCIgvU2Jal9yucI=
