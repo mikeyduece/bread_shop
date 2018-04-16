@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   before_action :authenticate_user!
   before_action :ingredient_list, only: [:create]
@@ -10,7 +12,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   def show
     recipe = current_user.recipes.find_by(name: params[:recipe_name])
     family = recipe.assign_family
-    recipe.update(family: family) # if recipe.family.nil?
+    recipe.update(family: family)
     render(
       json: {
         status: 200,

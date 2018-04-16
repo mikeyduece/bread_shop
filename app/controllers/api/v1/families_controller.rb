@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::FamiliesController < Api::V1::ApplicationController
   def index
     families = Recipe.family_group

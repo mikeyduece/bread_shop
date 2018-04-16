@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
@@ -9,7 +11,7 @@ Rails.application.routes.draw do
           get 'notification', to: :notification
         end
 
-        get ':email/follow/:target_email', to: 'follows#create',
+        post ':email/follow/:target_email', to: 'follows#create',
           constraints: { email: /.+@.+\..*/, target_email: /.+@.+\..*/}
         delete ':email/unfollow/:target_email', to: 'follows#destroy',
           constraints: { email: /.+@.+\..*/, target_email: /.+@.+\..*/}

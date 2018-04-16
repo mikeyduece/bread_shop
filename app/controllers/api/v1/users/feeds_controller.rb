@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::Users::FeedsController < Api::V1::ApplicationController
   before_action :authenticate_user!
   before_action :create_enricher
@@ -21,14 +23,14 @@ class Api::V1::Users::FeedsController < Api::V1::ApplicationController
     feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
     results = feed.get['results']
     activities = @enricher.enrich_aggregated_activities(results)
-    render(json: activites)
+    render(json: activities)
   end
 
   def notification
     feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
     results = feed.get['results']
     activities = @enricher.enrich_aggregated_activities(results)
-    render(json: activites)
+    render(json: activities)
   end
 
   private
