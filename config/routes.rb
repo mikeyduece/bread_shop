@@ -2,6 +2,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :users do
+        scope path: ':email/feeds', constraints: { email: /.+@.+\..*/ }, controller: :feeds, as: 'feed' do
+          get 'me', to: 'feeds#user'
+          get 'flat', to: :flat
+          get 'aggregated', to: :aggregated
+          get 'notification', to: :notification
+        end
+
         get ':email/follow/:target_email', to: 'follows#create',
           constraints: { email: /.+@.+\..*/, target_email: /.+@.+\..*/}
         delete ':email/unfollow/:target_email', to: 'follows#destroy',
