@@ -11,10 +11,10 @@ class Follow < ApplicationRecord
   as_activity
 
   def activity_notify
-    [StreamRails.feed_manager.get_notification_feed(target_id)]
+    [StreamRails.feed_manager.get_notification_feed(self.target_id)]
   end
 
   def activity_object
-    target
+    self.target
   end
 end

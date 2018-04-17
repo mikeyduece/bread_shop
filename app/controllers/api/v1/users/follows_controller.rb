@@ -26,6 +26,10 @@ class Api::V1::Users::FollowsController < Api::V1::ApplicationController
 
   private
 
+  def follow_params
+    params.require(:follow).permit(:target_email)
+  end
+
   def target_email_param
     @target = User.find_by(email: params[:target_email])
   end
