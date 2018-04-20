@@ -8,6 +8,7 @@ RSpec.describe Recipe, 'associations' do
   it { should have_many(:recipe_ingredients).dependent(:destroy) }
   it { should have_many(:ingredients).through(:recipe_ingredients) }
   it { should belong_to(:user) }
+  it { should have_many(:tags).through(:recipe_tags) }
 end
 
 RSpec.describe Recipe, type: :model do

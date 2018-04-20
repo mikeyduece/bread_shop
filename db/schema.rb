@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180309175713) do
+ActiveRecord::Schema.define(version: 20180417005908) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id"
+    t.text "body"
+    t.string "title"
+    t.bigint "recipe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipe_id"], name: "index_comments_on_recipe_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "target_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_id", "user_id"], name: "index_follows_on_target_id_and_user_id", unique: true
+    t.index ["target_id"], name: "index_follows_on_target_id"
+    t.index ["user_id"], name: "index_follows_on_user_id"
+  end
 
   create_table "ingredients", force: :cascade do |t|
     t.string "name"
@@ -32,6 +54,15 @@ ActiveRecord::Schema.define(version: 20180309175713) do
     t.index ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id"
   end
 
+  create_table "recipe_tags", force: :cascade do |t|
+    t.bigint "recipe_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipe_id"], name: "index_recipe_tags_on_recipe_id"
+    t.index ["tag_id"], name: "index_recipe_tags_on_tag_id"
+  end
+
   create_table "recipes", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id"
@@ -39,6 +70,12 @@ ActiveRecord::Schema.define(version: 20180309175713) do
     t.datetime "updated_at", null: false
     t.string "family"
     t.index ["user_id"], name: "index_recipes_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_recipes", force: :cascade do |t|
@@ -61,6 +98,7 @@ ActiveRecord::Schema.define(version: 20180309175713) do
 
   add_foreign_key "recipe_ingredients", "ingredients"
   add_foreign_key "recipe_ingredients", "recipes"
+  add_foreign_key "recipe_tags", "tags"
   add_foreign_key "recipes", "users"
   add_foreign_key "user_recipes", "recipes"
   add_foreign_key "user_recipes", "users"
