@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Feeds' do
@@ -21,7 +23,7 @@ RSpec.describe 'Feeds' do
     VCR.use_cassette('flat_feeds') do
       post "/api/v1/users/#{user.email}/follow/#{user2.email}", params: { token: token }
 
-      get "/api/v1/users/#{user.email}/feeds/flat", params: { token: token }
+      get "/api/v1/users/#{user2.email}/feeds/notification", params: { token: token }
 
       expect(response).to be_success
 

@@ -9,6 +9,11 @@ IrresponsibleModule:
 DuplicateMethodCall:
   exclude:
     - 'RecipeFamilyInfo#rich'
+    - 'Ingredient#assign_category'
+
+FeatureEnvy:
+  exclude:
+    - 'Recipe#ingredient_list'
 
 'spec/rails_helper':
   UtilityFunction:
