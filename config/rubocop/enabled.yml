@@ -24,7 +24,7 @@ Bundler/InsecureProtocolSource:
 Bundler/OrderedGems:
   Description: >-
                  Gems within groups in the Gemfile should be alphabetically sorted.
-  Enabled: true
+  Enabled: tfalse
   Include:
     - '**/*.gemfile'
     - '**/Gemfile'
@@ -1857,7 +1857,7 @@ Style/RedundantReturn:
 Style/RedundantSelf:
   Description: "Don't use self where it's not needed."
   StyleGuide: '#no-self-unless-required'
-  Enabled: true
+  Enabled: false
 
 Style/RegexpLiteral:
   Description: 'Use / or %r around regular expressions.'

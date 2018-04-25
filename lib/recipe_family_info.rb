@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RecipeFamilyInfo
   def sweetener_percentage
     sweets = sweetener_amounts

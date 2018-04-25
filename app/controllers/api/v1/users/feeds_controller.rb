@@ -12,10 +12,10 @@ class Api::V1::Users::FeedsController < Api::V1::ApplicationController
   end
 
   def flat
-    require 'pry'; binding.pry
     feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:flat]
     results = feed.get['results']
     activities = @enricher.enrich_activities(results)
+    require 'pry'; binding.pry
     render(json: activities)
   end
 

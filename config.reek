@@ -1,3 +1,15 @@
 ---
+
 exclude_paths:
-  - db/**/*
+  - db
+
+IrresponsibleModule:
+  enabled: false
+
+DuplicateMethodCall:
+  exclude:
+    - 'RecipeFamilyInfo#rich'
+
+'spec/rails_helper':
+  UtilityFunction:
+    enabled: false
