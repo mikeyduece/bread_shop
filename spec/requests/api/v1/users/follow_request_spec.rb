@@ -14,6 +14,7 @@ RSpec.describe 'Follow Requests' do
       expect(response).to be_success
       expect(response.body).to eq('Followed!')
       expect(user1.follows[0].target_id).to eq(user2.id)
+      expect(user2.followed_by(user1)).to be true
     end
   end
 

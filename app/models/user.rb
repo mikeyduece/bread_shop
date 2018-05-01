@@ -24,6 +24,6 @@ class User < ApplicationRecord
   end
 
   def followed_by(user = nil)
-    user.follows.find_by(target_id: id)
+    return true if user.follows.find_by(target_id: id)
   end
 end
