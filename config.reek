@@ -14,6 +14,7 @@ DuplicateMethodCall:
 FeatureEnvy:
   exclude:
     - 'Recipe#ingredient_list'
+    - 'Api::V1::Users::RecipesController#show'
 
 'spec/rails_helper':
   UtilityFunction:

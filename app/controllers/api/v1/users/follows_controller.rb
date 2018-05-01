@@ -2,7 +2,6 @@
 
 class Api::V1::Users::FollowsController < Api::V1::ApplicationController
   before_action :authenticate_user!
-  # before_action :target_email_param
 
   def create
     target = User.find_by(email: params[:target_email])
@@ -23,14 +22,4 @@ class Api::V1::Users::FollowsController < Api::V1::ApplicationController
 
     render(json: 'Unfollowed!', status: 204)
   end
-
-  private
-
-  def follow_params
-    params.require(:follow).permit(:target_email)
-  end
-
-  # def target_email_param
-  #   @target = User.find_by(email: params[:target_email])
-  # end
 end
