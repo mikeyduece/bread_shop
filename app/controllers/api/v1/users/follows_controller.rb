@@ -8,6 +8,7 @@ class Api::V1::Users::FollowsController < Api::V1::ApplicationController
     target = User.find_by(email: params[:target_email])
     follow = Follow.new(target_id: target.id, user_id: current_user.id)
     follow.user = current_user
+    follow.activity_notify
     StreamRails.feed_manager.follow_user(follow.user_id, follow.target_id) if follow.save
 
     render(json: 'Followed!', status: 200)

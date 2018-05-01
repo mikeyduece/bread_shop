@@ -28,7 +28,6 @@ class Api::V1::Users::FeedsController < Api::V1::ApplicationController
   def notification
     feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
     results = feed.get['results']
-    require 'pry'; binding.pry
     activities = @enricher.enrich_aggregated_activities(results)
     render(json: activities)
   end
