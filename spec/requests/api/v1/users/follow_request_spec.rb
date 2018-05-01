@@ -30,6 +30,8 @@ RSpec.describe 'Follow Requests' do
       expect(user1.follows.count).to eq(2)
       expect(user1.follows.first.target_id).to eq(user2.id)
       expect(user1.follows.last.target_id).to eq(user3.id)
+      expect(user2.followed_by(user1)).to be true
+      expect(user3.followed_by(user1)).to be true
     end
   end
 
