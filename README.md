@@ -6,6 +6,7 @@
 ##### Versions
 
 <sup>Ruby 2.5.0</sup> <sup>/</sup> <sup>Rails 5.1.5</sup>
+---
 
 ### Endpoints
 All requests require token from client app to be sent in the params. If no token is present, the request will be denied.
@@ -134,7 +135,7 @@ The return from the previous request would be the recipe with the new amounts.
     }
   }
 ```
-
+---
 ### Activity Feed
 #### Follows
 
