@@ -145,3 +145,15 @@ The return from the previous request would be the recipe with the new amounts.
 `DELETE /users/:email/unfollow/:target_email`
 
 >Allows a user to unfollow a user if already followed.
+
+#### Notification
+
+`GET /users/:email/feeds/notification`
+
+>Sends the notification to the user when followed.
+
+#### Flat Feed
+
+`GET /users/:email/feeds/flat`
+
+>Gets the feed for a given user. So far, showing when another user (that the current user follows) creates a new recipe
