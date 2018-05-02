@@ -15,6 +15,16 @@ ActiveRecord::Schema.define(version: 20180423153424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "follows", force: :cascade do |t|
+    t.integer "target_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_id", "user_id"], name: "index_follows_on_target_id_and_user_id", unique: true
+    t.index ["target_id"], name: "index_follows_on_target_id"
+    t.index ["user_id"], name: "index_follows_on_user_id"
+  end
+
   create_table "ingredients", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false

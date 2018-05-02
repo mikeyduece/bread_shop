@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   before_action :authenticate_user!
   before_action :ingredient_list, only: [:create]
@@ -9,7 +11,8 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def show
     recipe = current_user.recipes.find_by(name: params[:recipe_name])
-    recipe.update(family: recipe.assign_family) if recipe.family.nil?
+    family = recipe.assign_family
+    recipe.update(family: family)
     render(
       json: {
         status: 200,
@@ -30,6 +33,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     )
     recipe_ingredients = recipe_ingredient_list(recipe)
     recipe.update(family: recipe.assign_family)
+    recipe_activity
     render(
       json: {
         status: 201,
@@ -57,5 +61,13 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def recipe_ingredient_list(recipe)
     RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
+  end
+
+  def recipe_activity
+    user = current_user.id
+    client = Stream::Client.new(ENV['STREAM_KEY'], ENV['STREAM_SECRET'])
+    feed = client.feed('user', user)
+    activity_data = { actor: user, verb: 'post', object: 1, post: "#{current_user.name} created a new recipe" }
+    feed.add_activity(activity_data)
   end
 end

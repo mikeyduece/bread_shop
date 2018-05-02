@@ -1,3 +1,21 @@
 ---
+
 exclude_paths:
-  - db/**/*
+  - db
+
+IrresponsibleModule:
+  enabled: false
+
+DuplicateMethodCall:
+  exclude:
+    - 'RecipeFamilyInfo#rich'
+    - 'Ingredient#assign_category'
+
+FeatureEnvy:
+  exclude:
+    - 'Recipe#ingredient_list'
+    - 'Api::V1::Users::RecipesController#show'
+
+'spec/rails_helper':
+  UtilityFunction:
+    enabled: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Ingredient, 'validations' do
@@ -10,7 +12,7 @@ RSpec.describe Ingredient, 'associations' do
 end
 
 RSpec.describe Ingredient, type: :model do
-  it 'can assign categories' do
+  it '#assign_category' do
     fat1 = Ingredient.create(name: 'butter')
     fat2 = Ingredient.create(name: 'cream')
     sweet1 = Ingredient.create(name: 'brown sugar')

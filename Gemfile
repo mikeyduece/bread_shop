@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -28,6 +29,7 @@ gem 'redis', '~> 4.0'
 gem 'redis-namespace'
 gem 'redis-rack-cache'
 gem 'redis-rails'
+gem 'stream_rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
