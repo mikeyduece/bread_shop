@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Follow Requests' do
@@ -32,6 +34,8 @@ RSpec.describe 'Follow Requests' do
       expect(user1.follows.last.target_id).to eq(user3.id)
       expect(user2.followed_by(user1)).to be true
       expect(user3.followed_by(user1)).to be true
+      expect(user3.followed_by(user2)).not_to be true
+      expect(user2.followed_by(user3)).not_to be true
     end
   end
 

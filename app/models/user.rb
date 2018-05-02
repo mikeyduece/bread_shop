@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  # include StreamRails::Activity
-  # as_activity
 
   validates :email, uniqueness: true
   validates :uid, uniqueness: true
