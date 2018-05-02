@@ -8,17 +8,17 @@ RSpec.describe 'Feeds' do
   let!(:token) { TokiToki.encode(user.attributes) }
   let!(:token2) { TokiToki.encode(user2.attributes) }
 
-  it 'feeds#user' do
-    VCR.use_cassette('feeds') do
-      get "/api/v1/users/#{user.email}/feeds/me", params: { token: token }
+ # it 'feeds#user' do
+ #   VCR.use_cassette('feeds') do
+ #     get "/api/v1/users/#{user.email}/feeds/me", params: { token: token }
 
-      expect(response).to be_success
+ #     expect(response).to be_success
 
-      activity = JSON.parse(response.body, symbolize_names: true)
+ #     activity = JSON.parse(response.body, symbolize_names: true)
 
-      expect(activity.first[:actor][:name]).to eq(user.name)
-    end
-  end
+ #     expect(activity.first[:actor][:name]).to eq(user.name)
+ #   end
+ # end
 
   it 'feeds#notification' do
     VCR.use_cassette('notification_feeds') do
