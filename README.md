@@ -6,6 +6,7 @@
 ##### Versions
 
 <sup>Ruby 2.5.0</sup> <sup>/</sup> <sup>Rails 5.1.5</sup>
+
 ---
 
 ### Endpoints
@@ -135,6 +136,7 @@ The return from the previous request would be the recipe with the new amounts.
     }
   }
 ```
+
 ---
 ### Activity Feed
 #### Follows
