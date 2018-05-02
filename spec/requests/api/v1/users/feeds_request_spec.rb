@@ -37,7 +37,6 @@ RSpec.describe 'Feeds' do
   end
 
   it 'feeds#flat' do
-    # add api request to post a new recipe and add to user feed
     VCR.use_cassette('flat_feeds') do
       list = {
         name: 'baguette',
