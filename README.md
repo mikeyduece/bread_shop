@@ -134,3 +134,14 @@ The return from the previous request would be the recipe with the new amounts.
     }
   }
 ```
+
+### Activity Feed
+#### Follows
+
+`POST /users/:email/follow/:target_email` 
+
+>Allows one user to follow another. Once the follow record is persisted, the target user is sent a notification.
+
+`DELETE /users/:email/unfollow/:target_email`
+
+>Allows a user to unfollow a user if already followed.
