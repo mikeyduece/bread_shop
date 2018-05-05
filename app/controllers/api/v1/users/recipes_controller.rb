@@ -27,23 +27,28 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def create
-    recipe = Recipe.create(
-      user_id: current_user.id,
-      name: params[:recipe][:name]
-    )
-    recipe_ingredients = recipe_ingredient_list(recipe)
-    recipe.update(family: recipe.assign_family)
-    recipe_activity
-    render(
-      json: {
-        status: 201,
-        recipe: {
-          name: recipe.name,
-          ingredients: recipe_ingredients,
-          total_percentage: recipe.total_percent
+    recipe = Recipe.find_by(name: params[:recipe][:name])
+    if !recipe
+      recipe = Recipe.create(
+        user_id: current_user.id,
+        name: params[:recipe][:name]
+      )
+      recipe_ingredients = recipe_ingredient_list(recipe)
+      recipe.update(family: recipe.assign_family)
+      recipe_activity
+      render(
+        json: {
+          status: 201,
+          recipe: {
+            name: recipe.name,
+            ingredients: recipe_ingredients,
+            total_percentage: recipe.total_percent
+          }
         }
-      }
-    )
+       )
+    else
+      render(json: { status: 404, message: 'You already have a recipe with that name' })
+    end
   end
 
   def destroy
