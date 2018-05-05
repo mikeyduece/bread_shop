@@ -78,6 +78,31 @@ RSpec.describe 'User API' do
       end
     end
 
+    it 'cannot create a recipe with same name as one that already exists' do
+      VCR.use_cassette('dupe_recipes') do
+        user.recipes << create(:recipe, name: 'baguette')
+        list = {
+          name: 'baguette',
+          ingredients: {
+            flour: { amount: 1.00 },
+            water: { amount: 0.62 },
+            yeast: { amount: 0.02 },
+            salt: { amount: 0.02 }
+          }
+        }
+
+        post "/api/v1/users/#{user.email}/recipes",
+          params: { token: token, recipe: list }
+
+        expect(response).to be_success
+
+        result = JSON.parse(response.body, symbolize_names: true)
+
+        expect(result[:status]).to eq(404)
+        expect(result[:message]).to eq('You already have a recipe with that name')
+      end
+    end
+
     it 'user can delete recipe' do
       recipe = user.recipes[0]
       flour  = create(:ingredient, name: 'Flour')
