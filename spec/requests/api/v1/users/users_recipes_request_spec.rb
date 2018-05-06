@@ -114,7 +114,6 @@ RSpec.describe 'User API' do
 
       expect(response).to be_success
 
-      require 'pry'; binding.pry
       deleted = JSON.parse(response.body, symbolize_names: true)
 
       expect(deleted[:status]).to eq(204)
