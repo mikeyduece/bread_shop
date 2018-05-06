@@ -37,8 +37,8 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
       recipe.update(family: recipe.assign_family)
       recipe_activity
       render(
+        status: 201,
         json: {
-          status: 201,
           recipe: {
             name: recipe.name,
             ingredients: recipe_ingredients,
@@ -47,7 +47,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
         }
        )
     else
-      render(json: { status: 404, message: 'You already have a recipe with that name' })
+      render(status: 404, json: { message: 'You already have a recipe with that name' })
     end
   end
 

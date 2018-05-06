@@ -72,6 +72,7 @@ RSpec.describe 'User API' do
           params: { token: token, recipe: list }
 
         expect(response).to be_success
+        expect(response.status).to eq(201)
         expect(Recipe.exists?(name: 'baguette')).to be(true)
         expect(Ingredient.any? { list[:ingredients].keys }).to be(true)
         expect(RecipeIngredient.any? { list[:ingredients].values }).to be(true)
@@ -94,11 +95,11 @@ RSpec.describe 'User API' do
         post "/api/v1/users/#{user.email}/recipes",
           params: { token: token, recipe: list }
 
-        expect(response).to be_success
+        expect(response).not_to be_success
 
         result = JSON.parse(response.body, symbolize_names: true)
 
-        expect(result[:status]).to eq(404)
+        expect(response.status).to eq(404)
         expect(result[:message]).to eq('You already have a recipe with that name')
       end
     end
