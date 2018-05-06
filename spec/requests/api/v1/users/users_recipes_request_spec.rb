@@ -51,7 +51,7 @@ RSpec.describe 'User API' do
 
       json_recipe = JSON.parse(response.body, symbolize_names: true)
 
-      expect(json_recipe[:status]).to eq(200)
+      expect(response.status).to eq(200)
       expect(json_recipe[:recipe][:name]).to eq(recipe.name)
       expect(json_recipe[:recipe][:ingredients].length).to eq(7)
     end

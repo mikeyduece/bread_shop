@@ -14,8 +14,8 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     family = recipe.assign_family
     recipe.update(family: family)
     render(
+      status: 200,
       json: {
-        status: 200,
         recipe: {
           name: recipe.name,
           ingredients: recipe.ingredient_list,
