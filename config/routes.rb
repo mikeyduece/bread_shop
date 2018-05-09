@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :users do
+        post ':email/like/:recipe_id', to: 'likes#create', constraints: { email: /.+@.+\..*/ }
+
         scope path: ':email/feeds', constraints: { email: /.+@.+\..*/ }, controller: :feeds, as: 'feed' do
           get 'me', to: 'feeds#user'
           get 'flat', to: :flat

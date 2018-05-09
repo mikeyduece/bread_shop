@@ -11,6 +11,7 @@ RSpec.describe Recipe, 'associations' do
   it { should belong_to(:user) }
   it { should have_many(:tags).through(:recipe_tags) }
   it { should have_many(:recipe_tags).dependent(:destroy) }
+  it { should have_many(:likes).dependent(:destroy) }
 end
 
 RSpec.describe Recipe, type: :model do
