@@ -21,6 +21,9 @@ RSpec.describe 'User Likes' do
 
       expect(user_1.likes.count).to eq(1)
       expect(user_1.likes[-1].recipe_id).to eq(recipe.id)
+      expect(like[:user_id]).to eq(user_1.id)
+      expect(like[:target_id]).to eq(user_2.id)
+      expect(like[:recipe_id]).to eq(recipe.id)
 
       get "/api/v1/users/#{user_2.email}/feeds/notification", params: { token: token_2 }
 
