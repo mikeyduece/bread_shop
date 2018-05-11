@@ -34,4 +34,25 @@ RSpec.describe 'User Likes' do
       expect(notify.first[:activities].first[:verb]).to eq('Like')
     end
   end
+
+  it 'can unlike a recipe' do
+    VCR.use_cassette('unlike') do
+      recipe = user_2.recipes[0]
+      expect(user_2.likes.count).to eq(0)
+
+      post "/api/v1/users/#{user_1.email}/like/#{recipe.id}", params: { token: token_1 }
+
+      expect(user_1.likes.count).to eq(1)
+
+      delete "/api/v1/users/#{user_1.email}/unlike/#{recipe.id}", params: { token: token_1 }
+
+      expect(response).to be_success
+
+      unlike = JSON.parse(response.body, symbolize_names: true)
+
+      expect(user_1.likes.count).to eq(0)
+      expect(unlike[:status]).to eq(204)
+      expect(unlike[:message]).to eq("You have unliked #{recipe.name}")
+    end
+  end
 end

@@ -7,6 +7,12 @@ class Api::V1::Users::LikesController < Api::V1::ApplicationController
     render(json: like, message: "Liked #{@recipe.name}")
   end
 
+  def destroy
+    like = Like.find_by(target_id: target.id)
+    like.delete
+    render(json: { status: 204, message: "You have unliked #{@recipe.name}" })
+  end
+
   private
 
   def target
