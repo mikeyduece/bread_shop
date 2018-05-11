@@ -6,6 +6,7 @@ class User < ApplicationRecord
   validates :uid, uniqueness: true
   has_many :recipes
   has_many :follows, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   def self.from_auth(auth)
     user = find_by(email: auth[:info][:email])

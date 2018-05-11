@@ -8,6 +8,7 @@ end
 
 RSpec.describe User, 'associations' do
   it { should have_many(:recipes) }
+  it { should have_many(:likes).dependent(:destroy) }
 
   it 'different users can have same recipe name' do
     user1 = create(:user)
