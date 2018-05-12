@@ -17,6 +17,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
       status: 200,
       json: {
         recipe: {
+          id: recipe.id,
           name: recipe.name,
           ingredients: recipe.ingredient_list,
           total_percentage: recipe.total_percent,
@@ -40,6 +41,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
         status: 201,
         json: {
           recipe: {
+            id: recipe.id,
             name: recipe.name,
             ingredients: recipe_ingredients,
             total_percentage: recipe.total_percent
