@@ -53,6 +53,7 @@ RSpec.describe 'User API' do
 
       expect(response.status).to eq(200)
       expect(json_recipe[:recipe][:name]).to eq(recipe.name)
+      expect(json_recipe[:recipe][:id]).to eq(recipe.id)
       expect(json_recipe[:recipe][:ingredients].length).to eq(7)
     end
 
@@ -72,7 +73,12 @@ RSpec.describe 'User API' do
           params: { token: token, recipe: list }
 
         expect(response).to be_success
+
+        new_recipe = JSON.parse(response.body, symbolize_names: true)
+
         expect(response.status).to eq(201)
+        expect(new_recipe[:recipe][:id]).to eq(user.recipes.last.id)
+        expect(new_recipe[:recipe][:name]).to eq(user.recipes.last.name)
         expect(Recipe.exists?(name: 'baguette')).to be(true)
         expect(Ingredient.any? { list[:ingredients].keys }).to be(true)
         expect(RecipeIngredient.any? { list[:ingredients].values }).to be(true)
