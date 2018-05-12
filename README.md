@@ -54,6 +54,7 @@ Example JSON response
   {
     status: 200,
     recipe: {
+      id: <recipe_id>,
       name: 'baguette',
       ingredients: {
         'flour' => {amount: 1.00, bakers_percentage: 100.0},
@@ -125,6 +126,7 @@ The return from the previous request would be the recipe with the new amounts.
 ```Ruby
   {
     recipe: {
+      id: <recipe_id>,
       name: 'baguette',
       ingredients: {
         'flour' => { amount: 6.02 },
@@ -136,6 +138,14 @@ The return from the previous request would be the recipe with the new amounts.
     }
   }
 ```
+
+##### Likes
+`POST /users/:email/like/:recipe_id` 
+>Allows one user to like another users recipes
+
+`DELETE /users/:email/unlike/:recipe_id` 
+>Allows a user to unlike a recipe that they previously 'liked'.
+
 
 ---
 ### Activity Feed
@@ -153,7 +163,7 @@ The return from the previous request would be the recipe with the new amounts.
 
 `GET /users/:email/feeds/notification`
 
->Sends the notification to the user when followed.
+>Sends the notification to the user when followed. Also sends notification to the user who initiated the follow, of when the target user creates a new recipe or when someone likes one of their recipes.
 
 #### Flat Feed
 
