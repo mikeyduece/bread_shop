@@ -110,6 +110,30 @@ RSpec.describe 'User API' do
       end
     end
 
+    it 'can assign a tag to a recipe' do
+      VCR.use_cassette('tags') do
+        list = {
+          name: 'baguette',
+          ingredients: {
+            flour: { amount: 1.00 },
+            water: { amount: 0.62 },
+            yeast: { amount: 0.02 },
+            salt: { amount: 0.02 }
+          }
+        }
+        tags = %w[Lean Baguette French\ Bread]
+
+        post "/api/v1/users/#{user.email}/recipes",
+          params: { token: token, recipe: list, tags: tags }
+
+        expect(response).to be_success
+
+        recipe = JSON.parse(response.body, symbolize_names: true)
+
+        expect(recipe[:tags]).to eq(tags)
+      end
+    end
+
     it 'user can delete recipe' do
       recipe = user.recipes[0]
       flour  = create(:ingredient, name: 'Flour')
