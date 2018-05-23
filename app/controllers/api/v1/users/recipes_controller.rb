@@ -3,6 +3,7 @@
 class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   before_action :authenticate_user!
   before_action :ingredient_list, only: [:create]
+  before_action :tag_list, only: [:create], if: -> { params[:tags].present? }
 
   def index
     recipes = current_user.recipes
@@ -45,9 +46,10 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
             name: recipe.name,
             ingredients: recipe_ingredients,
             total_percentage: recipe.total_percent
-          }
+          },
+          tags: recipe.tags.pluck(:name)
         }
-       )
+      )
     else
       render(status: 404, json: { message: 'You already have a recipe with that name' })
     end
@@ -67,6 +69,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def recipe_ingredient_list(recipe)
+    RecipeTag.create_list(recipe, tag_list) if params[:tags].present?
     RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
   end
 
@@ -76,5 +79,9 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     feed = client.feed('user', user)
     activity_data = { actor: user, verb: 'post', object: 1, post: "#{current_user.name} created a new recipe" }
     feed.add_activity(activity_data)
+  end
+
+  def tag_list
+    Tag.create_list(params[:tags])
   end
 end
