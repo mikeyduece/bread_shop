@@ -15,6 +15,7 @@ FeatureEnvy:
   exclude:
     - 'Recipe#ingredient_list'
     - 'Api::V1::Users::RecipesController#show'
+    - 'Api::V1::Users::RecipesController#create'
 
 'spec/rails_helper':
   UtilityFunction:

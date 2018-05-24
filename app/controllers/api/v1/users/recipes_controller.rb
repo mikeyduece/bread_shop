@@ -29,22 +29,18 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def create
-    recipe = Recipe.find_by(name: params[:recipe][:name])
+    recipe_name = params[:recipe][:name]
+    recipe = Recipe.find_by(name: recipe_name)
     if !recipe
-      recipe = Recipe.create(
-        user_id: current_user.id,
-        name: params[:recipe][:name]
-      )
-      recipe_ingredients = recipe_ingredient_list(recipe)
-      recipe.update(family: recipe.assign_family)
-      recipe_activity
+      recipe = Recipe.create(user_id: current_user.id, name: recipe_name)
+      recipe_feed_and_family(recipe)
       render(
         status: 201,
         json: {
           recipe: {
             id: recipe.id,
             name: recipe.name,
-            ingredients: recipe_ingredients,
+            ingredients: recipe_ingredient_list(recipe),
             total_percentage: recipe.total_percent
           },
           tags: recipe.tags.pluck(:name)
@@ -69,7 +65,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def recipe_ingredient_list(recipe)
-    RecipeTag.create_list(recipe, tag_list) if params[:tags].present?
+    recipe.tags << tag_list if params[:tags].present?
     RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
   end
 
@@ -83,5 +79,10 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def tag_list
     Tag.create_list(params[:tags])
+  end
+
+  def recipe_feed_and_family(recipe)
+    recipe.update(family: recipe.assign_family)
+    recipe_activity
   end
 end
