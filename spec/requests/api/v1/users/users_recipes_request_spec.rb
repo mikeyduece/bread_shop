@@ -130,7 +130,7 @@ RSpec.describe 'User API' do
 
         recipe = JSON.parse(response.body, symbolize_names: true)
 
-        expect(recipe[:tags]).to eq(tags)
+        expect(recipe[:tags]).to include(*tags)
       end
     end
 
