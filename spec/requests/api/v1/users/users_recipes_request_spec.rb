@@ -8,7 +8,7 @@ RSpec.describe 'User API' do
     it 'should return token' do
       get api_v1_auth_amazon_path, params: stub_omniauth
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       user_json = JSON.parse(response.body, symbolize_names: true)
 
@@ -21,7 +21,7 @@ RSpec.describe 'User API' do
     it 'returns list of recipes for a user with params' do
       get "/api/v1/users/#{user.email}/recipes", params: { token: token }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       recipes = JSON.parse(response.body, symbolize_names: true)
 
@@ -32,7 +32,7 @@ RSpec.describe 'User API' do
     it 'does not return anything without token in params' do
       get "/api/v1/users/#{user.email}/recipes"
 
-      expect(response).to_not be_success
+      expect(response).to_not be_successful
       expect(response).to have_http_status(401)
     end
 
@@ -47,7 +47,7 @@ RSpec.describe 'User API' do
       get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
         params: { token: token }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       json_recipe = JSON.parse(response.body, symbolize_names: true)
 
@@ -72,7 +72,7 @@ RSpec.describe 'User API' do
         post "/api/v1/users/#{user.email}/recipes",
           params: { token: token, recipe: list }
 
-        expect(response).to be_success
+        expect(response).to be_successful
 
         new_recipe = JSON.parse(response.body, symbolize_names: true)
 
@@ -101,7 +101,7 @@ RSpec.describe 'User API' do
         post "/api/v1/users/#{user.email}/recipes",
           params: { token: token, recipe: list }
 
-        expect(response).not_to be_success
+        expect(response).not_to be_successful
 
         result = JSON.parse(response.body, symbolize_names: true)
 
@@ -126,11 +126,11 @@ RSpec.describe 'User API' do
         post "/api/v1/users/#{user.email}/recipes",
           params: { token: token, recipe: list, tags: tags }
 
-        expect(response).to be_success
+        expect(response).to be_successful
 
         recipe = JSON.parse(response.body, symbolize_names: true)
 
-        expect(recipe[:tags]).to eq(tags)
+        expect(recipe[:tags]).to include(*tags)
       end
     end
 
@@ -142,7 +142,7 @@ RSpec.describe 'User API' do
       delete "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
         params: { token: token }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       deleted = JSON.parse(response.body, symbolize_names: true)
 
@@ -166,7 +166,7 @@ RSpec.describe 'User API' do
       get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
         params: { token: token }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       return_recipe = JSON.parse(response.body, symbolize_names: true)
 
@@ -181,7 +181,7 @@ RSpec.describe 'User API' do
 
       get '/api/v1/families', params: { token: token }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       families = JSON.parse(response.body, symbolize_names: true)
 
@@ -199,7 +199,7 @@ RSpec.describe 'User API' do
 
       get "/api/v1/families/#{recipe.family}", params: { token: token }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       family = JSON.parse(response.body, symbolize_names: true)
 
@@ -233,7 +233,7 @@ RSpec.describe 'User API' do
           new_dough_weight: 3.32
         }
 
-        expect(response).to be_success
+        expect(response).to be_successful
 
         new_totals = JSON.parse(response.body, symbolize_names: true)
 
@@ -269,7 +269,7 @@ RSpec.describe 'User API' do
           new_dough_weight: 10.0
         }
 
-        expect(response).to be_success
+        expect(response).to be_successful
 
         new_totals = JSON.parse(response.body, symbolize_names: true)
 

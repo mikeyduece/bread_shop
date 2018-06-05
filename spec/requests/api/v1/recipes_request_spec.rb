@@ -31,7 +31,7 @@ RSpec.describe 'New recipe amount calculation' do
           new_dough_weight: 3.32
         }
 
-        expect(response).to be_success
+        expect(response).to be_successful
 
         new_totals = JSON.parse(response.body, symbolize_names: true)
 
@@ -67,7 +67,7 @@ RSpec.describe 'New recipe amount calculation' do
           new_dough_weight: 10.0
         }
 
-        expect(response).to be_success
+        expect(response).to be_successful
 
         new_totals = JSON.parse(response.body, symbolize_names: true)
 
