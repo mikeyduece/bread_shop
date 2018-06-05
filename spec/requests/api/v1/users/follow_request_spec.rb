@@ -13,7 +13,7 @@ RSpec.describe 'Follow Requests' do
       post "/api/v1/users/#{user1.email}/follow/#{user2.email}",
         params: { token: token1 }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.body).to eq('Followed!')
       expect(user1.follows[0].target_id).to eq(user2.id)
       expect(user2.followed_by(user1)).to be true
@@ -27,7 +27,7 @@ RSpec.describe 'Follow Requests' do
       post "/api/v1/users/#{user1.email}/follow/#{user3.email}",
         params: { token: token1 }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.body).to eq('Followed!')
       expect(user1.follows.count).to eq(2)
       expect(user1.follows.first.target_id).to eq(user2.id)
@@ -53,7 +53,7 @@ RSpec.describe 'Follow Requests' do
 
       user1.reload
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.status).to eq(204)
       expect(user1.follows.last.target_id).to eq(user3.id)
       expect(user1.follows.count).to eq(1)
