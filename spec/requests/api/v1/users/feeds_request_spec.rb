@@ -12,7 +12,7 @@ RSpec.describe 'Feeds' do
  #   VCR.use_cassette('feeds') do
  #     get "/api/v1/users/#{user.email}/feeds/me", params: { token: token }
 
- #     expect(response).to be_success
+ #     expect(response).to be_successful
 
  #     activity = JSON.parse(response.body, symbolize_names: true)
 
@@ -26,7 +26,7 @@ RSpec.describe 'Feeds' do
 
       get "/api/v1/users/#{user2.email}/feeds/notification", params: { token: token2 }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       activity = JSON.parse(response.body, symbolize_names: true)
 
@@ -52,7 +52,7 @@ RSpec.describe 'Feeds' do
 
       get "/api/v1/users/#{user.email}/feeds/flat", params: { token: token }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       activity = JSON.parse(response.body, symbolize_names: true)
 

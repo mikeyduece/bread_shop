@@ -8,7 +8,7 @@ RSpec.describe 'User Requests' do
   it '#GET all users' do
     get '/api/v1/users/all'
 
-    expect(response).to be_success
+    expect(response).to be_successful
 
     user_list = JSON.parse(response.body, symbolize_names: true)
 

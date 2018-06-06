@@ -15,7 +15,7 @@ RSpec.describe 'User Likes' do
 
       post "/api/v1/users/#{user_1.email}/like/#{recipe.id}", params: { token: token_1 }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       like = JSON.parse(response.body, symbolize_names: true)
 
@@ -46,7 +46,7 @@ RSpec.describe 'User Likes' do
 
       delete "/api/v1/users/#{user_1.email}/unlike/#{recipe.id}", params: { token: token_1 }
 
-      expect(response).to be_success
+      expect(response).to be_successful
 
       unlike = JSON.parse(response.body, symbolize_names: true)
 
