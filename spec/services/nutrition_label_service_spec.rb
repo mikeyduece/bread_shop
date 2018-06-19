@@ -12,6 +12,7 @@ RSpec.describe 'Nutrition Label Service' do
       '1/3 oz salt'
     ]
   }}
+
   it 'exists' do
     VCR.use_cassette('label_service') do
       label = NutritionLabelService.new(recipe)

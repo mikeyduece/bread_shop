@@ -1,4 +1,5 @@
 #frozen_string_literal: true
+require 'json'
 
 class NutritionLabelService
   def initialize(recipe)
@@ -13,10 +14,10 @@ class NutritionLabelService
   def post_url
     response = @conn.post do |req|
       req.headers['Content-Type'] = 'application/json'
-      req.body = "{
-        'title': #{recipe[:title]},
-        'ingr': #{recipe[:ingr]}
-      }"
+      req.body = {
+        'title': recipe[:title],
+        'ingr': recipe[:ingr]
+      }.to_json
     end
     JSON.parse(response.body, symbolize_names: true)
   end
