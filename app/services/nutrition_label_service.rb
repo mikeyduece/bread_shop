@@ -14,22 +14,25 @@ class NutritionLabelService
   def post_url
     response = @conn.post do |req|
       req.headers['Content-Type'] = 'application/json'
-      req.body = {
-        'title': recipe[:title],
-        'ingr': recipe[:ingr]
-      }.to_json
+      req.body = recipe_formatter
     end
     JSON.parse(response.body, symbolize_names: true)
   end
 
   def self.analyze_recipe(recipe)
-    new(recipe).post_url
-  end
-
-  def self.recipe_formatter(recipe)
     require 'pry'; binding.pry
+    new(recipe).post_url
   end
 
   private
     attr_reader :recipe
+
+    def recipe_formatter
+      {
+        'title': recipe.name,
+        'ingr': recipe.recipe_ingredients.map do |recipe_ingredient|
+          "#{recipe_ingredient.amount}oz #{recipe_ingredient.ingredient.name}"
+        end
+      }.to_json
+    end
 end

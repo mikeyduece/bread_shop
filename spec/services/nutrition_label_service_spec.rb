@@ -22,24 +22,18 @@ RSpec.describe 'Nutrition Label Service' do
     end
   end
 
-  it 'returns an analyzed recipe' do
-    VCR.use_cassette('analyzation') do
-      attrs = %i[yield calories totalWeight totalNutrients totalDaily]
-      label = NutritionLabelService.analyze_recipe(baguette)
-
-      expect(label).not_to be_empty
-      expect(attrs.all? {|s| label.key?(s)}).to be true
-    end
-  end
-
   it 'can format a recipe for label api call' do
     VCR.use_cassette('formatting') do
+      attrs = %i[yield calories totalWeight totalNutrients totalDaily]
       %w[flour water salt yeast].each do |name|
         ing = create(:ingredient, name: name)
         create(:recipe_ingredient, recipe: recipe, ingredient: ing)
       end
 
-      formatted_recipe = NutritionLabelService.recipe_formatter(recipe)
+      label = NutritionLabelService.analyze_recipe(recipe)
+
+      expect(label).not_to be_empty
+      expect(attrs.all? {|s| label.key?(s)}).to be true
     end
   end
 end
