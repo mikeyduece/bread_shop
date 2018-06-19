@@ -1,10 +1,9 @@
 #frozen_string_litereal: true
-
 require 'rails_helper'
 
 RSpec.describe 'Nutrition Label Service' do
   let!(:baguette) {{
-    title: 'Baguette',
+    title: 'baguette',
     ingr: [
       '1lb of flour',
       '10oz of water',
