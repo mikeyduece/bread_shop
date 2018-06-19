@@ -13,6 +13,10 @@ class Recipe < ApplicationRecord
 
   before_destroy :destroy_all_recipe_ingredients
 
+  def label=(params)
+    super(params)
+  end
+
   def self.new_totals(recipe, new_dough_weight)
     ingredients = recipe[:ingredients]
     new_flour_weight = ((new_dough_weight.to_f / recipe[:total_percentage].to_f) * 100).round(2)

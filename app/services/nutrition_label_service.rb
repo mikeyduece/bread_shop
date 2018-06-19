@@ -26,6 +26,10 @@ class NutritionLabelService
     new(recipe).post_url
   end
 
+  def self.recipe_formatter(recipe)
+    require 'pry'; binding.pry
+  end
+
   private
     attr_reader :recipe
 end
