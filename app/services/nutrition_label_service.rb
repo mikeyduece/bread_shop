@@ -26,7 +26,6 @@ class NutritionLabelService
     new(recipe).post_url
   end
 
-
   private
     attr_reader :recipe
 end
