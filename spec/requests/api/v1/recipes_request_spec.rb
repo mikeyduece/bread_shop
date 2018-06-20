@@ -6,7 +6,7 @@ RSpec.describe 'New recipe amount calculation' do
   let!(:token) { TokiToki.encode(user.attributes) }
 
   context 'Nutrition Label' do
-    xit 'fetches label' do
+    it 'fetches label' do
       VCR.use_cassette('label') do
         attrs = %i[yield calories totalNutrients healthLabels totalDaily]
         get "/api/v1/recipes/#{user.recipes[0].name}/label", params: {
@@ -15,7 +15,6 @@ RSpec.describe 'New recipe amount calculation' do
 
         expect(response).to be_successful
 
-        require 'pry'; binding.pry
         label = JSON.parse(response.body, symbolize_names: true)
 
         expect(attrs.all? {|s| label.key?(s)}).to be true
