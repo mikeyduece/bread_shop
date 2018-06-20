@@ -15,7 +15,7 @@ RSpec.describe 'Nutrition Label Service' do
   let(:recipe) { user.recipes[0]}
 
   it 'exists' do
-    VCR.use_cassette('label_service') do
+    VCR.use_cassette('label_service', :allow_playback_repeats => true) do
       label = NutritionLabelService.new(baguette)
 
       expect(label).to be_a(NutritionLabelService)
@@ -23,7 +23,7 @@ RSpec.describe 'Nutrition Label Service' do
   end
 
   it 'can format a recipe for label api call' do
-    VCR.use_cassette('formatting') do
+    VCR.use_cassette('formatting', :allow_playback_repeats => true) do
       attrs = %i[yield calories totalWeight totalNutrients totalDaily]
       %w[flour water salt yeast].each do |name|
         ing = create(:ingredient, name: name)

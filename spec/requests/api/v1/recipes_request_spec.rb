@@ -2,8 +2,26 @@
 
 require 'rails_helper'
 RSpec.describe 'New recipe amount calculation' do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_with_recipes) }
   let!(:token) { TokiToki.encode(user.attributes) }
+
+  context 'Nutrition Label' do
+    xit 'fetches label' do
+      VCR.use_cassette('label') do
+        attrs = %i[yield calories totalNutrients healthLabels totalDaily]
+        get "/api/v1/recipes/#{user.recipes[0].name}/label", params: {
+          token: token
+        }
+
+        expect(response).to be_successful
+
+        require 'pry'; binding.pry
+        label = JSON.parse(response.body, symbolize_names: true)
+
+        expect(attrs.all? {|s| label.key?(s)}).to be true
+      end
+    end
+  end
 
   context 'calculate new amounts' do
     it 'calculates new amounts from new total dough weight' do

@@ -135,75 +135,83 @@ RSpec.describe 'User API' do
     end
 
     it 'user can delete recipe' do
-      recipe = user.recipes[0]
-      flour  = create(:ingredient, name: 'Flour')
-      recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
+      VCR.use_cassette('formatting') do
+        recipe = user.recipes[0]
+        flour  = create(:ingredient, name: 'Flour')
+        recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
 
-      delete "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
-        params: { token: token }
+        delete "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
+          params: { token: token }
 
-      expect(response).to be_successful
+        expect(response).to be_successful
 
-      deleted = JSON.parse(response.body, symbolize_names: true)
+        deleted = JSON.parse(response.body, symbolize_names: true)
 
-      expect(deleted[:status]).to eq(204)
-      expect(deleted[:message]).to eq("Successfully deleted #{recipe.name}")
-      expect(Recipe.all).not_to include(recipe.id)
+        expect(deleted[:status]).to eq(204)
+        expect(deleted[:message]).to eq("Successfully deleted #{recipe.name}")
+        expect(Recipe.all).not_to include(recipe.id)
+      end
     end
 
     it 'returns the family of the recipe' do
-      user.recipes << create(:recipe, name: 'baguette', user: user)
-      recipe = user.recipes.last
-      flour  = Ingredient.create(name: 'flour', category: 'flour')
-      water  = Ingredient.create(name: 'water', category: 'water')
-      salt   = Ingredient.create(name: 'salt')
-      yeast  = Ingredient.create(name: 'yeast')
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
+      VCR.use_cassette('formatting') do
+        user.recipes << create(:recipe, name: 'baguette', user: user)
+        recipe = user.recipes.last
+        flour  = Ingredient.create(name: 'flour', category: 'flour')
+        water  = Ingredient.create(name: 'water', category: 'water')
+        salt   = Ingredient.create(name: 'salt')
+        yeast  = Ingredient.create(name: 'yeast')
+        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
+        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
+        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
+        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
 
-      get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
-        params: { token: token }
+        get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
+          params: { token: token }
 
-      expect(response).to be_successful
+        expect(response).to be_successful
 
-      return_recipe = JSON.parse(response.body, symbolize_names: true)
+        return_recipe = JSON.parse(response.body, symbolize_names: true)
 
-      expect(return_recipe[:recipe][:family]).to eq('Lean')
+        expect(return_recipe[:recipe][:family]).to eq('Lean')
+      end
     end
 
     it 'returns list of all recipes grouped by family' do
-      user.recipes = create_list(:recipe, 10, user: user)
-      user.recipes.each do |x|
-        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+      VCR.use_cassette('formatting') do
+        user.recipes = create_list(:recipe, 10, user: user)
+        user.recipes.each do |x|
+          x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+        end
+
+        get '/api/v1/families', params: { token: token }
+
+        expect(response).to be_successful
+
+        families = JSON.parse(response.body, symbolize_names: true)
+
+        family_names = %w[Lean Soft Rich Sweet Slack].map(&:to_sym)
+        expect(families).to be_a(Hash)
+        expect(families.keys).to include(*family_names)
       end
-
-      get '/api/v1/families', params: { token: token }
-
-      expect(response).to be_successful
-
-      families = JSON.parse(response.body, symbolize_names: true)
-
-      family_names = %w[Lean Soft Rich Sweet Slack].map(&:to_sym)
-      expect(families).to be_a(Hash)
-      expect(families.keys).to include(*family_names)
     end
 
     it 'returns list of recipes that align with requested family' do
-      user.recipes = create_list(:recipe, 4, user: user)
-      user.recipes.each do |x|
-        x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+      VCR.use_cassette('formatting') do
+        user.recipes = create_list(:recipe, 4, user: user)
+        user.recipes.each do |x|
+          x.recipe_ingredients = create_list(:recipe_ingredient, 6)
+        end
+        recipe = user.recipes[0]
+
+        get "/api/v1/families/#{recipe.family}", params: { token: token }
+
+        expect(response).to be_successful
+
+        family = JSON.parse(response.body, symbolize_names: true)
+
+        expect(family.all? { |hash| hash[:family] == recipe.family }).to be true
       end
-      recipe = user.recipes[0]
-
-      get "/api/v1/families/#{recipe.family}", params: { token: token }
-
-      expect(response).to be_successful
-
-      family = JSON.parse(response.body, symbolize_names: true)
-
-      expect(family.all? { |hash| hash[:family] == recipe.family }).to be true
     end
   end
 

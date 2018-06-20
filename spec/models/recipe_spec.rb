@@ -15,9 +15,10 @@ RSpec.describe Recipe, 'associations' do
 end
 
 RSpec.describe Recipe, type: :model do
+  let(:user) { create(:user_with_recipes) }
+  let(:recipe) { user.recipes[0]}
   context 'Instance Methods' do
     it '#flour_amts' do
-      # create(:user)
       recipe = create(:recipe)
       flour1 = create(:ingredient, name: 'ap flour', category: 'flour')
       flour2 = create(:ingredient, name: 'bread flour', category: 'flour')
@@ -31,7 +32,6 @@ RSpec.describe Recipe, type: :model do
     end
 
     it 'can calculate more than one type of flour' do
-      # create(:user)
       recipe = create(:recipe)
       flour1 = create(:ingredient, name: 'ap flour', category: 'flour')
       flour2 = create(:ingredient, name: 'cornmeal', category: 'flour')
@@ -54,7 +54,6 @@ RSpec.describe Recipe, type: :model do
     end
 
     it '#total_percentage' do
-      # create(:user)
       recipe = create(:recipe)
       ing_list = create_list(:ingredient, 6)
       flour1 = create(:ingredient, name: 'AP flour', category: 'flour')
@@ -74,7 +73,6 @@ RSpec.describe Recipe, type: :model do
     end
 
     it 'can have a different #total_percentage' do
-      # create(:user)
       recipe = create(:recipe)
       ing_list = create_list(:ingredient, 6)
       flour1 = create(:ingredient, name: 'AP flour', category: 'flour')

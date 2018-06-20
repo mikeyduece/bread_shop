@@ -1,7 +1,7 @@
 #frozen_string_literal: true
-#require 'json'
 
 class NutritionLabelService
+
   def initialize(recipe)
     @recipe = recipe
     @conn = Faraday.new(url: "https://api.edamam.com/api/nutrition-details") do |faraday|

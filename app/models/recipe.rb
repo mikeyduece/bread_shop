@@ -14,6 +14,10 @@ class Recipe < ApplicationRecord
 
   before_destroy :destroy_all_recipe_ingredients
 
+  def fetch_label_info
+    self.label = NutritionLabelService.analyze_recipe(self)
+  end
+
   def recipe_formatter
     {
       'title': name,
