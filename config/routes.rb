@@ -40,6 +40,9 @@ Rails.application.routes.draw do
 
       # new total weights path
       get 'recipes/:recipe_name/new_totals', to: 'recipes#show'
+
+      #get nutrition label for recipe
+      get 'recipes/:recipe_name/label', to: 'nutrition_label#show'
     end
   end
 end

@@ -1,7 +1,7 @@
 #frozen_string_literal: true
-require 'json'
 
 class NutritionLabelService
+
   def initialize(recipe)
     @recipe = recipe
     @conn = Faraday.new(url: "https://api.edamam.com/api/nutrition-details") do |faraday|
@@ -14,10 +14,7 @@ class NutritionLabelService
   def post_url
     response = @conn.post do |req|
       req.headers['Content-Type'] = 'application/json'
-      req.body = {
-        'title': recipe[:title],
-        'ingr': recipe[:ingr]
-      }.to_json
+      req.body = recipe.recipe_formatter
     end
     JSON.parse(response.body, symbolize_names: true)
   end
@@ -25,7 +22,6 @@ class NutritionLabelService
   def self.analyze_recipe(recipe)
     new(recipe).post_url
   end
-
 
   private
     attr_reader :recipe

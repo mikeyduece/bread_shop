@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'json'
 
 class Recipe < ApplicationRecord
   include RecipeFamilyInfo
@@ -12,6 +13,19 @@ class Recipe < ApplicationRecord
   validates :name, uniqueness: true, presence: true
 
   before_destroy :destroy_all_recipe_ingredients
+
+  def fetch_label_info
+    self.label = NutritionLabelService.analyze_recipe(self)
+  end
+
+  def recipe_formatter
+    {
+      'title': name,
+      'ingr': recipe_ingredients.map do |recipe_ingredient|
+        "#{recipe_ingredient.amount}oz #{recipe_ingredient.ingredient.name}"
+      end
+    }.to_json
+  end
 
   def self.new_totals(recipe, new_dough_weight)
     ingredients = recipe[:ingredients]
