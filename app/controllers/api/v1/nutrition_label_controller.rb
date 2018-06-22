@@ -1,3 +1,5 @@
+#frozen_string_literal: true
+
 class Api::V1::NutritionLabelController < Api::V1::ApplicationController
   def show
     recipe = Recipe.find_by(name: params[:recipe_name])
