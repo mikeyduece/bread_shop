@@ -1625,10 +1625,22 @@ Style/MethodDefParentheses:
   StyleGuide: '#method-parens'
   Enabled: true
 
-Style/MethodMissing:
-  Description: 'Avoid using `method_missing`.'
+Style/MethodMissingSuper:
+  Description: Checks for `method_missing` to call `super`.
   StyleGuide: '#no-method-missing'
   Enabled: true
+
+Style/MissingRespondToMissing:
+  Description: >-
+                  Checks if `method_missing` is implemented
+                  without implementing `respond_to_missing`.
+  StyleGuide: '#no-method-missing'
+  Enabled: true
+
+#Style/MethodMissing:
+#  Description: 'Avoid using `method_missing`.'
+#  StyleGuide: '#no-method-missing'
+#  Enabled: true
 
 Style/MinMax:
   Description: >-
