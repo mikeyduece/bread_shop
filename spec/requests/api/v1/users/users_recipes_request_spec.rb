@@ -12,6 +12,7 @@ RSpec.describe 'User API' do
 
       user_json = JSON.parse(response.body, symbolize_names: true)
 
+      expect(user_json[:user][:name]).to eq(stub_omniauth['user_info']['info']['name'])
       expect(user_json[:token]).to match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/)
       expect(user_json[:status]).to eq(200)
     end
