@@ -30,9 +30,8 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def create
     recipe_name = params[:recipe][:name]
-    recipe = Recipe.find_by(name: recipe_name)
-    if !recipe
-      recipe = Recipe.create(user_id: current_user.id, name: recipe_name)
+    recipe = Recipe.new(user_id: current_user.id, name: recipe_name)
+    if recipe.save
       recipe_feed_and_family(recipe)
       render(
         status: 201,
