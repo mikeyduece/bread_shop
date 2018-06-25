@@ -63,6 +63,7 @@ AllCops:
     - '.git/**/*'
     - 'db/schema.rb'
     - 'db/migrate/*'
+    - 'bin/*'
     - 'bin/setup*'
     - 'bin/update*'
     - 'spec/rails_helper.rb'

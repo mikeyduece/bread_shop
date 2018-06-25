@@ -29,11 +29,8 @@ class Recipe < ApplicationRecord
 
   def self.new_totals(recipe, new_dough_weight)
     ingredients = recipe[:ingredients]
-    new_flour_weight = ((new_dough_weight.to_f / recipe[:total_percentage].to_f) * 100).round(2)
-    ingredients.each do |name, hash|
-      hash[:amount] = new_flour_weight if name == 'flour'
-      hash[:amount] = (new_flour_weight * hash[:bakers_percentage].to_f / 100).round(2)
-    end
+    new_flour_weight = new_flour_total(recipe, new_dough_weight)
+    recalculated_amounts(ingredients, new_flour_weight)
     recipe
   end
 
@@ -41,14 +38,8 @@ class Recipe < ApplicationRecord
     grouped = all.group_by(&:family)
     serialized_recipes = {}
     grouped.each do |family, recipes|
-      serialized_recipes[family] = recipes.map do |recipe|
-        recipe.as_json(
-          only: [:name],
-          include: { user: { only: %i[name email] } }
-        )
-      end
+      serialized_recipes[family] = serialized_families(recipes)
     end
-
     serialized_recipes
   end
 
@@ -73,11 +64,31 @@ class Recipe < ApplicationRecord
         bakers_percentage: recipe_ingredient.bakers_percentage
       }
     end
-
     list
   end
 
   private
+  class << self
+    def serialized_families(recipes)
+      recipes.map do |recipe|
+        recipe.as_json(
+          only: [:name],
+          include: { user: { only: %i[name email] } }
+        )
+      end
+    end
+
+    def new_flour_total(recipe, new_dough_weight)
+      ((new_dough_weight.to_f / recipe[:total_percentage].to_f) * 100).round(2)
+    end
+
+    def recalculated_amounts(ingredients, new_flour_weight)
+      ingredients.each do |name, hash|
+        hash[:amount] = new_flour_weight if name == 'flour'
+        hash[:amount] = (new_flour_weight * hash[:bakers_percentage].to_f / 100).round(2)
+      end
+    end
+  end
 
   def calculate_family
     case

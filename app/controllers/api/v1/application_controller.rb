@@ -5,8 +5,9 @@ class Api::V1::ApplicationController < ActionController::Base
   helper_method :current_user, :authenticate_user!
 
   def current_user
-    if params[:token].present?
-      token = params[:token]
+    token = params[:token]
+    if token.present? # params[:token].present?
+      # token = params[:token]
       payload = TokiToki.decode(token)
       @current_user ||= User.find_by_email(payload[0]['sub']['email'])
     end

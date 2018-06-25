@@ -14,13 +14,13 @@ class RecipeIngredient < ApplicationRecord
     saved = {}
     list.each do |name, value|
       ing = Ingredient.find_by(name: name)
-      x = RecipeIngredient.create(
+      recipe_ingredient = RecipeIngredient.create(
         recipe_id: rec_id, ingredient_id: ing.id,
         amount: value[:amount].to_f
       )
       saved[name] = {
         amount: value[:amount].to_f,
-        bakers_percentage: x.bakers_percentage
+        bakers_percentage: recipe_ingredient.bakers_percentage
       }
     end
     saved
