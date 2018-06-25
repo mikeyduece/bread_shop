@@ -41,12 +41,13 @@ class Recipe < ApplicationRecord
     grouped = all.group_by(&:family)
     serialized_recipes = {}
     grouped.each do |family, recipes|
-      serialized_recipes[family] = recipes.map do |recipe|
-        recipe.as_json(
-          only: [:name],
-          include: { user: { only: %i[name email] } }
-        )
-      end
+      serialized_recipes[family] = serialized_families(recipes)
+      #serialized_recipes[family] = recipes.map do |recipe|
+      #  recipe.as_json(
+      #    only: [:name],
+      #    include: { user: { only: %i[name email] } }
+      #  )
+      #end
     end
 
     serialized_recipes
@@ -78,6 +79,16 @@ class Recipe < ApplicationRecord
   end
 
   private
+  class << self
+    def serialized_families(recipes)
+      recipes.map do |recipe|
+        recipe.as_json(
+          only: [:name],
+          include: { user: { only: %i[name email] } }
+        )
+      end
+    end
+  end
 
   def calculate_family
     case
