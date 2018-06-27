@@ -18,6 +18,10 @@ class Recipe < ApplicationRecord
     self.label = NutritionLabelService.analyze_recipe(self)
   end
 
+  def tag_list
+    tags.pluck(:name)
+  end
+
   def recipe_formatter
     {
       'title': name,
@@ -109,4 +113,5 @@ class Recipe < ApplicationRecord
   def destroy_all_recipe_ingredients
     recipe_ingredients.delete_all
   end
+
 end
