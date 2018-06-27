@@ -18,10 +18,6 @@ class Recipe < ApplicationRecord
     self.label = NutritionLabelService.analyze_recipe(self)
   end
 
-  def recipe_family
-    self.family = assign_family
-  end
-
   def tag_list
     tags.pluck(:name)
   end
