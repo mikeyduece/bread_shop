@@ -254,7 +254,7 @@ RSpec.describe 'User API' do
     end
 
     it 'calculates different amounts from different total dough weight' do
-      VCR.use_cassette('new_recipes') do
+      VCR.use_cassette('recipes') do
         list = {
           name: 'baguette',
           ingredients: {

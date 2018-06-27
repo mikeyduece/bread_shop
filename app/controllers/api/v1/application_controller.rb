@@ -6,8 +6,7 @@ class Api::V1::ApplicationController < ActionController::Base
 
   def current_user
     token = params[:token]
-    if token.present? # params[:token].present?
-      # token = params[:token]
+    if token.present?
       payload = TokiToki.decode(token)
       @current_user ||= User.find_by_email(payload[0]['sub']['email'])
     end

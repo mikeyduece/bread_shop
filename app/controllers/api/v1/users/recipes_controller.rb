@@ -3,7 +3,6 @@
 class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   before_action :authenticate_user!
   before_action :ingredient_list, only: %i[create]
-  before_action :tag_list, only: %i[create], if: -> { params[:tags].present? }
   after_action :recipe_activity, only: %i[create]
 
   def index
@@ -40,10 +39,10 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
           recipe: {
             id: recipe.id,
             name: recipe.name,
-            ingredients: recipe_ingredient_list(recipe),
+            ingredients: recipe.recipe_ingredient_list(params[:recipe][:ingredients]),
             total_percentage: recipe.total_percent
           },
-          tags: recipe.tag_list
+          tags: recipe.tag_list(params[:tags])
         }
       )
     else
@@ -64,20 +63,11 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     Ingredient.create_list(params[:recipe][:ingredients].keys)
   end
 
-  def recipe_ingredient_list(recipe)
-    recipe.tags << tag_list if params[:tags].present?
-    RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
-  end
-
   def recipe_activity
     user = current_user.id
     client = Stream::Client.new(ENV['STREAM_KEY'], ENV['STREAM_SECRET'])
     feed = client.feed('user', user)
     activity_data = { actor: user, verb: 'post', object: 1, post: "#{current_user.name} created a new recipe" }
     feed.add_activity(activity_data)
-  end
-
-  def tag_list
-    Tag.create_list(params[:tags])
   end
 end
