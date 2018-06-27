@@ -172,6 +172,8 @@ The return from the previous request would be the recipe with the new amounts.
 >Gets the feed for a given user. So far, showing when another user (that the current user follows) creates a new recipe
 
 #### Nutrition Label
+Analysis of recipe information provided by [Edamam](https://www.edamam.com/)
+
 
 `GET /recipes/:recipe_name/label?token=token`
 
