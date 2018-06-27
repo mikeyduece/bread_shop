@@ -2,8 +2,9 @@
 
 class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   before_action :authenticate_user!
-  before_action :ingredient_list, only: [:create]
-  before_action :tag_list, only: [:create], if: -> { params[:tags].present? }
+  before_action :ingredient_list, only: %i[create]
+  before_action :tag_list, only: %i[create], if: -> { params[:tags].present? }
+  after_action :recipe_activity, only: %i[create]
 
   def index
     recipes = current_user.recipes
@@ -32,7 +33,6 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     recipe_name = params[:recipe][:name]
     recipe = Recipe.new(user_id: current_user.id, name: recipe_name)
     if recipe.save
-      recipe_feed_and_family(recipe)
       render(
         status: 201,
         json: {
@@ -42,7 +42,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
             ingredients: recipe_ingredient_list(recipe),
             total_percentage: recipe.total_percent
           },
-          tags: recipe.tags.pluck(:name)
+          tags: recipe.tag_list
         }
       )
     else
@@ -80,8 +80,8 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     Tag.create_list(params[:tags])
   end
 
-  def recipe_feed_and_family(recipe)
-    recipe.update(family: recipe.assign_family)
-    recipe_activity
-  end
+  # def recipe_feed_and_family(recipe)
+  #   recipe.update(family: recipe.assign_family)
+  #   recipe_activity
+  # end
 end
