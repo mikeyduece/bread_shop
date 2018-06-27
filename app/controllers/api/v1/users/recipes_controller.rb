@@ -3,7 +3,6 @@
 class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   before_action :authenticate_user!
   before_action :ingredient_list, only: %i[create]
-  before_action :tag_list, only: %i[create], if: -> { params[:tags].present? }
   after_action :recipe_activity, only: %i[create]
 
   def index
@@ -43,7 +42,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
             ingredients: recipe_ingredient_list(recipe),
             total_percentage: recipe.total_percent
           },
-          tags: recipe.tag_list
+          tags: recipe.tag_list(params[:tags])
         }
       )
     else
@@ -65,7 +64,6 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def recipe_ingredient_list(recipe)
-    recipe.tags << tag_list if params[:tags].present?
     RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
   end
 
@@ -75,9 +73,5 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     feed = client.feed('user', user)
     activity_data = { actor: user, verb: 'post', object: 1, post: "#{current_user.name} created a new recipe" }
     feed.add_activity(activity_data)
-  end
-
-  def tag_list
-    Tag.create_list(params[:tags])
   end
 end
