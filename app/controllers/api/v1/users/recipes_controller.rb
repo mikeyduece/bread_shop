@@ -29,7 +29,6 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def create
-    NutritionLabelJob.set(wait_until: Date.today.midnight).perform_later
     recipe_name = params[:recipe][:name]
     recipe = Recipe.new(user_id: current_user.id, name: recipe_name)
     if recipe.save
