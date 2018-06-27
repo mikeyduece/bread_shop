@@ -33,6 +33,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     recipe_name = params[:recipe][:name]
     recipe = Recipe.new(user_id: current_user.id, name: recipe_name)
     if recipe.save
+      recipe.assign_family
       render(
         status: 201,
         json: {
@@ -79,9 +80,4 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   def tag_list
     Tag.create_list(params[:tags])
   end
-
-  # def recipe_feed_and_family(recipe)
-  #   recipe.update(family: recipe.assign_family)
-  #   recipe_activity
-  # end
 end

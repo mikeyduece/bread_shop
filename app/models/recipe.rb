@@ -12,11 +12,14 @@ class Recipe < ApplicationRecord
   has_many :likes, dependent: :destroy
   validates :name, uniqueness: true, presence: true
 
-  after_save :recipe_family
   before_destroy :destroy_all_recipe_ingredients
 
   def fetch_label_info
     self.label = NutritionLabelService.analyze_recipe(self)
+  end
+
+  def recipe_family
+    self.family = assign_family
   end
 
   def tag_list
@@ -115,7 +118,4 @@ class Recipe < ApplicationRecord
     recipe_ingredients.delete_all
   end
 
-  def recipe_family
-    self.family = assign_family
-  end
 end
