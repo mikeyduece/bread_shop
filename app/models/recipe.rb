@@ -15,6 +15,8 @@ class Recipe < ApplicationRecord
   before_destroy :destroy_all_recipe_ingredients
 
   def fetch_label_info
+    return self.label unless self.label.nil?
+
     self.label = NutritionLabelService.analyze_recipe(self)
   end
 
