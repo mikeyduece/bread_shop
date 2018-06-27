@@ -113,5 +113,4 @@ class Recipe < ApplicationRecord
   def destroy_all_recipe_ingredients
     recipe_ingredients.delete_all
   end
-
 end
