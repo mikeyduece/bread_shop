@@ -39,7 +39,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
           recipe: {
             id: recipe.id,
             name: recipe.name,
-            ingredients: recipe_ingredient_list(recipe),
+            ingredients: recipe.recipe_ingredient_list(params[:recipe][:ingredients]),
             total_percentage: recipe.total_percent
           },
           tags: recipe.tag_list(params[:tags])
@@ -61,10 +61,6 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def ingredient_list
     Ingredient.create_list(params[:recipe][:ingredients].keys)
-  end
-
-  def recipe_ingredient_list(recipe)
-    RecipeIngredient.create_with_list(recipe.id, params[:recipe][:ingredients])
   end
 
   def recipe_activity
