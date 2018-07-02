@@ -95,10 +95,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  RSpec.configure do |config|
-    config.use_transactional_fixtures = true
-    config.infer_spec_type_from_file_location!
-    #Use this for a Rails Application
-    config.after(:suite) {Brakeman.run app_path: "#{Rails.root}", output_files: ['brakeman.html']}
+  config.after(:suite) do
+    Brakeman.run app_path: "#{Rails.root}", output_files: ['brakeman.html'], print_report: true
   end
 end
