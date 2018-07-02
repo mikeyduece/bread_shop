@@ -98,13 +98,12 @@ RSpec.configure do |config|
   config.after(:suite) do
     example_group = RSpec.describe('Brakeman Issues')
     example = example_group.example('must have 0 Critical Security Issues') do
-      res = Brakeman.run app_path: "#{Rails.root}", output_files: ['brakeman.html']
-      serious=res.warnings.count { |w| w.confidence==0 }
+      res = Brakeman.run app_path: "#{Rails.root}", output_files: ['brakeman.html'], print_report: true
+      serious = res.warnings.count { |w| w.confidence == 0 }
       puts "\n\nBrakeman Result:\n Critical Security Issues = #{serious}"
-      expect(serious).to eq 0
+      expect(serious).to eq(0)
     end
     example_group.run
-    passed = example.execution_result.status == :passed
-    RSpec.configuration.reporter.example_failed example unless passed
+    RSpec.configuration.reporter.example_failed example unless :passed
   end
 end
