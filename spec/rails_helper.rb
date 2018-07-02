@@ -97,13 +97,13 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.after(:suite) do
     example_group = RSpec.describe('Brakeman Issues')
-    examples = example_group.example('must have 0 Critical Security Issues') do
+    example = example_group.example('must have 0 Critical Security Issues') do
       res = Brakeman.run app_path: "#{Rails.root}", output_files: ['brakeman.html'], print_report: true
       serious = res.warnings.count { |w| w.confidence == 0 }
       puts "\n\nBrakeman Result:\n Critical Security Issues = #{serious}"
       expect(serious).to eq(0)
     end
     example_group.run
-    RSpec.configuration.reporter.example_failed examples unless :passed
+    RSpec.configuration.reporter.example_failed example unless :passed
   end
 end
