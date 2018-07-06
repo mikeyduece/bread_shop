@@ -5,6 +5,7 @@ class Recipe < ApplicationRecord
   include RecipeFamilyInfo
 
   belongs_to :user
+  belongs_to :family
   has_many :recipe_ingredients, dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
   has_many :recipe_tags, dependent: :destroy
@@ -83,7 +84,7 @@ class Recipe < ApplicationRecord
     def serialized_families(recipes)
       recipes.map do |recipe|
         recipe.as_json(
-          only: [:name],
+          only: %i[name],
           include: { user: { only: %i[name email] } }
         )
       end
@@ -103,12 +104,16 @@ class Recipe < ApplicationRecord
 
   def calculate_family
     case
-    when lean  then self[:family] = 'Lean'
-    when soft  then self[:family] = 'Soft'
-    when sweet then self[:family] = 'Sweet'
-    when rich  then self[:family] = 'Rich'
-    when slack then self[:family] = 'Slack'
+    when lean then self[:family_id] = family_assignment('Lean')
+    when soft then self[:family_id] = family_assignment('Soft')
+    when sweet then self[:family_id] = family_assignment('Sweet')
+    when rich then self[:family_id] = family_assignment('Rich')
+    when slack then self[:family_id] = family_assignment('Slack')
     end
+  end
+
+  def family_assignment(name)
+    Family.find_by(name: name).id
   end
 
   def sum_recipe_ingredient_amounts(category)

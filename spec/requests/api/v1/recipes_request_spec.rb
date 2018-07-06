@@ -31,7 +31,7 @@ RSpec.describe 'New recipe amount calculation' do
     it 'calculates new amounts from new total dough weight' do
       VCR.use_cassette('new_recipe') do
         list = {
-          name: 'baguette',
+          name: 'baguette 1',
           ingredients: {
             flour: { amount: 1.00 },
             water: { amount: 0.62 },
@@ -67,7 +67,7 @@ RSpec.describe 'New recipe amount calculation' do
     it 'calculates different amounts from different total dough weight' do
       VCR.use_cassette('new_recipe') do
         list = {
-          name: 'baguette',
+          name: 'baguette 2',
           ingredients: {
             flour: { amount: 1.00 },
             water: { amount: 0.62 },

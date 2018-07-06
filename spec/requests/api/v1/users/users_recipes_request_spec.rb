@@ -3,6 +3,22 @@ require 'rails_helper'
 RSpec.describe 'User API' do
   let!(:user) { create(:user_with_recipes) }
   let!(:token) { TokiToki.encode(user.attributes) }
+  before(:suite) do
+    list = {
+      name: 'baguette',
+      ingredients: {
+        flour: { amount: 1.00 },
+        water: { amount: 0.62 },
+        yeast: { amount: 0.02 },
+        salt: { amount: 0.02 }
+      }
+    }
+
+    post "/api/v1/users/#{user.email}/recipes", params: {
+      token: token,
+      recipe: list
+    }
+  end
 
   context 'Authorization' do
     it 'should return token' do
@@ -205,7 +221,7 @@ RSpec.describe 'User API' do
         end
         recipe = user.recipes[0]
 
-        get "/api/v1/families/#{recipe.family}", params: { token: token }
+        get "/api/v1/families/#{recipe.family.name}", params: { token: token }
 
         expect(response).to be_successful
 
@@ -220,7 +236,7 @@ RSpec.describe 'User API' do
     it 'calculates new amounts from new total dough weight' do
       VCR.use_cassette('new_recipes') do
         list = {
-          name: 'baguette',
+          name: 'french baguette',
           ingredients: {
             flour: { amount: 1.00 },
             water: { amount: 0.62 },
@@ -235,6 +251,7 @@ RSpec.describe 'User API' do
         }
 
         original_recipe = JSON.parse(response.body, symbolize_names: true)
+        require 'pry'; binding.pry
 
         get "/api/v1/recipes/#{original_recipe[:recipe][:name]}/new_totals", params: {
           token: token,
