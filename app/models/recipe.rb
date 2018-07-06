@@ -5,7 +5,7 @@ class Recipe < ApplicationRecord
   include RecipeFamilyInfo
 
   belongs_to :user
-  belongs_to :family
+  belongs_to :family, optional: true
   has_many :recipe_ingredients, dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
   has_many :recipe_tags, dependent: :destroy

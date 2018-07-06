@@ -251,8 +251,8 @@ RSpec.describe 'User API' do
         }
 
         original_recipe = JSON.parse(response.body, symbolize_names: true)
-        require 'pry'; binding.pry
 
+        require 'pry'; binding.pry
         get "/api/v1/recipes/#{original_recipe[:recipe][:name]}/new_totals", params: {
           token: token,
           recipe: original_recipe[:recipe],

@@ -31,8 +31,8 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   def create
     recipe_name = params[:recipe][:name]
     recipe = Recipe.new(user_id: current_user.id, name: recipe_name)
-    recipe.assign_family
     if recipe.save
+      recipe.assign_family
       render(
         status: 201,
         json: {
