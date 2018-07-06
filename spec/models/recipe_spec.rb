@@ -257,8 +257,7 @@ RSpec.describe Recipe, type: :model do
     end
 
     it '#assign_family as Rich' do
-      user = create(:user)
-      recipe = Recipe.create(name: 'Butter Bread', user_id: user.id)
+      recipe = user.recipes[0]
       flour = Ingredient.create(name: 'flour', category: 'flour')
       eggs = Ingredient.create(name: 'eggs')
       milk = Ingredient.create(name: 'milk')
