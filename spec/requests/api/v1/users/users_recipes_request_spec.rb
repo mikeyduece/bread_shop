@@ -1,24 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'User API' do
-  let!(:user) { create(:user_with_recipes) }
+  let(:user) { create(:user_with_recipes) }
   let!(:token) { TokiToki.encode(user.attributes) }
-  before(:suite) do
-    list = {
-      name: 'baguette',
-      ingredients: {
-        flour: { amount: 1.00 },
-        water: { amount: 0.62 },
-        yeast: { amount: 0.02 },
-        salt: { amount: 0.02 }
-      }
-    }
-
-    post "/api/v1/users/#{user.email}/recipes", params: {
-      token: token,
-      recipe: list
-    }
-  end
 
   context 'Authorization' do
     it 'should return token' do
@@ -172,16 +156,18 @@ RSpec.describe 'User API' do
 
     it 'returns the family of the recipe' do
       VCR.use_cassette('formatting') do
-        user.recipes << create(:recipe, name: 'baguette', user: user)
+        user.recipes << Recipe.create(name: 'baguette', user_id: user.id)
         recipe = user.recipes.last
+        recipe.recipe_ingredients.clear
         flour  = Ingredient.create(name: 'flour', category: 'flour')
         water  = Ingredient.create(name: 'water', category: 'water')
         salt   = Ingredient.create(name: 'salt')
         yeast  = Ingredient.create(name: 'yeast')
-        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
-        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
-        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
-        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
+        rec_ing_1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
+        rec_ing_2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
+        rec_ing_3 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
+        rec_ing_4 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
+        recipe.recipe_ingredients = [rec_ing_1, rec_ing_2, rec_ing_3, rec_ing_4]
 
         get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
           params: { token: token }
@@ -208,6 +194,7 @@ RSpec.describe 'User API' do
         families = JSON.parse(response.body, symbolize_names: true)
 
         family_names = %w[Lean Soft Rich Sweet Slack].map(&:to_sym)
+
         expect(families).to be_a(Hash)
         expect(families.keys).to include(*family_names)
       end

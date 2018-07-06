@@ -13,6 +13,7 @@ class Recipe < ApplicationRecord
   has_many :likes, dependent: :destroy
   validates :name, uniqueness: true, presence: true
 
+  after_validation :assign_family
   before_destroy :destroy_all_recipe_ingredients
 
   def fetch_label_info

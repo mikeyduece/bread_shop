@@ -12,8 +12,6 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def show
     recipe = current_user.recipes.find_by(name: params[:recipe_name])
-    family = recipe.assign_family
-    recipe.update(family: family)
     render(
       status: 200,
       json: {
@@ -32,7 +30,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     recipe_name = params[:recipe][:name]
     recipe = Recipe.new(user_id: current_user.id, name: recipe_name)
     if recipe.save
-      recipe.assign_family
+      #recipe.assign_family
       render(
         status: 201,
         json: {

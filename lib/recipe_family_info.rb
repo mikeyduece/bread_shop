@@ -60,8 +60,8 @@ module RecipeFamilyInfo
     [sweetener_percentage, fat_percentage]
   end
 
-  def calculate_percentage(category)
-    ((category / flour_amts) * 100).round(2)
+  def calculate_percentage(category_amount)
+    ((category_amount / flour_amts) * 100).round(2)
   end
 
   def sweetener_amounts
