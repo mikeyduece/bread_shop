@@ -20,7 +20,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
           name: recipe.name,
           ingredients: recipe.ingredient_list,
           total_percentage: recipe.total_percent,
-          family: recipe.family
+          family: recipe.family.name
         }
       }
     )
@@ -28,9 +28,8 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def create
     recipe_name = params[:recipe][:name]
-    recipe = Recipe.new(user_id: current_user.id, name: recipe_name)
-    if recipe.save
-      #recipe.assign_family
+    recipe = Recipe.create!(user_id: current_user.id, name: recipe_name)
+    if recipe
       render(
         status: 201,
         json: {
@@ -38,7 +37,8 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
             id: recipe.id,
             name: recipe.name,
             ingredients: recipe.recipe_ingredient_list(params[:recipe][:ingredients]),
-            total_percentage: recipe.total_percent
+            total_percentage: recipe.total_percent,
+            family: recipe.assign_family
           },
           tags: recipe.tag_list(params[:tags])
         }

@@ -13,7 +13,6 @@ class Recipe < ApplicationRecord
   has_many :likes, dependent: :destroy
   validates :name, uniqueness: true, presence: true
 
-  after_validation :assign_family
   before_destroy :destroy_all_recipe_ingredients
 
   def fetch_label_info
@@ -48,6 +47,7 @@ class Recipe < ApplicationRecord
   end
 
   def self.family_group
+    require 'pry'; binding.pry
     grouped = all.group_by(&:family)
     serialized_recipes = {}
     grouped.each do |family, recipes|
@@ -57,7 +57,8 @@ class Recipe < ApplicationRecord
   end
 
   def assign_family
-    calculate_family
+    fam_id = calculate_family
+    Family.find(fam_id).name
   end
 
   def flour_amts
@@ -105,12 +106,13 @@ class Recipe < ApplicationRecord
 
   def calculate_family
     case
-    when lean then self[:family_id] = family_assignment('Lean')
-    when soft then self[:family_id] = family_assignment('Soft')
-    when sweet then self[:family_id] = family_assignment('Sweet')
-    when rich then self[:family_id] = family_assignment('Rich')
-    when slack then self[:family_id] = family_assignment('Slack')
+    when lean then update_attribute(:family_id, family_assignment('Lean'))
+    when soft then update_Attribute(:family_id, family_assignment('Soft'))
+    when sweet then update_attribute(:family_id, family_assignment('Sweet'))
+    when rich then update_attribute(:family_id, family_assignment('Rich'))
+    when slack then update_attribute(:family_id, family_assignment('Slack'))
     end
+    return family_id
   end
 
   def family_assignment(name)
