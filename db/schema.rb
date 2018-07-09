@@ -101,6 +101,5 @@ ActiveRecord::Schema.define(version: 2018_07_06_130945) do
   add_foreign_key "recipe_ingredients", "recipes"
   add_foreign_key "recipe_tags", "recipes"
   add_foreign_key "recipe_tags", "tags"
-  add_foreign_key "recipes", "families"
   add_foreign_key "recipes", "users"
 end
