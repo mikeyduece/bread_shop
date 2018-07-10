@@ -25,13 +25,14 @@ RSpec.describe Recipe, type: :model do
       recipe.recipe_ingredients.clear
       flour1 = create(:ingredient, name: 'ap flour', category: 'flour')
       flour2 = create(:ingredient, name: 'bread flour', category: 'flour')
-      rec_ing1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 100)
-      rec_ing2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour2.id, amount: 300)
-      ing = create(:recipe_ingredient)
+      ingredient = create(:ingredient, name: 'sugar', category: 'sweetener')
+      rec_ing1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 100.00)
+      rec_ing2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour2.id, amount: 300.00)
+      ing = create(:recipe_ingredient, ingredient: ingredient, recipe: recipe)
       recipe.recipe_ingredients = [rec_ing1, rec_ing2, ing]
 
       flour = recipe.flour_amts
-      expect(flour).to eq(400)
+      expect(flour).to eq(400.00)
     end
 
     it 'can calculate more than one type of flour' do
