@@ -17,10 +17,12 @@ end
 
 RSpec.describe Recipe, type: :model do
   let(:user) { create(:user_with_recipes) }
-  let(:recipe) { user.recipes[0]}
+  let(:recipe) { user.recipes[0] }
+
   context 'Instance Methods' do
     it '#flour_amts' do
       recipe = create(:recipe)
+      recipe.recipe_ingredients.clear
       flour1 = create(:ingredient, name: 'ap flour', category: 'flour')
       flour2 = create(:ingredient, name: 'bread flour', category: 'flour')
       rec_ing1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 100)
@@ -34,19 +36,21 @@ RSpec.describe Recipe, type: :model do
 
     it 'can calculate more than one type of flour' do
       recipe = create(:recipe)
+      recipe.recipe_ingredients.clear
       flour1 = create(:ingredient, name: 'ap flour', category: 'flour')
       flour2 = create(:ingredient, name: 'cornmeal', category: 'flour')
       flour3 = create(:ingredient, name: 'flax meal', category: 'flour')
       flour4 = create(:ingredient, name: 'semolina', category: 'flour')
       flour5 = create(:ingredient, name: 'durum', category: 'flour')
       flour6 = create(:ingredient, name: 'spelt', category: 'flour')
+      ingredient = create(:ingredient, name: 'sugar', category: 'sweetener')
       rec_ing1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 1.00)
       rec_ing2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour2.id, amount: 3.00)
       rec_ing3 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour3.id, amount: 3.00)
       rec_ing4 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour4.id, amount: 3.00)
       rec_ing5 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour5.id, amount: 3.00)
       rec_ing6 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour6.id, amount: 3.00)
-      ing = create(:recipe_ingredient)
+      ing = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ingredient.id, amount: 10.00)
       recipe.recipe_ingredients = [rec_ing1, rec_ing2, ing, rec_ing4, rec_ing3, rec_ing5, rec_ing6]
 
       flour = recipe.flour_amts
@@ -56,17 +60,23 @@ RSpec.describe Recipe, type: :model do
 
     it '#total_percentage' do
       recipe = create(:recipe)
-      ing_list = create_list(:ingredient, 6)
+      recipe.recipe_ingredients.clear
+      ing_list = []
+      ingredient_categories = %w[sweetener fat water]
+      6.times do
+        ing_list << create(:ingredient, category: ingredient_categories.sample)
+      end
       flour1 = create(:ingredient, name: 'AP flour', category: 'flour')
       flour2 = create(:ingredient, name: 'Bread flour', category: 'flour')
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 100)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour2.id, amount: 300)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[0].id, amount: 50)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[1].id, amount: 20)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[2].id, amount: 10)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[3].id, amount: 25)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[4].id, amount: 30)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[5].id, amount: 20)
+      rec_ing1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 100)
+      rec_ing2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour2.id, amount: 300)
+      rec_ing3 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[0].id, amount: 50)
+      rec_ing4 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[1].id, amount: 20)
+      rec_ing5 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[2].id, amount: 10)
+      rec_ing6 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[3].id, amount: 25)
+      rec_ing7 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[4].id, amount: 30)
+      rec_ing8 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[5].id, amount: 20)
+      recipe.recipe_ingredients = [rec_ing1, rec_ing2, rec_ing3, rec_ing4, rec_ing5, rec_ing6, rec_ing7, rec_ing8]
 
       total = recipe.total_percent
 
@@ -75,17 +85,23 @@ RSpec.describe Recipe, type: :model do
 
     it 'can have a different #total_percentage' do
       recipe = create(:recipe)
-      ing_list = create_list(:ingredient, 6)
+      recipe.recipe_ingredients.clear
+      ing_list = []
+      ingredient_categories = %w[sweetener fat water]
+      6.times do
+        ing_list << create(:ingredient, category: ingredient_categories.sample)
+      end
       flour1 = create(:ingredient, name: 'AP flour', category: 'flour')
       flour2 = create(:ingredient, name: 'Bread flour', category: 'sweetener')
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 200)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour2.id, amount: 300)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[0].id, amount: 100.63)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[1].id, amount: 20)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[2].id, amount: 10)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[3].id, amount: 25)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[4].id, amount: 30)
-      RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[5].id, amount: 20)
+      rec_ing1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 200)
+      rec_ing2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour2.id, amount: 300)
+      rec_ing3 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[0].id, amount: 100.63)
+      rec_ing4 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[1].id, amount: 20)
+      rec_ing5 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[2].id, amount: 10)
+      rec_ing6 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[3].id, amount: 25)
+      rec_ing7 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[4].id, amount: 30)
+      rec_ing8 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[5].id, amount: 20)
+      recipe.recipe_ingredients = [rec_ing1, rec_ing2, rec_ing3, rec_ing4, rec_ing5, rec_ing6, rec_ing7, rec_ing8]
 
       total = recipe.total_percent
 
@@ -93,7 +109,7 @@ RSpec.describe Recipe, type: :model do
     end
 
     it '#sweetener_percentage' do
-      recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       water = Ingredient.create!(name: 'water', category: 'water')
       yeast = Ingredient.create!(name: 'cake yeast', category: 'yeast')
       milk = Ingredient.create!(name: 'milk', category: 'fat')
@@ -115,7 +131,6 @@ RSpec.describe Recipe, type: :model do
     end
 
     it 'can calculate percentage with more than one sweetener' do
-      recipe = user.recipes[0]
       recipe.recipe_ingredients.clear
       bf = Ingredient.create(name: 'bread flour', category: 'flour')
       ww = Ingredient.create(name: 'whole wheat flour', category: 'flour')
@@ -134,7 +149,7 @@ RSpec.describe Recipe, type: :model do
     end
 
     it 'can pick out sweeteners with syrup in name' do
-      recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       bf = Ingredient.create(name: 'bread flour', category: 'flour')
       cornsyrup = Ingredient.create(name: 'corn syrup', category: 'sweetener')
       sugar = Ingredient.create(name: 'sugar', category: 'sweetener')
@@ -154,7 +169,7 @@ RSpec.describe Recipe, type: :model do
     end
 
     it '#fat_percentage' do
-      recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       bf = Ingredient.create(name: 'bread flour', category: 'flour')
       butter = Ingredient.create(name: 'butter', category: 'fat')
       sugar = Ingredient.create(name: 'sugar', category: 'sweetener')
@@ -168,7 +183,7 @@ RSpec.describe Recipe, type: :model do
     end
 
     it '#fat_percentage can calculate with more than one fat' do
-      recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       bf = Ingredient.create(name: 'bread flour', category: 'flour')
       butter = Ingredient.create(name: 'butter', category: 'fat')
       sc = Ingredient.create(name: 'sour cream', category: 'fat')
@@ -184,6 +199,7 @@ RSpec.describe Recipe, type: :model do
 
     it '#fat_percentage can find oils as well' do
       recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       bf = Ingredient.create(name: 'bread flour', category: 'flour')
       canola = Ingredient.create(name: 'canola oil', category: 'fat')
       evoo = Ingredient.create(name: 'olive oil', category: 'fat')
@@ -199,6 +215,7 @@ RSpec.describe Recipe, type: :model do
 
     it '#water_percentage' do
       recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       bf = Ingredient.create(name: 'bread flour', category: 'flour')
       water = Ingredient.create(name: 'water', category: 'water')
       evoo = Ingredient.create(name: 'olive oil', category: 'fat')
@@ -233,7 +250,9 @@ RSpec.describe Recipe, type: :model do
 
     it '#assign_family as Soft' do
       user = create(:user)
+      recipe.recipe_ingredients.clear
       recipe = Recipe.create(name: 'Ballons', user_id: user.id)
+      recipe.recipe_ingredients.clear
       flour = Ingredient.create(name: 'flour', category: 'flour')
       water = Ingredient.create(name: 'water', category: 'water')
       milk = Ingredient.create(name: 'milk')
@@ -258,7 +277,7 @@ RSpec.describe Recipe, type: :model do
     end
 
     it '#assign_family as Rich' do
-      recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       flour = Ingredient.create(name: 'flour', category: 'flour')
       eggs = Ingredient.create(name: 'eggs')
       milk = Ingredient.create(name: 'milk')
@@ -281,7 +300,7 @@ RSpec.describe Recipe, type: :model do
     end
 
     it '#assign_family as Slack' do
-      recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       flour1 = Ingredient.create(name: 'flour I', category: 'flour')
       flour2 = Ingredient.create(name: 'flour II', category: 'flour')
       water = Ingredient.create(name: 'water', category: 'water')
@@ -306,6 +325,7 @@ RSpec.describe Recipe, type: :model do
     end
 
     it '#assign_family as Sweet' do
+      recipe.recipe_ingredients.clear
       bread_flour = Ingredient.create(name: 'bread flour', category: 'flour')
       cake_flour = Ingredient.create(name: 'cake flour', category: 'flour')
       eggs  = Ingredient.create(name: 'eggs')

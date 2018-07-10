@@ -46,16 +46,6 @@ class Recipe < ApplicationRecord
     recipe
   end
 
-  # def self.family_group
-  #   require 'pry'; binding.pry
-  #   grouped = all.group_by(&:family)
-  #   serialized_recipes = {}
-  #   grouped.each do |family, recipes|
-  #     serialized_recipes[family] = serialized_families(recipes)
-  #   end
-  #   serialized_recipes
-  # end
-
   def assign_family
     fam_id = calculate_family
     Family.find(fam_id).name
@@ -107,7 +97,7 @@ class Recipe < ApplicationRecord
   def calculate_family
     case
     when lean then update_attribute(:family_id, family_assignment('Lean'))
-    when soft then update_Attribute(:family_id, family_assignment('Soft'))
+    when soft then update_attribute(:family_id, family_assignment('Soft'))
     when sweet then update_attribute(:family_id, family_assignment('Sweet'))
     when rich then update_attribute(:family_id, family_assignment('Rich'))
     when slack then update_attribute(:family_id, family_assignment('Slack'))
