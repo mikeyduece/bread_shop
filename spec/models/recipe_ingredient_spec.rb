@@ -17,6 +17,7 @@ RSpec.describe RecipeIngredient, type: :model do
     it '#bp' do
       user = create(:user)
       recipe = create(:recipe, user: user)
+      recipe.recipe_ingredients = []
       ing_list = create_list(:ingredient, 6)
       flour1 = create(:ingredient, name: 'ap flour', category: 'flour')
       flour2 = create(:ingredient, name: 'bread flour', category: 'flour')

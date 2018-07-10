@@ -46,15 +46,15 @@ class Recipe < ApplicationRecord
     recipe
   end
 
-  def self.family_group
-    require 'pry'; binding.pry
-    grouped = all.group_by(&:family)
-    serialized_recipes = {}
-    grouped.each do |family, recipes|
-      serialized_recipes[family] = serialized_families(recipes)
-    end
-    serialized_recipes
-  end
+  # def self.family_group
+  #   require 'pry'; binding.pry
+  #   grouped = all.group_by(&:family)
+  #   serialized_recipes = {}
+  #   grouped.each do |family, recipes|
+  #     serialized_recipes[family] = serialized_families(recipes)
+  #   end
+  #   serialized_recipes
+  # end
 
   def assign_family
     fam_id = calculate_family
