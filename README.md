@@ -67,27 +67,6 @@ Example JSON response
   }
 ```
 
-`GET /families?token=token` Returns a list of all recipes grouped by family name.
-
-```ruby
-  {
-    status: 200,
-    recipes: {
-      [
-        'Lean' => [{
-          name: 'Recipe Name',
-          family: 'Lean'
-          user: {
-            name: 'Name',
-            email: 'email@email.com'
-          },
-          ...
-          }]
-      ]
-    }
-  }
-```
-
 `GET /families/:family_name?token=token` Returns a list of all recipes that are associated with that family_name.
 
 ```ruby
