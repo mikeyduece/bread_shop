@@ -13,3 +13,9 @@ Family.delete_all
 %w[Lean Soft Sweet Slack Rich].each do |name|
   Family.create(name: name)
 end
+
+Category.delete_all
+
+%w[sweetener fat flour water].each do |name|
+  Category.create(name: name)
+end
