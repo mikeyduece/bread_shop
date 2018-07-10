@@ -3,12 +3,12 @@
 class Ingredient < ApplicationRecord
   include IngredientCategories
 
-  belongs_to :category
+  belongs_to :category, optional: true
   has_many :recipe_ingredients, dependent: :destroy
   has_many :recipes, through: :recipe_ingredients
   validates :name, uniqueness: true
 
-  before_validation :assign_category
+  after_validation :assign_category
 
   def self.create_list(list)
     list.map { |name| Ingredient.find_or_create_by(name: name) }

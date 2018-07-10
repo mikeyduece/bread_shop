@@ -11,6 +11,6 @@ module IngredientCategories
   FLOURS = %w[
     flour bread\ flour high\ gluten\ flour ap\ flour all\ purpose\ flour
     spelt wheat\ flour whole\ wheat\ flour cake\ flour pastry\ flour semolina
-    durum corn\ meal flax\ meal
+    durum corn\ meal flax\ meal cornmeal
   ].freeze
 end

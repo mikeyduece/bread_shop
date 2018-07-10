@@ -11,11 +11,7 @@ RSpec.describe 'New recipe amount calculation' do
       VCR.use_cassette('label') do
         recipe.recipe_ingredients.clear
       %w[flour water salt yeast].each do |name|
-        if name == 'flour'
-          ing = create(:ingredient, name: name, category: 'flour')
-        else
-          ing = create(:ingredient, name: name)
-        end
+        ing = create(:ingredient, name: name)
         recipe.recipe_ingredients << create(:recipe_ingredient, recipe: recipe, ingredient: ing)
       end
         attrs = %i[yield calories totalNutrients healthLabels totalDaily]

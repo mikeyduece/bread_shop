@@ -28,11 +28,7 @@ RSpec.describe 'Nutrition Label Service' do
       recipe.recipe_ingredients.clear
       attrs = %i[yield calories totalWeight totalNutrients totalDaily]
       %w[flour water salt yeast].each do |name|
-        if name == 'flour'
-          ing = create(:ingredient, name: name, category: 'flour')
-        else
-          ing = create(:ingredient, name: name)
-        end
+        ing = create(:ingredient, name: name)
         recipe.recipe_ingredients << create(:recipe_ingredient, recipe: recipe, ingredient: ing)
       end
 

@@ -3,6 +3,5 @@ FactoryBot.define do
     sequence :name do |n|
       "#{n}Ingredient"
     end
-    category
   end
 end

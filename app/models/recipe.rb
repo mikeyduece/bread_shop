@@ -101,8 +101,9 @@ class Recipe < ApplicationRecord
   end
 
   def sum_recipe_ingredient_amounts(category)
+    category_id = Category.find_by(name: category).id
     recipe_ingredients.joins(:ingredient)
-      .where(ingredients: { category: category })
+      .where(ingredients: { category_id: category_id })
       .sum(:amount)
   end
 

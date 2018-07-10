@@ -18,13 +18,12 @@ RSpec.describe RecipeIngredient, type: :model do
       user = create(:user)
       recipe = create(:recipe, user: user)
       recipe.recipe_ingredients.clear
-      ingredient_categories = %w[sweetener fat water]
       ing_list = []
       6.times do
-        ing_list << create(:ingredient, category: ingredient_categories.sample)
+        ing_list << create(:ingredient)
       end
-      flour1 = create(:ingredient, name: 'ap flour', category: 'flour')
-      flour2 = create(:ingredient, name: 'bread flour', category: 'flour')
+      flour1 = create(:ingredient, name: 'ap flour')
+      flour2 = create(:ingredient, name: 'bread flour')
       rec_ing1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 100)
       rec_ing2 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour2.id, amount: 300)
       rec_ing3 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[0].id, amount: 50)
