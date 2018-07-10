@@ -28,8 +28,9 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def create
     recipe_name = params[:recipe][:name]
-    recipe = Recipe.create!(user_id: current_user.id, name: recipe_name)
-    if recipe
+    recipe = Recipe.find_by(name: recipe_name)
+    if !recipe
+      recipe = Recipe.create(user_id: current_user.id, name: recipe_name)
       render(
         status: 201,
         json: {

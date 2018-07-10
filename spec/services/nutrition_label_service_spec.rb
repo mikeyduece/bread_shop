@@ -1,4 +1,5 @@
 #frozen_string_litereal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Nutrition Label Service' do
@@ -11,11 +12,11 @@ RSpec.describe 'Nutrition Label Service' do
       '1/3oz salt'
     ]
   }}
-  let(:user) { create(:user_with_recipes)}
-  let(:recipe) { user.recipes[0]}
+  let(:user) { create(:user_with_recipes) }
+  let(:recipe) { user.recipes[0] }
 
   it 'exists' do
-    VCR.use_cassette('label_service', :allow_playback_repeats => true) do
+    VCR.use_cassette('label_service', allow_playback_repeats: true) do
       label = NutritionLabelService.new(baguette)
 
       expect(label).to be_a(NutritionLabelService)
@@ -23,11 +24,16 @@ RSpec.describe 'Nutrition Label Service' do
   end
 
   it 'can format a recipe for label api call' do
-    VCR.use_cassette('formatting', :allow_playback_repeats => true) do
+    VCR.use_cassette('formatting', allow_playback_repeats: true) do
+      recipe.recipe_ingredients.clear
       attrs = %i[yield calories totalWeight totalNutrients totalDaily]
       %w[flour water salt yeast].each do |name|
-        ing = create(:ingredient, name: name)
-        create(:recipe_ingredient, recipe: recipe, ingredient: ing)
+        if name == 'flour'
+          ing = create(:ingredient, name: name, category: 'flour')
+        else
+          ing = create(:ingredient, name: name)
+        end
+        recipe.recipe_ingredients << create(:recipe_ingredient, recipe: recipe, ingredient: ing)
       end
 
       label = NutritionLabelService.analyze_recipe(recipe)

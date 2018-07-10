@@ -89,6 +89,7 @@ RSpec.describe 'User API' do
 
     it 'cannot create a recipe with same name as one that already exists' do
       VCR.use_cassette('dupe_recipes') do
+        user.recipes.clear
         user.recipes << create(:recipe, name: 'baguette')
         list = {
           name: 'baguette',
@@ -156,7 +157,7 @@ RSpec.describe 'User API' do
     end
 
     it 'returns the family of the recipe' do
-      VCR.use_cassette('formatting') do
+      VCR.use_cassette('family') do
         list = {
           name: 'baguette',
           ingredients: {
@@ -177,26 +178,6 @@ RSpec.describe 'User API' do
         return_recipe = JSON.parse(response.body, symbolize_names: true)
 
         expect(return_recipe[:recipe][:family]).to eq('Lean')
-      end
-    end
-
-    xit 'returns list of all recipes grouped by family' do
-      VCR.use_cassette('formatting') do
-        user.recipes = create_list(:recipe, 10, user: user)
-        user.recipes.each do |x|
-          x.recipe_ingredients = create_list(:recipe_ingredient, 6)
-        end
-
-        get '/api/v1/families', params: { token: token }
-
-        expect(response).to be_successful
-
-        families = JSON.parse(response.body, symbolize_names: true)
-
-        family_names = %w[Lean Soft Rich Sweet Slack].map(&:to_sym)
-
-        expect(families).to be_a(Hash)
-        expect(families.keys).to include(*family_names)
       end
     end
 

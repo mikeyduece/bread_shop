@@ -9,9 +9,14 @@ RSpec.describe 'New recipe amount calculation' do
   context 'Nutrition Label' do
     it 'fetches label' do
       VCR.use_cassette('label') do
+        recipe.recipe_ingredients.clear
       %w[flour water salt yeast].each do |name|
-        ing = create(:ingredient, name: name)
-        create(:recipe_ingredient, recipe: recipe, ingredient: ing)
+        if name == 'flour'
+          ing = create(:ingredient, name: name, category: 'flour')
+        else
+          ing = create(:ingredient, name: name)
+        end
+        recipe.recipe_ingredients << create(:recipe_ingredient, recipe: recipe, ingredient: ing)
       end
         attrs = %i[yield calories totalNutrients healthLabels totalDaily]
         get "/api/v1/recipes/#{user.recipes[0].name}/label", params: {
