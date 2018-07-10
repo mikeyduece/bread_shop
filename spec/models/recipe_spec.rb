@@ -116,6 +116,7 @@ RSpec.describe Recipe, type: :model do
 
     it 'can calculate percentage with more than one sweetener' do
       recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       bf = Ingredient.create(name: 'bread flour', category: 'flour')
       ww = Ingredient.create(name: 'whole wheat flour', category: 'flour')
       sugar = Ingredient.create(name: 'sugar', category: 'sweetener')
