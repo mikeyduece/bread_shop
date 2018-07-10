@@ -35,13 +35,12 @@ Rails.application.routes.draw do
       get 'auth_amazon', to: 'authentication#amazon'
 
       # Recipe family paths
-      get 'families', to: 'families#index'
       get 'families/:family_name', to: 'families#show'
 
       # new total weights path
       get 'recipes/:recipe_name/new_totals', to: 'recipes#show'
 
-      #get nutrition label for recipe
+      # get nutrition label for recipe
       get 'recipes/:recipe_name/label', to: 'nutrition_label#show'
     end
   end
