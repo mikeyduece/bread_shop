@@ -17,7 +17,12 @@ RSpec.describe RecipeIngredient, type: :model do
     it '#bp' do
       user = create(:user)
       recipe = create(:recipe, user: user)
-      ing_list = create_list(:ingredient, 6)
+      recipe.recipe_ingredients.clear
+      ingredient_categories = %w[sweetener fat water]
+      ing_list = []
+      6.times do
+        ing_list << create(:ingredient, category: ingredient_categories.sample)
+      end
       flour1 = create(:ingredient, name: 'ap flour', category: 'flour')
       flour2 = create(:ingredient, name: 'bread flour', category: 'flour')
       rec_ing1 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour1.id, amount: 100)
@@ -28,6 +33,7 @@ RSpec.describe RecipeIngredient, type: :model do
       rec_ing6 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[3].id, amount: 25)
       rec_ing7 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[4].id, amount: 30)
       rec_ing8 = RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: ing_list[5].id, amount: 20)
+      recipe.recipe_ingredients = [rec_ing1, rec_ing2, rec_ing3, rec_ing4, rec_ing5, rec_ing6, rec_ing7, rec_ing8]
 
       expect(rec_ing1.bakers_percentage).to eq(25.0)
       expect(rec_ing2.bakers_percentage).to eq(75.0)

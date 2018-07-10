@@ -7,3 +7,9 @@
 #
 # movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 # Character.create(name: 'Luke', movie: movies.first)
+
+Family.delete_all
+
+%w[Lean Soft Sweet Slack Rich].each do |name|
+  Family.create(name: name)
+end

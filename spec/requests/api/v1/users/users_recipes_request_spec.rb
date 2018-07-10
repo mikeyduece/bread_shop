@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'User API' do
-  let!(:user) { create(:user_with_recipes) }
+  let(:user) { create(:user_with_recipes) }
   let!(:token) { TokiToki.encode(user.attributes) }
 
   context 'Authorization' do
@@ -39,6 +39,7 @@ RSpec.describe 'User API' do
 
     it 'returns recipe with ingredients and total percentage' do
       recipe = user.recipes[0]
+      recipe.recipe_ingredients.clear
       flour  = create(:ingredient, name: 'flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
       6.times do
@@ -88,6 +89,7 @@ RSpec.describe 'User API' do
 
     it 'cannot create a recipe with same name as one that already exists' do
       VCR.use_cassette('dupe_recipes') do
+        user.recipes.clear
         user.recipes << create(:recipe, name: 'baguette')
         list = {
           name: 'baguette',
@@ -155,19 +157,20 @@ RSpec.describe 'User API' do
     end
 
     it 'returns the family of the recipe' do
-      VCR.use_cassette('formatting') do
-        user.recipes << create(:recipe, name: 'baguette', user: user)
-        recipe = user.recipes.last
-        flour  = Ingredient.create(name: 'flour', category: 'flour')
-        water  = Ingredient.create(name: 'water', category: 'water')
-        salt   = Ingredient.create(name: 'salt')
-        yeast  = Ingredient.create(name: 'yeast')
-        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: flour.id, amount: 1.0)
-        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: water.id, amount: 0.63)
-        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: salt.id, amount: 0.02)
-        RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: yeast.id, amount: 0.03)
+      VCR.use_cassette('family') do
+        list = {
+          name: 'baguette',
+          ingredients: {
+            flour: { amount: 1.00 },
+            water: { amount: 0.62 },
+            yeast: { amount: 0.02 },
+            salt: { amount: 0.02 }
+          }
+        }
+        post "/api/v1/users/#{user.email}/recipes",
+          params: { recipe: list, token: token }
 
-        get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
+        get "/api/v1/users/#{user.email}/recipes/#{list[:name]}",
           params: { token: token }
 
         expect(response).to be_successful
@@ -178,40 +181,17 @@ RSpec.describe 'User API' do
       end
     end
 
-    it 'returns list of all recipes grouped by family' do
-      VCR.use_cassette('formatting') do
-        user.recipes = create_list(:recipe, 10, user: user)
-        user.recipes.each do |x|
-          x.recipe_ingredients = create_list(:recipe_ingredient, 6)
-        end
-
-        get '/api/v1/families', params: { token: token }
-
-        expect(response).to be_successful
-
-        families = JSON.parse(response.body, symbolize_names: true)
-
-        family_names = %w[Lean Soft Rich Sweet Slack].map(&:to_sym)
-        expect(families).to be_a(Hash)
-        expect(families.keys).to include(*family_names)
-      end
-    end
-
     it 'returns list of recipes that align with requested family' do
       VCR.use_cassette('formatting') do
-        user.recipes = create_list(:recipe, 4, user: user)
-        user.recipes.each do |x|
-          x.recipe_ingredients = create_list(:recipe_ingredient, 6)
-        end
         recipe = user.recipes[0]
 
-        get "/api/v1/families/#{recipe.family}", params: { token: token }
+        get "/api/v1/families/#{recipe.family.name}", params: { token: token }
 
         expect(response).to be_successful
 
         family = JSON.parse(response.body, symbolize_names: true)
 
-        expect(family.all? { |hash| hash[:family] == recipe.family }).to be true
+        expect(family.all? { |hash| hash[:family][:name] == recipe.family.name }).to be true
       end
     end
   end
@@ -220,7 +200,7 @@ RSpec.describe 'User API' do
     it 'calculates new amounts from new total dough weight' do
       VCR.use_cassette('new_recipes') do
         list = {
-          name: 'baguette',
+          name: 'french baguette',
           ingredients: {
             flour: { amount: 1.00 },
             water: { amount: 0.62 },
@@ -236,7 +216,7 @@ RSpec.describe 'User API' do
 
         original_recipe = JSON.parse(response.body, symbolize_names: true)
 
-        get "/api/v1/recipes/#{original_recipe[:recipe][:name]}/new_totals", params: {
+        get "/api/v1/recipes/#{original_recipe[:recipe][:name].parameterize}/new_totals", params: {
           token: token,
           recipe: original_recipe[:recipe],
           new_dough_weight: 3.32

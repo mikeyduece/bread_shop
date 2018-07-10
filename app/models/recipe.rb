@@ -5,6 +5,7 @@ class Recipe < ApplicationRecord
   include RecipeFamilyInfo
 
   belongs_to :user
+  belongs_to :family, optional: true
   has_many :recipe_ingredients, dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
   has_many :recipe_tags, dependent: :destroy
@@ -45,17 +46,9 @@ class Recipe < ApplicationRecord
     recipe
   end
 
-  def self.family_group
-    grouped = all.group_by(&:family)
-    serialized_recipes = {}
-    grouped.each do |family, recipes|
-      serialized_recipes[family] = serialized_families(recipes)
-    end
-    serialized_recipes
-  end
-
   def assign_family
-    calculate_family
+    fam_id = calculate_family
+    Family.find(fam_id).name
   end
 
   def flour_amts
@@ -80,15 +73,6 @@ class Recipe < ApplicationRecord
 
   private
   class << self
-    def serialized_families(recipes)
-      recipes.map do |recipe|
-        recipe.as_json(
-          only: [:name],
-          include: { user: { only: %i[name email] } }
-        )
-      end
-    end
-
     def new_flour_total(recipe, new_dough_weight)
       ((new_dough_weight.to_f / recipe[:total_percentage].to_f) * 100).round(2)
     end
@@ -103,12 +87,17 @@ class Recipe < ApplicationRecord
 
   def calculate_family
     case
-    when lean  then self[:family] = 'Lean'
-    when soft  then self[:family] = 'Soft'
-    when sweet then self[:family] = 'Sweet'
-    when rich  then self[:family] = 'Rich'
-    when slack then self[:family] = 'Slack'
+    when lean then update_attribute(:family_id, family_assignment('Lean'))
+    when soft then update_attribute(:family_id, family_assignment('Soft'))
+    when sweet then update_attribute(:family_id, family_assignment('Sweet'))
+    when rich then update_attribute(:family_id, family_assignment('Rich'))
+    when slack then update_attribute(:family_id, family_assignment('Slack'))
     end
+    return family_id
+  end
+
+  def family_assignment(name)
+    Family.find_by(name: name).id
   end
 
   def sum_recipe_ingredient_amounts(category)
