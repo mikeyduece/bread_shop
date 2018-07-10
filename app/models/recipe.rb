@@ -73,15 +73,6 @@ class Recipe < ApplicationRecord
 
   private
   class << self
-    def serialized_families(recipes)
-      recipes.map do |recipe|
-        recipe.as_json(
-          only: %i[name],
-          include: { user: { only: %i[name email] } }
-        )
-      end
-    end
-
     def new_flour_total(recipe, new_dough_weight)
       ((new_dough_weight.to_f / recipe[:total_percentage].to_f) * 100).round(2)
     end
