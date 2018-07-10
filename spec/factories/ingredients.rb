@@ -3,10 +3,6 @@ FactoryBot.define do
     sequence :name do |n|
       "#{n}Ingredient"
     end
-
-    sequence :category do
-      @category ||= %w[sweetener fat flour water]
-      @category.sample
-    end
+    category
   end
 end

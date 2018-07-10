@@ -9,6 +9,7 @@ end
 RSpec.describe Ingredient, 'associations' do
   it { should have_many(:recipe_ingredients).dependent(:destroy) }
   it { should have_many(:recipes).through(:recipe_ingredients) }
+  it { should belong_to(:category) }
 end
 
 RSpec.describe Ingredient, type: :model do
@@ -21,12 +22,12 @@ RSpec.describe Ingredient, type: :model do
     flour2 = Ingredient.create(name: 'semolina')
     water = Ingredient.create(name: 'water')
 
-    expect(fat1.category).to eq('fat')
-    expect(fat2.category).to eq('fat')
-    expect(sweet1.category).to eq('sweetener')
-    expect(sweet2.category).to eq('sweetener')
-    expect(flour1.category).to eq('flour')
-    expect(flour2.category).to eq('flour')
-    expect(water.category).to eq('water')
+    expect(fat1.category.name).to eq('fat')
+    expect(fat2.category.name).to eq('fat')
+    expect(sweet1.category.name).to eq('sweetener')
+    expect(sweet2.category.name).to eq('sweetener')
+    expect(flour1.category.name).to eq('flour')
+    expect(flour2.category.name).to eq('flour')
+    expect(water.category.name).to eq('water')
   end
 end
