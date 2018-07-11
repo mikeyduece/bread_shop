@@ -39,6 +39,10 @@ RSpec.describe 'User API' do
 
     it 'returns recipe with ingredients and total percentage' do
       recipe = user.recipes[0]
+      %w[bread awesome].each do |tag_name|
+        recipe.tags << create(:tag, name: tag_name)
+      end
+
       recipe.recipe_ingredients.clear
       flour  = create(:ingredient, name: 'flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)

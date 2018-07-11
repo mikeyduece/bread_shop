@@ -5,10 +5,15 @@ class Api::V1::RecipeSerializer < ActiveModel::Serializer
   belongs_to :user
   belongs_to :family
   has_many :tags
+  has_many :recipe_ingredients
 
-  def user
-    object.user do |us|
-      ::Api::V1::UserSerializer.new(us).attributes
-    end
+  def recipe_ingredients
+    object.ingredient_list
   end
+
+  # def tags
+  #   object.tags.map do |tag|
+  #     ::Api::V1::TagSerializer.new(tag).name
+  #   end
+  # end
 end

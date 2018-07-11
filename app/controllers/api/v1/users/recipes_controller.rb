@@ -7,7 +7,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   def index
     recipes = current_user.recipes
-    render(json: recipes, status: 200)
+    render(json: recipes, status: 200, each_serializer: Api::V1::RecipeSerializer)
   end
 
   def show
@@ -20,15 +20,17 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
           name: recipe.name,
           ingredients: recipe.ingredient_list,
           total_percentage: recipe.total_percent,
-          family: recipe.family.name
+          family: recipe.family.name,
+          tags: recipe.tags
         }
-      }
+      },
+      includes: '***', each_serializer: Api::V1::RecipeSerializer
     )
   end
 
   def create
     recipe_name = params[:recipe][:name]
-    recipe = Recipe.find_by(name: recipe_name)
+    recipe = Recipe.find_by(name: params[:recipe][:name])
     if !recipe
       recipe = Recipe.create(user_id: current_user.id, name: recipe_name)
       render(
