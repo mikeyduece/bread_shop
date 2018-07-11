@@ -190,6 +190,7 @@ RSpec.describe 'User API' do
         expect(response).to be_successful
 
         family = JSON.parse(response.body, symbolize_names: true)
+        require 'pry'; binding.pry
 
         expect(family.all? { |hash| hash[:family][:name] == recipe.family.name }).to be true
       end
