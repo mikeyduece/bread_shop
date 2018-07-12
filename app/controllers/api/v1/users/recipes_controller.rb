@@ -3,7 +3,7 @@
 class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   before_action :authenticate_user!
   before_action :ingredient_list, only: %i[create]
-  before_action :tag_list, only: %i[create], if: ->{ params[:tags].present? }
+  after_action :tag_list, only: %i[create], if: ->{ params[:tags].present? }
   after_action :recipe_activity, only: %i[create]
 
   def index
@@ -42,7 +42,6 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   private
 
   def tag_list
-    require 'pry'; binding.pry
     @recipe.tags << Tag.create_list(params[:tags])
   end
 

@@ -19,13 +19,6 @@ class Recipe < ApplicationRecord
     self.label = NutritionLabelService.analyze_recipe(self)
   end
 
-  def tag_list(tag_names)
-    return [] unless tag_names.present?
-
-    tags << Tag.create_list(tag_names)
-    tags.pluck(:name)
-  end
-
   def recipe_ingredient_list(ingredients)
     RecipeIngredient.create_with_list(id, ingredients)
   end
