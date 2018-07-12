@@ -19,13 +19,6 @@ class Recipe < ApplicationRecord
     self.label = NutritionLabelService.analyze_recipe(self)
   end
 
-  def tag_list(tag_names)
-    return [] unless tag_names.present?
-
-    tags << Tag.create_list(tag_names)
-    tags.pluck(:name)
-  end
-
   def recipe_ingredient_list(ingredients)
     RecipeIngredient.create_with_list(id, ingredients)
   end
@@ -40,7 +33,7 @@ class Recipe < ApplicationRecord
   end
 
   def self.new_totals(recipe, new_dough_weight)
-    ingredients_hash = recipe[:ingredients]
+    ingredients_hash = recipe[:ingredient_list]
     new_flour_weight = new_flour_total(recipe, new_dough_weight)
     recalculated_amounts(ingredients_hash, new_flour_weight)
     recipe
@@ -74,7 +67,7 @@ class Recipe < ApplicationRecord
   private
   class << self
     def new_flour_total(recipe, new_dough_weight)
-      ((new_dough_weight.to_f / recipe[:total_percentage].to_f) * 100).round(2)
+      ((new_dough_weight.to_f / recipe[:total_percent].to_f) * 100).round(2)
     end
 
     def recalculated_amounts(ingredients_hash, new_flour_weight)

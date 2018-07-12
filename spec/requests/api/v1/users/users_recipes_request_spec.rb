@@ -14,7 +14,7 @@ RSpec.describe 'User API' do
 
       expect(user_json[:user][:name]).to eq(stub_omniauth['user_info']['info']['name'])
       expect(user_json[:token]).to match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/)
-      expect(user_json[:status]).to eq(200)
+      expect(response.status).to eq(200)
     end
   end
 
@@ -39,6 +39,10 @@ RSpec.describe 'User API' do
 
     it 'returns recipe with ingredients and total percentage' do
       recipe = user.recipes[0]
+      %w[bread awesome].each do |tag_name|
+        recipe.tags << create(:tag, name: tag_name)
+      end
+
       recipe.recipe_ingredients.clear
       flour  = create(:ingredient, name: 'flour')
       recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
@@ -54,9 +58,9 @@ RSpec.describe 'User API' do
       json_recipe = JSON.parse(response.body, symbolize_names: true)
 
       expect(response.status).to eq(200)
-      expect(json_recipe[:recipe][:name]).to eq(recipe.name)
-      expect(json_recipe[:recipe][:id]).to eq(recipe.id)
-      expect(json_recipe[:recipe][:ingredients].length).to eq(7)
+      expect(json_recipe[:name]).to eq(recipe.name)
+      expect(json_recipe[:id]).to eq(recipe.id)
+      expect(json_recipe[:ingredient_list].length).to eq(7)
     end
 
     it 'can create recipe' do
@@ -79,8 +83,8 @@ RSpec.describe 'User API' do
         new_recipe = JSON.parse(response.body, symbolize_names: true)
 
         expect(response.status).to eq(201)
-        expect(new_recipe[:recipe][:id]).to eq(user.recipes.last.id)
-        expect(new_recipe[:recipe][:name]).to eq(user.recipes.last.name)
+        expect(new_recipe[:id]).to eq(user.recipes.last.id)
+        expect(new_recipe[:name]).to eq(user.recipes.last.name)
         expect(Recipe.exists?(name: 'baguette')).to be(true)
         expect(Ingredient.any? { list[:ingredients].keys }).to be(true)
         expect(RecipeIngredient.any? { list[:ingredients].values }).to be(true)
@@ -133,7 +137,9 @@ RSpec.describe 'User API' do
 
         recipe = JSON.parse(response.body, symbolize_names: true)
 
-        expect(recipe[:tags]).to include(*tags)
+        recipe[:tags].each do |tag|
+          expect(tags).to include(tag[:name])
+        end
       end
     end
 
@@ -177,7 +183,7 @@ RSpec.describe 'User API' do
 
         return_recipe = JSON.parse(response.body, symbolize_names: true)
 
-        expect(return_recipe[:recipe][:family]).to eq('Lean')
+        expect(return_recipe[:family]).to eq('Lean')
       end
     end
 
@@ -190,9 +196,9 @@ RSpec.describe 'User API' do
         expect(response).to be_successful
 
         family = JSON.parse(response.body, symbolize_names: true)
-        require 'pry'; binding.pry
 
-        expect(family.all? { |hash| hash[:family][:name] == recipe.family.name }).to be true
+        expect(family[:name]).to eq(recipe.family.name)
+        expect(family[:recipes].empty?).not_to be true
       end
     end
   end
@@ -217,9 +223,9 @@ RSpec.describe 'User API' do
 
         original_recipe = JSON.parse(response.body, symbolize_names: true)
 
-        get "/api/v1/recipes/#{original_recipe[:recipe][:name].parameterize}/new_totals", params: {
+        get "/api/v1/recipes/#{original_recipe[:name].parameterize}/new_totals", params: {
           token: token,
-          recipe: original_recipe[:recipe],
+          recipe: original_recipe,
           new_dough_weight: 3.32
         }
 
@@ -227,10 +233,10 @@ RSpec.describe 'User API' do
 
         new_totals = JSON.parse(response.body, symbolize_names: true)
 
-        expect(new_totals[:ingredients][:flour][:amount]).to eq(2.0)
-        expect(new_totals[:ingredients][:water][:amount]).to eq(1.24)
-        expect(new_totals[:ingredients][:yeast][:amount]).to eq(0.04)
-        expect(new_totals[:ingredients][:salt][:amount]).to eq(0.04)
+        expect(new_totals[:ingredient_list][:flour][:amount]).to eq(2.0)
+        expect(new_totals[:ingredient_list][:water][:amount]).to eq(1.24)
+        expect(new_totals[:ingredient_list][:yeast][:amount]).to eq(0.04)
+        expect(new_totals[:ingredient_list][:salt][:amount]).to eq(0.04)
       end
     end
 
@@ -253,9 +259,9 @@ RSpec.describe 'User API' do
 
         original_recipe = JSON.parse(response.body, symbolize_names: true)
 
-        get "/api/v1/recipes/#{original_recipe[:recipe][:name]}/new_totals", params: {
+        get "/api/v1/recipes/#{original_recipe[:name]}/new_totals", params: {
           token: token,
-          recipe: original_recipe[:recipe],
+          recipe: original_recipe,
           new_dough_weight: 10.0
         }
 
@@ -263,10 +269,10 @@ RSpec.describe 'User API' do
 
         new_totals = JSON.parse(response.body, symbolize_names: true)
 
-        expect(new_totals[:ingredients][:flour][:amount]).to eq(6.02)
-        expect(new_totals[:ingredients][:water][:amount]).to eq(3.73)
-        expect(new_totals[:ingredients][:yeast][:amount]).to eq(0.12)
-        expect(new_totals[:ingredients][:salt][:amount]).to eq(0.12)
+        expect(new_totals[:ingredient_list][:flour][:amount]).to eq(6.02)
+        expect(new_totals[:ingredient_list][:water][:amount]).to eq(3.73)
+        expect(new_totals[:ingredient_list][:yeast][:amount]).to eq(0.12)
+        expect(new_totals[:ingredient_list][:salt][:amount]).to eq(0.12)
       end
     end
   end
