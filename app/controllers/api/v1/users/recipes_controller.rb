@@ -14,38 +14,18 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
     recipe = current_user.recipes.find_by(name: params[:recipe_name])
     render(
       status: 200,
-      json: {
-        recipe: {
-          id: recipe.id,
-          name: recipe.name,
-          ingredients: recipe.ingredient_list,
-          total_percentage: recipe.total_percent,
-          family: recipe.family.name,
-          tags: recipe.tags
-        }
-      },
-      includes: '***', each_serializer: Api::V1::RecipeSerializer
+      json: Api::V1::RecipeSerializer.new(recipe).attributes
     )
   end
 
   def create
     recipe_name = params[:recipe][:name]
-    recipe = Recipe.find_by(name: params[:recipe][:name])
+    recipe = Recipe.find_by(name: recipe_name)
     if !recipe
-      recipe = Recipe.create(user_id: current_user.id, name: recipe_name)
-      render(
-        status: 201,
-        json: {
-          recipe: {
-            id: recipe.id,
-            name: recipe.name,
-            ingredients: recipe.recipe_ingredient_list(params[:recipe][:ingredients]),
-            total_percentage: recipe.total_percent,
-            family: recipe.assign_family
-          },
-          tags: recipe.tag_list(params[:tags])
-        }
-      )
+      @recipe = Recipe.create(user_id: current_user.id, name: recipe_name)
+      recipe_ingredient_list
+      assign_family
+      render(status: 201, json: Api::V1::RecipeSerializer.new(@recipe).attributes)
     else
       render(status: 404, json: { message: 'You already have a recipe with that name' })
     end
@@ -59,6 +39,14 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   private
+
+  def assign_family
+    @recipe.assign_family
+  end
+
+  def recipe_ingredient_list
+    @recipe.recipe_ingredient_list(params[:recipe][:ingredients])
+  end
 
   def ingredient_list
     Ingredient.create_list(params[:recipe][:ingredients].keys)

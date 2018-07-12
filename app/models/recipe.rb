@@ -40,7 +40,7 @@ class Recipe < ApplicationRecord
   end
 
   def self.new_totals(recipe, new_dough_weight)
-    ingredients_hash = recipe[:ingredients]
+    ingredients_hash = recipe[:ingredient_list]
     new_flour_weight = new_flour_total(recipe, new_dough_weight)
     recalculated_amounts(ingredients_hash, new_flour_weight)
     recipe

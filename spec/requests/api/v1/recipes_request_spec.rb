@@ -86,7 +86,7 @@ RSpec.describe 'New recipe amount calculation' do
 
         get "/api/v1/recipes/#{list[:name]}/new_totals", params: {
           token: token,
-          recipe: original_recipe[:recipe],
+          recipe: original_recipe,
           new_dough_weight: 10.0
         }
 
