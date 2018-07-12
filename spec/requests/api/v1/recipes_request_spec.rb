@@ -50,7 +50,7 @@ RSpec.describe 'New recipe amount calculation' do
 
         get "/api/v1/recipes/#{list[:name]}/new_totals", params: {
           token: token,
-          recipe: original_recipe[:recipe],
+          recipe: original_recipe,
           new_dough_weight: 3.32
         }
 
@@ -58,10 +58,10 @@ RSpec.describe 'New recipe amount calculation' do
 
         new_totals = JSON.parse(response.body, symbolize_names: true)
 
-        expect(new_totals[:ingredients][:flour][:amount]).to eq(2.0)
-        expect(new_totals[:ingredients][:water][:amount]).to eq(1.24)
-        expect(new_totals[:ingredients][:yeast][:amount]).to eq(0.04)
-        expect(new_totals[:ingredients][:salt][:amount]).to eq(0.04)
+        expect(new_totals[:ingredient_list][:flour][:amount]).to eq(2.0)
+        expect(new_totals[:ingredient_list][:water][:amount]).to eq(1.24)
+        expect(new_totals[:ingredient_list][:yeast][:amount]).to eq(0.04)
+        expect(new_totals[:ingredient_list][:salt][:amount]).to eq(0.04)
       end
     end
 
@@ -94,10 +94,10 @@ RSpec.describe 'New recipe amount calculation' do
 
         new_totals = JSON.parse(response.body, symbolize_names: true)
 
-        expect(new_totals[:ingredients][:flour][:amount]).to eq(6.02)
-        expect(new_totals[:ingredients][:water][:amount]).to eq(3.73)
-        expect(new_totals[:ingredients][:yeast][:amount]).to eq(0.12)
-        expect(new_totals[:ingredients][:salt][:amount]).to eq(0.12)
+        expect(new_totals[:ingredient_list][:flour][:amount]).to eq(6.02)
+        expect(new_totals[:ingredient_list][:water][:amount]).to eq(3.73)
+        expect(new_totals[:ingredient_list][:yeast][:amount]).to eq(0.12)
+        expect(new_totals[:ingredient_list][:salt][:amount]).to eq(0.12)
       end
     end
   end

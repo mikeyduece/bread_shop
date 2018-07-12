@@ -83,11 +83,11 @@ RSpec.describe 'User API' do
         new_recipe = JSON.parse(response.body, symbolize_names: true)
 
         expect(response.status).to eq(201)
-        expect(new_recipe[:recipe][:id]).to eq(user.recipes.last.id)
-        expect(new_recipe[:recipe][:name]).to eq(user.recipes.last.name)
+        expect(new_recipe[:id]).to eq(user.recipes.last.id)
+        expect(new_recipe[:name]).to eq(user.recipes.last.name)
         expect(Recipe.exists?(name: 'baguette')).to be(true)
-        expect(Ingredient.any? { list[:ingredients].keys }).to be(true)
-        expect(RecipeIngredient.any? { list[:ingredients].values }).to be(true)
+        expect(Ingredient.any? { list[:ingredient_list].keys }).to be(true)
+        expect(RecipeIngredient.any? { list[:ingredient_list].values }).to be(true)
       end
     end
 
@@ -137,7 +137,9 @@ RSpec.describe 'User API' do
 
         recipe = JSON.parse(response.body, symbolize_names: true)
 
-        expect(recipe[:tags]).to include(*tags)
+        recipe[:tags].each do |tag|
+          expect(tags).to include(tag[:name])
+        end
       end
     end
 
