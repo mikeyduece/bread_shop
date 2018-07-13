@@ -52,9 +52,7 @@ RSpec.describe 'Recipe Requests' do
     it 'can change per_page' do
       create_list(:recipe, 50)
 
-      get '/api/v1/recipes', params: { per_page: 25}
-
-      expect(response).to be_successful
+      get '/api/v1/recipes', params: { per_page: 25 }
 
       recipes = JSON.parse(response.body, symbolize_names: true)
 
@@ -62,15 +60,11 @@ RSpec.describe 'Recipe Requests' do
 
       get '/api/v1/recipes', params: { per_page: 5 }
 
-      expect(response).to be_successful
-
       paginated_recipes = JSON.parse(response.body, symbolize_names: true)
 
       expect(paginated_recipes.count).to eq(5)
 
       get '/api/v1/recipes', params: { per_page: 30 }
-
-      expect(response).to be_successful
 
       larger_return = JSON.parse(response.body, symbolize_names: true)
 
