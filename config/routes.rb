@@ -38,10 +38,14 @@ Rails.application.routes.draw do
       get 'families/:family_name', to: 'families#show'
 
       # new total weights path
-      get 'recipes/:recipe_name/new_totals', to: 'recipes#show'
+      get 'new_totals', to: 'new_totals#show'
 
       # get nutrition label for recipe
-      get 'recipes/:recipe_name/label', to: 'nutrition_label#show'
+      get 'recipes/:id/label', to: 'nutrition_label#show'
+
+      # get all recipes and specific recipes
+      get 'recipes/:id', to: 'recipes#show'
+      get 'recipes', to: 'recipes#index'
     end
   end
 end
