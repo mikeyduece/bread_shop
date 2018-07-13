@@ -2,7 +2,7 @@
 
 class Api::V1::RecipesController < Api::V1::ApplicationController
   def index
-    recipes = Recipe.all
+    recipes = Recipe.paginate(page: params[:page])
     render(status: 200, json: recipes, each_serializer: Api::V1::RecipeSerializer)
   end
 
