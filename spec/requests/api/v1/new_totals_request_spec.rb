@@ -55,7 +55,7 @@ RSpec.describe 'New recipe totals' do
         }
       }
 
-      post "/api/v1/users/#{user.email}/recipes", params: {
+      post "/api/v1/users/#{user.id}/recipes", params: {
         token: token,
         recipe: list
       }
