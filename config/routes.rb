@@ -18,8 +18,8 @@ Rails.application.routes.draw do
         end
 
         # Follow routes
-        post ':email/follow/:target_email', to: 'follows#create', constraints: { email: /.+@.+\..*/, target_email: /.+@.+\..*/ }
-        delete ':email/unfollow/:target_email', to: 'follows#destroy', constraints: { email: /.+@.+\..*/, target_email: /.+@.+\..*/ }
+        post ':id/follow/:target_id', to: 'follows#create'#, constraints: { email: /.+@.+\..*/, target_id: /.+@.+\..*/ }
+        delete ':email/unfollow/:target_email', to: 'follows#destroy'#, constraints: { email: /.+@.+\..*/, target_email: /.+@.+\..*/ }
 
         # all users path
         get 'all', to: 'users#index'

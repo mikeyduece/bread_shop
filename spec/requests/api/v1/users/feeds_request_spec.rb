@@ -47,10 +47,10 @@ RSpec.describe 'Feeds' do
           salt: { amount: 0.02 }
         }
       }
-      post "/api/v1/users/#{user.email}/follow/#{user2.email}", params: { token: token }
-      post "/api/v1/users/#{user2.email}/recipes", params: { token: token2, recipe: list }
+      post "/api/v1/users/#{user.id}/follow/#{user2.id}", params: { token: token }
+      post "/api/v1/users/#{user2.id}/recipes", params: { token: token2, recipe: list }
 
-      get "/api/v1/users/#{user.email}/feeds/flat", params: { token: token }
+      get "/api/v1/users/#{user.id}/feeds/flat", params: { token: token }
 
       expect(response).to be_successful
 
