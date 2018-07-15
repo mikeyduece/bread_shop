@@ -5,12 +5,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :users do
         # Like routes
-        post ':email/like/:recipe_id', to: 'likes#create', constraints: { email: /.+@.+\..*/ }
-
-        delete ':email/unlike/:recipe_id', to: 'likes#destroy', constraints: { email: /.+@.+\..*/ }
+        post ':id/like/:recipe_id', to: 'likes#create'
+        delete ':id/unlike/:recipe_id', to: 'likes#destroy'
 
         # Feed routes
-        scope path: ':email/feeds', constraints: { email: /.+@.+\..*/ }, controller: :feeds, as: 'feed' do
+        scope path: ':id/feeds', controller: :feeds, as: 'feed' do
           get 'me', to: 'feeds#user'
           get 'flat', to: :flat
           get 'aggregated', to: :aggregated
@@ -18,17 +17,17 @@ Rails.application.routes.draw do
         end
 
         # Follow routes
-        post ':id/follow/:target_id', to: 'follows#create'#, constraints: { email: /.+@.+\..*/, target_id: /.+@.+\..*/ }
-        delete ':email/unfollow/:target_email', to: 'follows#destroy'#, constraints: { email: /.+@.+\..*/, target_email: /.+@.+\..*/ }
+        post ':id/follow/:target_id', to: 'follows#create'
+        delete ':id/unfollow/:target_id', to: 'follows#destroy'
 
         # all users path
         get 'all', to: 'users#index'
 
         # Specific users recipe paths
-        get ':id/recipes', to: 'recipes#index'#, constraints: { email: /.+@.+\..*/ }
-        get ':id/recipes/:recipe_id', to: 'recipes#show'#, constraints: { email: /.+@.+\..*/ }
-        post ':id/recipes', to: 'recipes#create'#, constraints: { email: /.+@.+\..*/ }
-        delete ':id/recipes/:recipe_id', to: 'recipes#destroy'#, constraints: { email: /.+@.+\..*/ }
+        get ':id/recipes', to: 'recipes#index'
+        get ':id/recipes/:recipe_id', to: 'recipes#show'
+        post ':id/recipes', to: 'recipes#create'
+        delete ':id/recipes/:recipe_id', to: 'recipes#destroy'
       end
 
       # log in with amazon

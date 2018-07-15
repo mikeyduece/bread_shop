@@ -22,9 +22,9 @@ RSpec.describe 'Feeds' do
 
   it 'feeds#notification' do
     VCR.use_cassette('notification_feeds') do
-      post "/api/v1/users/#{user.email}/follow/#{user2.email}", params: { token: token }
+      post "/api/v1/users/#{user.id}/follow/#{user2.id}", params: { token: token }
 
-      get "/api/v1/users/#{user2.email}/feeds/notification", params: { token: token2 }
+      get "/api/v1/users/#{user2.id}/feeds/notification", params: { token: token2 }
 
       expect(response).to be_successful
 
