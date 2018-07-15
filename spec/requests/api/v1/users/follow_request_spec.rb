@@ -10,7 +10,7 @@ RSpec.describe 'Follow Requests' do
 
   it 'can follow a user' do
     VCR.use_cassette('follow') do
-      post "/api/v1/users/#{user1.email}/follow/#{user2.email}",
+      post "/api/v1/users/#{user1.id}/follow/#{user2.id}",
         params: { token: token1 }
 
       expect(response).to be_successful
@@ -22,9 +22,9 @@ RSpec.describe 'Follow Requests' do
 
   it 'can follow more than one user' do
     VCR.use_cassette('follow_more') do
-      post "/api/v1/users/#{user1.email}/follow/#{user2.email}",
+      post "/api/v1/users/#{user1.id}/follow/#{user2.id}",
       params: { token: token1 }
-      post "/api/v1/users/#{user1.email}/follow/#{user3.email}",
+      post "/api/v1/users/#{user1.id}/follow/#{user3.id}",
         params: { token: token1 }
 
       expect(response).to be_successful
