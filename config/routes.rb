@@ -25,10 +25,10 @@ Rails.application.routes.draw do
         get 'all', to: 'users#index'
 
         # Specific users recipe paths
-        get ':email/recipes', to: 'recipes#index', constraints: { email: /.+@.+\..*/ }
-        get ':email/recipes/:recipe_name', to: 'recipes#show', constraints: { email: /.+@.+\..*/ }
-        post ':email/recipes', to: 'recipes#create', constraints: { email: /.+@.+\..*/ }
-        delete ':email/recipes/:recipe_name', to: 'recipes#destroy', constraints: { email: /.+@.+\..*/ }
+        get ':id/recipes', to: 'recipes#index'#, constraints: { email: /.+@.+\..*/ }
+        get ':id/recipes/:recipe_id', to: 'recipes#show'#, constraints: { email: /.+@.+\..*/ }
+        post ':id/recipes', to: 'recipes#create'#, constraints: { email: /.+@.+\..*/ }
+        delete ':id/recipes/:recipe_id', to: 'recipes#destroy'#, constraints: { email: /.+@.+\..*/ }
       end
 
       # log in with amazon

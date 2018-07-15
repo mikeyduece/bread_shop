@@ -12,7 +12,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def show
-    recipe = current_user.recipes.find_by(name: params[:recipe_name])
+    recipe = current_user.recipes.find(params[:recipe_id])
     render(
       status: 200,
       json: Api::V1::RecipeSerializer.new(recipe).attributes

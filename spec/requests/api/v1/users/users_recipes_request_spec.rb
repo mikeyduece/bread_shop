@@ -20,7 +20,7 @@ RSpec.describe 'User API' do
 
   context 'user recipes' do
     it 'returns list of recipes for a user with params' do
-      get "/api/v1/users/#{user.email}/recipes", params: { token: token }
+      get "/api/v1/users/#{user.id}/recipes", params: { token: token }
 
       expect(response).to be_successful
 
@@ -31,7 +31,7 @@ RSpec.describe 'User API' do
     end
 
     it 'does not return anything without token in params' do
-      get "/api/v1/users/#{user.email}/recipes"
+      get "/api/v1/users/#{user.id}/recipes"
 
       expect(response).to_not be_successful
       expect(response).to have_http_status(401)
@@ -50,7 +50,7 @@ RSpec.describe 'User API' do
         create(:recipe_ingredient, recipe: recipe)
       end
 
-      get "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
+      get "/api/v1/users/#{user.id}/recipes/#{recipe.id}",
         params: { token: token }
 
       expect(response).to be_successful
@@ -75,7 +75,7 @@ RSpec.describe 'User API' do
           }
         }
 
-        post "/api/v1/users/#{user.email}/recipes",
+        post "/api/v1/users/#{user.id}/recipes",
           params: { token: token, recipe: list }
 
         expect(response).to be_successful
@@ -105,7 +105,7 @@ RSpec.describe 'User API' do
           }
         }
 
-        post "/api/v1/users/#{user.email}/recipes",
+        post "/api/v1/users/#{user.id}/recipes",
           params: { token: token, recipe: list }
 
         expect(response).not_to be_successful
@@ -130,7 +130,7 @@ RSpec.describe 'User API' do
         }
         tags = %w[Lean Baguette French\ Bread]
 
-        post "/api/v1/users/#{user.email}/recipes",
+        post "/api/v1/users/#{user.id}/recipes",
           params: { token: token, recipe: list, tags: tags }
 
         expect(response).to be_successful
@@ -149,7 +149,7 @@ RSpec.describe 'User API' do
         flour  = create(:ingredient, name: 'Flour')
         recipe.recipe_ingredients << create(:recipe_ingredient, ingredient_id: flour.id)
 
-        delete "/api/v1/users/#{user.email}/recipes/#{recipe.name}",
+        delete "/api/v1/users/#{user.id}/recipes/#{recipe.id}",
           params: { token: token }
 
         expect(response).to be_successful
@@ -173,10 +173,12 @@ RSpec.describe 'User API' do
             salt: { amount: 0.02 }
           }
         }
-        post "/api/v1/users/#{user.email}/recipes",
+        post "/api/v1/users/#{user.id}/recipes",
           params: { recipe: list, token: token }
 
-        get "/api/v1/users/#{user.email}/recipes/#{list[:name]}",
+        new_recipe = JSON.parse(response.body, symbolize_names: true)
+
+        get "/api/v1/users/#{user.id}/recipes/#{new_recipe[:id]}",
           params: { token: token }
 
         expect(response).to be_successful
