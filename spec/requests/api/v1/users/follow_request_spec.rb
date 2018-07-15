@@ -48,7 +48,7 @@ RSpec.describe 'Follow Requests' do
       expect(user1.follows.count).to eq(2)
       expect(user1.follows.first.target_id).to eq(user2.id)
 
-      delete "/api/v1/users/#{user1.email}/unfollow/#{user2.email}",
+      delete "/api/v1/users/#{user1.id}/unfollow/#{user2.id}",
         params: { token: token1 }
 
       user1.reload
