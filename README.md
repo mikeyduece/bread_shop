@@ -14,7 +14,7 @@ All requests require token from client app to be sent in the params. If no token
 
 Base URL for all requests is `https://bread-shop-api.herokuapp.com/api/v1`
 
-`GET /users/:email/recipes?token=token` - Returns list of recipes that a user has created.
+`GET /users/:id/recipes?token=token` - Returns list of recipes that a user has created.
 
 ```ruby
 {
@@ -30,7 +30,7 @@ Base URL for all requests is `https://bread-shop-api.herokuapp.com/api/v1`
 }
 ```    
 
-`POST /users/:email/recipes?token=token` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
+`POST /users/:id/recipes?token=token` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
 
 Example payload sent to endpoint:
 ```ruby
@@ -47,7 +47,7 @@ Example payload sent to endpoint:
 
 The response from the the `POST` request contains the submitted information along with baker's percentage and `total_percentage`. As seen below with the `GET` for a single recipe.
 
-`GET /users/:email/recipes/:recipe_name?token=token` - Returns specific recipe.
+`GET /users/:id/recipes/:recipe_id?token=token` - Returns specific recipe.
 Example JSON response
 
 ```ruby
@@ -83,7 +83,7 @@ Example JSON response
   ]
 ```
 
-`GET /recipes/:recipe_name/new_totals` Given a request with a recipe and amounts, the request params would look like so.
+`GET /recipes/:recipe_id/new_totals` Given a request with a recipe and amounts, the request params would look like so.
 
 ```Ruby
   {
@@ -119,10 +119,10 @@ The return from the previous request would be the recipe with the new amounts.
 ```
 
 ##### Likes
-`POST /users/:email/like/:recipe_id` 
+`POST /users/:id/like/:recipe_id` 
 >Allows one user to like another users recipes
 
-`DELETE /users/:email/unlike/:recipe_id` 
+`DELETE /users/:id/unlike/:recipe_id` 
 >Allows a user to unlike a recipe that they previously 'liked'.
 
 
@@ -130,23 +130,23 @@ The return from the previous request would be the recipe with the new amounts.
 ### Activity Feed
 #### Follows
 
-`POST /users/:email/follow/:target_email` 
+`POST /users/:id/follow/:target_id` 
 
 >Allows one user to follow another. Once the follow record is persisted, the target user is sent a notification.
 
-`DELETE /users/:email/unfollow/:target_email`
+`DELETE /users/:id/unfollow/:target_id`
 
 >Allows a user to unfollow a user if already followed.
 
 #### Notification
 
-`GET /users/:email/feeds/notification`
+`GET /users/:id/feeds/notification`
 
 >Sends the notification to the user when followed. Also sends notification to the user who initiated the follow, of when the target user creates a new recipe or when someone likes one of their recipes.
 
 #### Flat Feed
 
-`GET /users/:email/feeds/flat`
+`GET /users/:id/feeds/flat`
 
 >Gets the feed for a given user. So far, showing when another user (that the current user follows) creates a new recipe
 
@@ -154,7 +154,7 @@ The return from the previous request would be the recipe with the new amounts.
 Analysis of recipe information provided by [Edamam](https://www.edamam.com/)
 
 
-`GET /recipes/:recipe_name/label?token=token`
+`GET /recipes/:recipe_id/label?token=token`
 
 JSON return is formatted as follows:
 
