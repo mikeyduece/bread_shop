@@ -82,12 +82,15 @@ RSpec.describe 'User API' do
 
         new_recipe = JSON.parse(response.body, symbolize_names: true)
 
+        recipe_date = user.recipes.last.created_at
+
         expect(response.status).to eq(201)
         expect(new_recipe[:id]).to eq(user.recipes.last.id)
         expect(new_recipe[:name]).to eq(user.recipes.last.name)
         expect(Recipe.exists?(name: 'baguette')).to be(true)
         expect(Ingredient.any? { list[:ingredients].keys }).to be(true)
         expect(RecipeIngredient.any? { list[:ingredients].values }).to be(true)
+        expect(new_recipe[:created_at]).to eq(recipe_date.strftime("Created on %d %^b '%y at %H:%M"))
       end
     end
 
