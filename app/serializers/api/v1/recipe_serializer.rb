@@ -1,10 +1,16 @@
 # frozen_string_literal: true
 
 class Api::V1::RecipeSerializer < ActiveModel::Serializer
-  attributes :id, :name, :tags, :total_percent, :ingredient_list, :family
+  attributes :id, :name, :tags, :total_percent, :ingredient_list, :family,
+    :created_at
   belongs_to :user
   belongs_to :family
   has_many :recipe_ingredients
+
+  def created_at
+    created = object.created_at
+    created.strftime("Created on %d %^b '%y at %H:%M")
+  end
 
   def family
     object.family.name
