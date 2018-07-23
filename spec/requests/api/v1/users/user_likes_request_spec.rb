@@ -13,7 +13,7 @@ RSpec.describe 'User Likes' do
       recipe = user_2.recipes[1]
       expect(user_1.likes.count).to eq(0)
 
-      post "/api/v1/users/#{user_1.email}/like/#{recipe.id}", params: { token: token_1 }
+      post "/api/v1/users/#{user_1.id}/like/#{recipe.id}", params: { token: token_1 }
 
       expect(response).to be_successful
 
@@ -25,7 +25,7 @@ RSpec.describe 'User Likes' do
       expect(like[:target_id]).to eq(user_2.id)
       expect(like[:recipe_id]).to eq(recipe.id)
 
-      get "/api/v1/users/#{user_2.email}/feeds/notification", params: { token: token_2 }
+      get "/api/v1/users/#{user_2.id}/feeds/notification", params: { token: token_2 }
 
       notify = JSON.parse(response.body, symbolize_names: true)
 
@@ -40,11 +40,11 @@ RSpec.describe 'User Likes' do
       recipe = user_2.recipes[0]
       expect(user_2.likes.count).to eq(0)
 
-      post "/api/v1/users/#{user_1.email}/like/#{recipe.id}", params: { token: token_1 }
+      post "/api/v1/users/#{user_1.id}/like/#{recipe.id}", params: { token: token_1 }
 
       expect(user_1.likes.count).to eq(1)
 
-      delete "/api/v1/users/#{user_1.email}/unlike/#{recipe.id}", params: { token: token_1 }
+      delete "/api/v1/users/#{user_1.id}/unlike/#{recipe.id}", params: { token: token_1 }
 
       expect(response).to be_successful
 
