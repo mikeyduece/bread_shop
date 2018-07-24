@@ -35,7 +35,6 @@ RSpec.describe 'New recipe totals' do
       expect(response).to be_successful
 
       new_totals = JSON.parse(response.body, symbolize_names: true)
-      require 'pry'; binding.pry
 
       expect(new_totals[:ingredient_list][:flour][:amount]).to eq(2.0)
       expect(new_totals[:ingredient_list][:water][:amount]).to eq(1.24)
