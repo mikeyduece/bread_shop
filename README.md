@@ -17,17 +17,24 @@ Base URL for all requests is `https://bread-shop-api.herokuapp.com/api/v1`
 `GET /users/:id/recipes?token=token` - Returns list of recipes that a user has created.
 
 ```ruby
-{
-  recipes: [
+[
   {
-    id: integer,
-    name: recipe_name,
-    user_id: integer,
-    created_at: date
+    :id=>1,
+    :name=>"1Recipe",
+    :tags=>[],
+    :total_percent=>nil,
+    :ingredient_list=>
+     { 
+      :"9Ingredient"=>{:amount=>8.64, :bakers_percentage=>nil}, 
+      :"8Ingredient"=>{:amount=>6.01, :bakers_percentage=>nil},
+      :"7Ingredient"=>{:amount=>3.38, :bakers_percentage=>nil} 
+    },
+    :family=>"Sweet",
+    :created_at=>"Created on 24 JUL '18 at 16:57",
+    :user=>{:id=>1, :name=>"Jamis", :email=>"giovanna@kleinmurray.info", :uid=>"1uid", :zipcode=>"53370-1675"}
   },
   ...
-  ]
-}
+]
 ```    
 
 `POST /users/:id/recipes?token=token` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
@@ -52,35 +59,46 @@ Example JSON response
 
 ```ruby
   {
-    status: 200,
-    recipe: {
-      id: <recipe_id>,
-      name: 'baguette',
-      ingredients: {
-        'flour' => {amount: 1.00, bakers_percentage: 100.0},
-        'water' => {amount: 0.65, bakers_percentage: 65.0},
-        'salt' => {amount: 0.02, bakers_percentage: 2.0},
-        'yeast' => {amount: 0.02, bakers_percentage: 2.0}
-      },
-      total_percentage: 169.0
-    }
+    :id=>1,
+    :name=>"1Recipe",
+    :tags=>[{:name=>"awesome"}, {:name=>"bread"}],
+    :total_percent=>441.48,
+    :ingredient_list=>
+     {
+       :"51Ingredient"=>{:amount=>1.37, :bakers_percentage=>20.66},
+       :"50Ingredient"=>{:amount=>6.9, :bakers_percentage=>104.07},
+       :"49Ingredient"=>{:amount=>2.36, :bakers_percentage=>35.6},
+       :"48Ingredient"=>{:amount=>7.14, :bakers_percentage=>107.69},
+       :"47Ingredient"=>{:amount=>0.81, :bakers_percentage=>12.22},
+       :"46Ingredient"=>{:amount=>4.06, :bakers_percentage=>61.24},
+       :flour=>{:amount=>6.63, :bakers_percentage=>100.0} 
+     },
+   :family=>"Rich",
+   :created_at=>"Created on 24 JUL '18 at 16:54"
   }
 ```
 
 `GET /families/:family_name?token=token` Returns a list of all recipes that are associated with that family_name.
 
 ```ruby
-  [
-    {
-    recipe_name: 'Recipe Name',
-    family: 'Family Name',
-    user: {
-      name: 'Name',
-      email: 'email@email.com'
-          }
-    },
-  ...
-  ]
+{
+  :name=>"Soft",
+  :recipes=>
+  [{
+    :id=>1,
+    :name=>"1Recipe",
+    :tags=>[],
+    :total_percent=>nil,
+    :ingredient_list=>
+     {
+       :"9Ingredient"=>{:amount=>3.94, :bakers_percentage=>nil},
+       :"8Ingredient"=>{:amount=>0.15, :bakers_percentage=>nil},
+       :"7Ingredient"=>{:amount=>4.1, :bakers_percentage=>nil}
+     },
+    :family=>"Soft",
+    :created_at=>"Created on 24 JUL '18 at 17:00"
+  }]
+}
 ```
 
 `GET /recipes/:recipe_id/new_totals` Given a request with a recipe and amounts, the request params would look like so.
@@ -103,19 +121,21 @@ Example JSON response
 
 The return from the previous request would be the recipe with the new amounts.
 ```Ruby
-  {
-    recipe: {
-      id: <recipe_id>,
-      name: 'baguette',
-      ingredients: {
-        'flour' => { amount: 6.02 },
-        'water' => { amount: 3.73 },
-        'yeast' => { amount: 0.12 },
-        'salt'  => { amount: 0.12 }
-      },
-      total_percentage: 166.0
-    }
-  }
+{
+  :id=>"5",
+  :name=>"baguette1",
+  :tags=>[""],
+  :total_percent=>"166.0",
+  :ingredient_list=>
+    {
+      :salt=>{:amount=>0.04, :bakers_percentage=>"2.0"},
+      :yeast=>{:amount=>0.04, :bakers_percentage=>"2.0"},
+      :water=>{:amount=>1.24, :bakers_percentage=>"62.0"},
+      :flour=>{:amount=>2.0, :bakers_percentage=>"100.0"}
+    },
+ :family=>"Lean",
+ :created_at=>"Created on 24 JUL '18 at 17:02"
+}
 ```
 
 ##### Likes
