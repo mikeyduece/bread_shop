@@ -17,17 +17,19 @@ Base URL for all requests is `https://bread-shop-api.herokuapp.com/api/v1`
 `GET /users/:id/recipes?token=token` - Returns list of recipes that a user has created.
 
 ```ruby
-{
-  recipes: [
+[
   {
-    id: integer,
-    name: recipe_name,
-    user_id: integer,
-    created_at: date
+    :id=>1,
+    :name=>"1Recipe",
+    :tags=>[],
+    :total_percent=><float>,
+    :ingredient_list=>
+     {:"9Ingredient"=>{:amount=>1.06, :bakers_percentage=><float>}, :"8Ingredient"=>{:amount=>4.36, :bakers_percentage=><float>}, :"7Ingredient"=>{:amount=>0.02, :bakers_percentage=><float>}},
+    :family=>"Lean",
+    :user=>{:id=>1, :name=>"Ilban Richese", :email=>"ludwig@heelmarks.info", :uid=>"1uid", :zipcode=>"23950-3937"
   },
   ...
-  ]
-}
+]
 ```    
 
 `POST /users/:id/recipes?token=token` - Creates a new `Recipe` with associated `Ingredient` and `RecipeIngredient` records
