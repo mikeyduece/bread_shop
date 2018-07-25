@@ -42,6 +42,8 @@ gem 'jwt'
 gem 'will_paginate'
 gem 'api-pagination'
 gem 'omniauth-amazon'
+gem "aws-sdk-s3", require: false
+gem "activestorage"
 # gem 'active_poro'
 # gem 'fast_jsonapi'
 gem 'active_model_serializers', '~> 0.10.0'
