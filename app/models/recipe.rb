@@ -34,7 +34,7 @@ class Recipe < ApplicationRecord
 
   def self.new_totals(recipe, new_dough_weight)
     ingredients_hash = recipe[:ingredient_list]
-    new_flour_weight = new_flour_total(recipe, new_dough_weight)
+    new_flour_weight = new_flour_total(recipe[:total_percent], new_dough_weight)
     recalculated_amounts(ingredients_hash, new_flour_weight)
     recipe
   end
@@ -66,8 +66,8 @@ class Recipe < ApplicationRecord
 
   private
   class << self
-    def new_flour_total(recipe, new_dough_weight)
-      ((new_dough_weight.to_f / recipe[:total_percent].to_f) * 100).round(2)
+    def new_flour_total(total_percent, new_dough_weight)
+      ((new_dough_weight.to_f / total_percent.to_f) * 100).round(2)
     end
 
     def recalculated_amounts(ingredients_hash, new_flour_weight)
