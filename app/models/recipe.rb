@@ -65,6 +65,7 @@ class Recipe < ApplicationRecord
   end
 
   private
+
   class << self
     def new_flour_total(total_percent, new_dough_weight)
       ((new_dough_weight.to_f / total_percent.to_f) * 100).round(2)
@@ -80,10 +81,10 @@ class Recipe < ApplicationRecord
 
   def calculate_family
     case
-    when lean then update_attribute(:family_id, family_assignment('Lean'))
-    when soft then update_attribute(:family_id, family_assignment('Soft'))
+    when lean  then update_attribute(:family_id, family_assignment('Lean'))
+    when soft  then update_attribute(:family_id, family_assignment('Soft'))
     when sweet then update_attribute(:family_id, family_assignment('Sweet'))
-    when rich then update_attribute(:family_id, family_assignment('Rich'))
+    when rich  then update_attribute(:family_id, family_assignment('Rich'))
     when slack then update_attribute(:family_id, family_assignment('Slack'))
     end
     return family_id
