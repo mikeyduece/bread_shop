@@ -25,8 +25,4 @@ class Ingredient < ApplicationRecord
     when WATER.include?(name)      then update_attribute(:category_id, category_assignment('water'))
     end
   end
-
-  def category_assignment(name)
-    Category.find_by(name: name).id
-  end
 end
