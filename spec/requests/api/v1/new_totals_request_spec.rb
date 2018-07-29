@@ -10,13 +10,13 @@ RSpec.describe 'New recipe totals' do
   it 'calculates new amounts from new total dough weight' do
     VCR.use_cassette('new_recipe') do
       list = {
-        name: 'baguette1',
-        ingredients: {
-          flour: { amount: 1.00 },
-          water: { amount: 0.62 },
-          yeast: { amount: 0.02 },
-          salt: { amount: 0.02 }
-        }
+        name: 'baguette',
+        ingredients: [
+          { name: 'flour', amount: 1.00 },
+          { name: 'water', amount: 0.62 },
+          { name: 'yeast', amount: 0.02 },
+          { name: 'salt', amount: 0.02 }
+        ]
       }
 
       post "/api/v1/users/#{user.id}/recipes", params: {
@@ -46,13 +46,13 @@ RSpec.describe 'New recipe totals' do
   it 'calculates different amounts from different total dough weight' do
     VCR.use_cassette('new_recipe') do
       list = {
-        name: 'baguette2',
-        ingredients: {
-          flour: { amount: 1.00 },
-          water: { amount: 0.62 },
-          yeast: { amount: 0.02 },
-          salt: { amount: 0.02 }
-        }
+        name: 'baguette',
+        ingredients: [
+          { name: 'flour', amount: 1.00 },
+          { name: 'water', amount: 0.62 },
+          { name: 'yeast', amount: 0.02 },
+          { name: 'salt', amount: 0.02 }
+        ]
       }
 
       post "/api/v1/users/#{user.id}/recipes", params: {

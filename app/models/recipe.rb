@@ -19,8 +19,8 @@ class Recipe < ApplicationRecord
     self.label = NutritionLabelService.analyze_recipe(self)
   end
 
-  def recipe_ingredient_list(ingredients)
-    RecipeIngredient.create_with_list(id, ingredients)
+  def recipe_ingredient_list(list)
+    RecipeIngredient.create_with_list(id, list[:ingredients])
   end
 
   def recipe_formatter
@@ -88,6 +88,10 @@ class Recipe < ApplicationRecord
     when slack then update_attribute(:family_id, family_assignment('Slack'))
     end
     return family_id
+  end
+
+  def family_assignment(name)
+    Family.find_by(name: name).id
   end
 
   def sum_recipe_ingredient_amounts(category)

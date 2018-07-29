@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 module RecipeFamilyInfo
-  def family_assignment(name)
-    Family.find_by(name: name).id
-  end
-
   def sweetener_percentage
     sweets = sweetener_amounts
     calculate_percentage(sweets)

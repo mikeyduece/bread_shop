@@ -40,12 +40,12 @@ RSpec.describe 'Feeds' do
     VCR.use_cassette('flat_feeds') do
       list = {
         name: 'baguette',
-        ingredients: {
-          flour: { amount: 1.00 },
-          water: { amount: 0.62 },
-          yeast: { amount: 0.02 },
-          salt: { amount: 0.02 }
-        }
+        ingredients: [
+          { name: 'flour', amount: 1.00 },
+          { name: 'water', amount: 0.62 },
+          { name: 'yeast', amount: 0.02 },
+          { name: 'salt', amount: 0.02 }
+        ]
       }
       post "/api/v1/users/#{user.id}/follow/#{user2.id}", params: { token: token }
       post "/api/v1/users/#{user2.id}/recipes", params: { token: token2, recipe: list }

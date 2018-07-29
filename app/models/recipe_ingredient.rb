@@ -11,7 +11,7 @@ class RecipeIngredient < ApplicationRecord
   end
 
   def self.create_with_list(rec_id, list)
-    list[:ingredients].each_with_object({}) do |ing_hash, result|
+    list.each_with_object({}) do |ing_hash, result|
       amt = ing_hash[:amount].to_f
       ing = Ingredient.find_by(name: ing_hash[:name])
       recipe_ingredient = create(

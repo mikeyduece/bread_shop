@@ -126,12 +126,12 @@ RSpec.describe 'User API' do
       VCR.use_cassette('tags') do
         list = {
           name: 'baguette',
-          ingredients: {
-            flour: { amount: 1.00 },
-            water: { amount: 0.62 },
-            yeast: { amount: 0.02 },
-            salt: { amount: 0.02 }
-          }
+          ingredients: [
+            { name: 'flour', amount: 1.00 },
+            { name: 'water', amount: 0.62 },
+            { name: 'yeast', amount: 0.02 },
+            { name: 'salt', amount: 0.02 }
+          ]
         }
         tags = %w[Lean Baguette French\ Bread]
 
@@ -171,12 +171,12 @@ RSpec.describe 'User API' do
       VCR.use_cassette('family') do
         list = {
           name: 'baguette',
-          ingredients: {
-            flour: { amount: 1.00 },
-            water: { amount: 0.62 },
-            yeast: { amount: 0.02 },
-            salt: { amount: 0.02 }
-          }
+          ingredients: [
+            { name: 'flour', amount: 1.00 },
+            { name: 'water', amount: 0.62 },
+            { name: 'yeast', amount: 0.02 },
+            { name: 'salt', amount: 0.02 }
+          ]
         }
         post "/api/v1/users/#{user.id}/recipes",
           params: { recipe: list, token: token }

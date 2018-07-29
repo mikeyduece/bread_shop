@@ -20,10 +20,10 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def create
-    recipe_name = params[:recipe][:name]
-    recipe = Recipe.find_by(name: recipe_name)
+    # recipe_name = params[:recipe][:name]
+    recipe = Recipe.find_by(name: params[:recipe][:name])
     if !recipe
-      @recipe = Recipe.create(user_id: current_user.id, name: recipe_name)
+      @recipe = Recipe.create(user_id: current_user.id, name: recipe_name_param)
       recipe_ingredient_list
       assign_family
       render(status: 201, json: Api::V1::RecipeSerializer.new(@recipe).attributes)
@@ -41,11 +41,22 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   private
 
+  def recipe_ing_params
+     params.require(:recipe)
+       .permit(:name, ingredients: [:name, :amount])
+       .to_h
+       .deep_symbolize_keys
+  end
+
   def ingredient_params
     params.require(:recipe)
       .permit(ingredients: [:name, :amount])
       .to_h
       .deep_symbolize_keys
+  end
+
+  def recipe_name_param
+    params.require(:recipe).permit(:name)[:name]
   end
 
   def tag_list
@@ -57,7 +68,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def recipe_ingredient_list
-    @recipe.recipe_ingredient_list(ingredient_params)
+    @recipe.recipe_ingredient_list(recipe_ing_params)
   end
 
   def ingredient_list
