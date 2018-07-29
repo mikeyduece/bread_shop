@@ -198,7 +198,9 @@ RSpec.describe 'User API' do
       VCR.use_cassette('formatting') do
         recipe = user.recipes[0]
 
-        get "/api/v1/families/#{recipe.family.name}", params: { token: token }
+        get '/api/v1/families', params: {
+          token: token, family_name: recipe.family.name
+        }
 
         expect(response).to be_successful
 
