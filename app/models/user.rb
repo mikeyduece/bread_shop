@@ -10,7 +10,6 @@ class User < ApplicationRecord
 
   def self.from_auth(auth)
     info = auth[:info]
-    # user = find_by(email: info[:email])
     unless user ||= find_by(email: info[:email])
       user = create(
         name: info[:name],
