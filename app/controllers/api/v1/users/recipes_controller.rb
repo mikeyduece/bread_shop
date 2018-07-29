@@ -20,8 +20,7 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def create
-    # recipe_name = params[:recipe][:name]
-    recipe = Recipe.find_by(name: params[:recipe][:name])
+    recipe = Recipe.find_by(name: recipe_name_param)
     if !recipe
       @recipe = Recipe.create(user_id: current_user.id, name: recipe_name_param)
       recipe_ingredient_list

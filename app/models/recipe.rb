@@ -32,11 +32,12 @@ class Recipe < ApplicationRecord
     }.to_json
   end
 
-  def self.new_totals(recipe, new_dough_weight)
-    ingredients_hash = recipe[:ingredient_list]
-    new_flour_weight = new_flour_total(recipe[:total_percent], new_dough_weight)
+  def self.new_totals(new_total_params)
+    original = new_total_params[:original]
+    ingredients_hash = original[:ingredient_list]
+    new_flour_weight = new_flour_total(original[:total_percent], new_total_params[:new_dough_weight])
     recalculated_amounts(ingredients_hash, new_flour_weight)
-    recipe
+    new_total_params
   end
 
   def assign_family
