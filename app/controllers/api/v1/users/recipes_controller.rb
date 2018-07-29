@@ -42,15 +42,15 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   private
 
   def recipe_ing_params
-     params.require(:recipe)
-       .permit(:name, ingredients: [:name, :amount])
-       .to_h
-       .deep_symbolize_keys
+    params.require(:recipe)
+      .permit(:name, ingredients: %i[name amount])
+      .to_h
+      .deep_symbolize_keys
   end
 
   def ingredient_params
     params.require(:recipe)
-      .permit(ingredients: [:name, :amount])
+      .permit(ingredients: %i[name amount])
       .to_h
       .deep_symbolize_keys
   end

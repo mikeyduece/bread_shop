@@ -12,7 +12,6 @@ class Ingredient < ApplicationRecord
 
   def self.create_list(list)
     list[:ingredients].each { |ing_hash| find_or_create_by(name: ing_hash[:name]) }
-    # list.map { |name| Ingredient.find_or_create_by(name: name) }
   end
 
   private
