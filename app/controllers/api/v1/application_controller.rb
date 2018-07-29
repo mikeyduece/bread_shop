@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# :reek:MissingSafeMethod { exclude: [ authenticate_user! ] }
 
 class Api::V1::ApplicationController < ActionController::Base
   protect_from_forgery with: :exception

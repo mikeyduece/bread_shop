@@ -1,0 +1,44 @@
+---
+
+exclude_paths:
+  - db
+
+detectors:
+  InstanceVariableAssumption:
+    exclude:
+      - 'Api::V1::Users::RecipesController'
+      - 'Api::V1::Users::LikesController'
+      - 'Api::V1::Users::FeedsController'
+
+  IrresponsibleModule:
+    enabled: false
+
+  DuplicateMethodCall:
+    exclude:
+      - 'RecipeFamilyInfo#rich'
+      - 'Ingredient#assign_category'
+      - 'NutritionLabelService#initialize'
+      - 'User#self.from_auth'
+      - 'Api::V1::Users::FollowsController#destroy'
+      - 'Api::V1::RecipesController#index'
+ 
+  FeatureEnvy:
+    exclude:
+      - 'Recipe#ingredient_list'
+      - 'Api::V1::Users::RecipesController#show'
+      - 'Api::V1::Users::RecipesController#create'
+      - 'NutritionLabelService#initialize'
+      - 'Api::V1::Users::FollowsController#destroy'
+
+  UtilityFunction:
+    exclude:
+      - 'IngredientCategories#category_assignment'
+      - 'Recipe#family_assignment'
+
+  TooManyStatements:
+    max_statements: 7
+ 
+directories:
+  "spec/":
+    UtilityFunction:
+      enabled: false
