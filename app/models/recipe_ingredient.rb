@@ -11,19 +11,19 @@ class RecipeIngredient < ApplicationRecord
   end
 
   def self.create_with_list(rec_id, list)
-    saved = {}
-    list.each do |name, value|
-      ing = Ingredient.find_by(name: name)
-      recipe_ingredient = RecipeIngredient.create(
-        recipe_id: rec_id, ingredient_id: ing.id,
-        amount: value[:amount].to_f
+    list[:ingredients].each_with_object({}) do |ing_hash, result|
+      amt = ing_hash[:amount].to_f
+      ing = Ingredient.find_by(name: ing_hash[:name])
+      recipe_ingredient = create(
+        recipe_id: rec_id,
+        ingredient_id: ing.id,
+        amount: amt
       )
-      saved[name] = {
-        amount: value[:amount].to_f,
+      result[ing.name] = {
+        amount: amt,
         bakers_percentage: recipe_ingredient.bakers_percentage
       }
     end
-    saved
   end
 
   private

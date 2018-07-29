@@ -65,14 +65,16 @@ RSpec.describe 'User API' do
 
     it 'can create recipe' do
       VCR.use_cassette('new_recipes') do
+        ingredient_names = %w[flour water yeast salt]
+        ingredient_amounts = [1.00, 0.62, 0.02, 0.02]
         list = {
           name: 'baguette',
-          ingredients: {
-            flour: { amount: 1.00 },
-            water: { amount: 0.62 },
-            yeast: { amount: 0.02 },
-            salt: { amount: 0.02 }
-          }
+          ingredients: [
+            { name: 'flour', amount: 1.00 },
+            { name: 'water', amount: 0.62 },
+            { name: 'yeast', amount: 0.02 },
+            { name: 'salt', amount: 0.02 }
+          ]
         }
 
         post "/api/v1/users/#{user.id}/recipes",
@@ -88,8 +90,8 @@ RSpec.describe 'User API' do
         expect(new_recipe[:id]).to eq(user.recipes.last.id)
         expect(new_recipe[:name]).to eq(user.recipes.last.name)
         expect(Recipe.exists?(name: 'baguette')).to be(true)
-        expect(Ingredient.any? { list[:ingredients].keys }).to be(true)
-        expect(RecipeIngredient.any? { list[:ingredients].values }).to be(true)
+        expect(Ingredient.where(name: ingredient_names).pluck(:name)).to include(*ingredient_names)
+        expect(RecipeIngredient.where(recipe_id: new_recipe[:id]).pluck(:amount)).to include(*ingredient_amounts)
         expect(new_recipe[:created_at]).to eq(recipe_date.strftime("Created on %d %^b '%y at %H:%M"))
       end
     end

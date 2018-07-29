@@ -41,6 +41,13 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
 
   private
 
+  def ingredient_params
+    params.require(:recipe)
+      .permit(ingredients: [:name, :amount])
+      .to_h
+      .deep_symbolize_keys
+  end
+
   def tag_list
     @recipe.tags << Tag.create_list(params[:tags])
   end
@@ -50,11 +57,11 @@ class Api::V1::Users::RecipesController < Api::V1::ApplicationController
   end
 
   def recipe_ingredient_list
-    @recipe.recipe_ingredient_list(params[:recipe][:ingredients])
+    @recipe.recipe_ingredient_list(ingredient_params)
   end
 
   def ingredient_list
-    Ingredient.create_list(params[:recipe][:ingredients].keys)
+    Ingredient.create_list(ingredient_params)
   end
 
   def recipe_activity
