@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module IngredientCategories
   SWEETENERS = %w[
     sugar brown\ sugar corn\ syrup
@@ -13,4 +15,8 @@ module IngredientCategories
     spelt wheat\ flour whole\ wheat\ flour cake\ flour pastry\ flour semolina
     durum corn\ meal flax\ meal cornmeal
   ].freeze
+
+  def category_assignment(name)
+    Category.find_by(name: name).id
+  end
 end

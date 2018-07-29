@@ -17,11 +17,12 @@ class Ingredient < ApplicationRecord
   private
 
   def assign_category
+    name = self[:name]
     case
-    when SWEETENERS.include?(self[:name]) then update_attribute(:category_id, category_assignment('sweetener'))
-    when FATS.include?(self[:name])       then update_attribute(:category_id, category_assignment('fat'))
-    when FLOURS.include?(self[:name])     then update_attribute(:category_id, category_assignment('flour'))
-    when WATER.include?(self[:name])      then update_attribute(:category_id, category_assignment('water'))
+    when SWEETENERS.include?(name) then update_attribute(:category_id, category_assignment('sweetener'))
+    when FATS.include?(name)       then update_attribute(:category_id, category_assignment('fat'))
+    when FLOURS.include?(name)     then update_attribute(:category_id, category_assignment('flour'))
+    when WATER.include?(name)      then update_attribute(:category_id, category_assignment('water'))
     end
   end
 

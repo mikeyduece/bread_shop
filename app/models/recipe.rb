@@ -90,10 +90,6 @@ class Recipe < ApplicationRecord
     return family_id
   end
 
-  def family_assignment(name)
-    Family.find_by(name: name).id
-  end
-
   def sum_recipe_ingredient_amounts(category)
     category_id = Category.find_by(name: category).id
     recipe_ingredients.joins(:ingredient)
