@@ -88,7 +88,7 @@ class Recipe < ApplicationRecord
     when rich  then update_attribute(:family_id, family_assignment('Rich'))
     when slack then update_attribute(:family_id, family_assignment('Slack'))
     end
-    return family_id
+    family_id
   end
 
   def family_assignment(name)

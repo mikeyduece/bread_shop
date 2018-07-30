@@ -14,6 +14,6 @@ class Api::V1::NewTotalsController < Api::V1::ApplicationController
           :id, :name, :tags, :total_percent,
           :family, :created_at, ingredient_list: {}
         ]
-    ).to_h.deep_symbolize_keys
+      ).to_h.deep_symbolize_keys
   end
 end
