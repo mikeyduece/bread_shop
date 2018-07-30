@@ -42,14 +42,15 @@ Base URL for all requests is `https://bread-shop-api.herokuapp.com/api/v1`
 Example payload sent to endpoint:
 ```ruby
   {
-    name: 'baguette',
-    ingredients: {
-      'flour' => {amount: 1.00},
-      'water' => {amount: 0.62},
-      'salt' => {amount: 0.02},
-      'yeast' => {amount: 0.02}
+    {
+      name: 'baguette',
+      ingredients: [
+        { name: 'flour', amount: 1.00 },
+        { name: 'water', amount: 0.62 },
+        { name: 'yeast', amount: 0.02 },
+        { name: 'salt', amount: 0.02 }
+      ]
     }
-  }
 ```
 
 The response from the the `POST` request contains the submitted information along with baker's percentage and `total_percentage`. As seen below with the `GET` for a single recipe.
@@ -78,7 +79,7 @@ Example JSON response
   }
 ```
 
-`GET /families/:family_name?token=token` Returns a list of all recipes that are associated with that family_name.
+`GET /families?family_name=:family_name&token=token` Returns a list of all recipes that are associated with that family_name.
 
 ```ruby
 {

@@ -8,7 +8,13 @@ class Api::V1::RecipesController < Api::V1::ApplicationController
   end
 
   def show
-    recipe = Recipe.find(params[:id])
+    recipe = Recipe.find(recipe_id_params)
     render(status: 200, json: recipe, serializer: Api::V1::RecipeSerializer)
+  end
+
+  private
+
+  def recipe_id_params
+    params.permit(:id)[:id]
   end
 end

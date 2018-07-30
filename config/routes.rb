@@ -36,7 +36,8 @@ Rails.application.routes.draw do
       get 'auth_amazon', to: 'authentication#amazon'
 
       # Recipe family paths
-      get 'families/:family_name', to: 'families#show'
+      get 'families', to: 'families#show',
+        constraints: ->(request) { request.params[:family_name].present? }
 
       # new total weights path
       get 'new_totals', to: 'new_totals#show'

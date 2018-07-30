@@ -24,7 +24,7 @@ Bundler/InsecureProtocolSource:
 Bundler/OrderedGems:
   Description: >-
                  Gems within groups in the Gemfile should be alphabetically sorted.
-  Enabled: tfalse
+  Enabled: false
   Include:
     - '**/*.gemfile'
     - '**/Gemfile'

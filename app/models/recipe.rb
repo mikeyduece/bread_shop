@@ -19,8 +19,8 @@ class Recipe < ApplicationRecord
     self.label = NutritionLabelService.analyze_recipe(self)
   end
 
-  def recipe_ingredient_list(ingredients)
-    RecipeIngredient.create_with_list(id, ingredients)
+  def recipe_ingredient_list(list)
+    RecipeIngredient.create_with_list(id, list[:ingredients])
   end
 
   def recipe_formatter
@@ -32,11 +32,12 @@ class Recipe < ApplicationRecord
     }.to_json
   end
 
-  def self.new_totals(recipe, new_dough_weight)
-    ingredients_hash = recipe[:ingredient_list]
-    new_flour_weight = new_flour_total(recipe, new_dough_weight)
+  def self.new_totals(new_total_params)
+    original = new_total_params[:original]
+    ingredients_hash = original[:ingredient_list]
+    new_flour_weight = new_flour_total(original[:total_percent], new_total_params[:new_dough_weight])
     recalculated_amounts(ingredients_hash, new_flour_weight)
-    recipe
+    new_total_params
   end
 
   def assign_family
@@ -65,9 +66,10 @@ class Recipe < ApplicationRecord
   end
 
   private
+
   class << self
-    def new_flour_total(recipe, new_dough_weight)
-      ((new_dough_weight.to_f / recipe[:total_percent].to_f) * 100).round(2)
+    def new_flour_total(total_percent, new_dough_weight)
+      ((new_dough_weight.to_f / total_percent.to_f) * 100).round(2)
     end
 
     def recalculated_amounts(ingredients_hash, new_flour_weight)
@@ -80,10 +82,10 @@ class Recipe < ApplicationRecord
 
   def calculate_family
     case
-    when lean then update_attribute(:family_id, family_assignment('Lean'))
-    when soft then update_attribute(:family_id, family_assignment('Soft'))
+    when lean  then update_attribute(:family_id, family_assignment('Lean'))
+    when soft  then update_attribute(:family_id, family_assignment('Soft'))
     when sweet then update_attribute(:family_id, family_assignment('Sweet'))
-    when rich then update_attribute(:family_id, family_assignment('Rich'))
+    when rich  then update_attribute(:family_id, family_assignment('Rich'))
     when slack then update_attribute(:family_id, family_assignment('Slack'))
     end
     return family_id
