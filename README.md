@@ -62,7 +62,7 @@ Example JSON response
   {
     :id=>1,
     :name=>"1Recipe",
-    :tags=>[{:name=>"awesome"}, {:name=>"bread"}],
+    :tags=>["awesome", "bread"],
     :total_percent=>441.48,
     :ingredient_list=>
      {
@@ -85,20 +85,23 @@ Example JSON response
 {
   :name=>"Soft",
   :recipes=>
-  [{
-    :id=>1,
-    :name=>"1Recipe",
-    :tags=>[],
-    :total_percent=>nil,
-    :ingredient_list=>
-     {
-       :"9Ingredient"=>{:amount=>3.94, :bakers_percentage=>nil},
-       :"8Ingredient"=>{:amount=>0.15, :bakers_percentage=>nil},
-       :"7Ingredient"=>{:amount=>4.1, :bakers_percentage=>nil}
-     },
-    :family=>"Soft",
-    :created_at=>"Created on 24 JUL '18 at 17:00"
-  }]
+  [
+    {
+      :id=>1,
+      :name=>"1Recipe",
+      :tags=>[],
+      :total_percent=>nil,
+      :ingredient_list=>
+       {
+         :"9Ingredient"=>{:amount=>3.94, :bakers_percentage=>nil},
+         :"8Ingredient"=>{:amount=>0.15, :bakers_percentage=>nil},
+         :"7Ingredient"=>{:amount=>4.1, :bakers_percentage=>nil}
+       },
+      :family=>"Soft",
+      :created_at=>"Created on 24 JUL '18 at 17:00"
+    },
+    ...
+  ]
 }
 ```
 
