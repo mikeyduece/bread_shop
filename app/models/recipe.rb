@@ -79,30 +79,4 @@ class Recipe < ApplicationRecord
       end
     end
   end
-
-  def calculate_family
-    case
-    when lean  then update_attribute(:family_id, family_assignment('Lean'))
-    when soft  then update_attribute(:family_id, family_assignment('Soft'))
-    when sweet then update_attribute(:family_id, family_assignment('Sweet'))
-    when rich  then update_attribute(:family_id, family_assignment('Rich'))
-    when slack then update_attribute(:family_id, family_assignment('Slack'))
-    end
-    family_id
-  end
-
-  def family_assignment(name)
-    Family.find_by(name: name).id
-  end
-
-  def sum_recipe_ingredient_amounts(category)
-    category_id = Category.find_by(name: category).id
-    recipe_ingredients.joins(:ingredient)
-      .where(ingredients: { category_id: category_id })
-      .sum(:amount)
-  end
-
-  def destroy_all_recipe_ingredients
-    recipe_ingredients.delete_all
-  end
 end
